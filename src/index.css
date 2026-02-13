@@ -1,0 +1,258 @@
+:root {
+  /* Paleta Oficial Solemia */
+  --solemia-plum: #4d0c30;
+  --solemia-pink: #e11d48;
+  --solemia-charcoal: #1a1a1a;
+  --solemia-emerald: #10b981;
+  --solemia-bg: #fcfcfd;
+
+  /* Legacy for compatibility */
+  --primary: var(--solemia-plum);
+  --primary-light: var(--solemia-pink);
+  --secondary: #f3f4f6;
+  --text: var(--solemia-charcoal);
+  --text-muted: #6b7280;
+  --bg: var(--solemia-bg);
+
+  /* Glassmorphism Receta */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-blur: blur(24px);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-radius: 40px;
+  /* 2.5rem */
+
+  /* Official Solemia Gradient */
+  --solemia-gradient: linear-gradient(135deg, var(--solemia-plum) 0%, var(--solemia-pink) 100%);
+
+  --shadow-premium: 0 10px 30px -5px rgba(77, 12, 48, 0.08);
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--solemia-bg);
+  color: var(--solemia-charcoal);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  /* Black */
+  color: var(--solemia-plum);
+}
+
+.text-detail {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: var(--text-muted);
+  font-family: 'Outfit', sans-serif;
+  opacity: 0.7;
+}
+
+/* Glassmorphism Utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: none;
+  border-radius: var(--glass-radius);
+}
+
+/* Cards */
+.card-premium {
+  background: white;
+  border-radius: var(--glass-radius);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-premium);
+  transition: var(--transition);
+  border: none;
+}
+
+.card-premium:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -10px rgba(77, 12, 48, 0.12);
+}
+
+.stat-card {
+  background: white;
+  border-radius: 30px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-premium);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  border: none;
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -5px rgba(77, 12, 48, 0.12);
+}
+
+.client-card {
+  background: white;
+  border-radius: 24px;
+  padding: 1.25rem 2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: var(--shadow-premium);
+  transition: var(--transition);
+  border: none;
+}
+
+.client-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 15px 35px -5px rgba(77, 12, 48, 0.1);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.25rem;
+  border-radius: 100px;
+  font-weight: 900;
+  font-family: 'Outfit', sans-serif;
+  transition: var(--transition);
+  gap: 0.75rem;
+  font-size: 10px;
+  border: none !important;
+  cursor: pointer;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  background: var(--solemia-gradient);
+  color: white;
+  box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(225, 29, 72, 0.3);
+}
+
+.btn-outline {
+  border: none;
+  color: var(--solemia-charcoal);
+  background: #f8f8f8;
+}
+
+.btn-outline:hover {
+  color: var(--solemia-plum);
+  background: #f0f0f0;
+}
+
+/* Inputs */
+.input-field {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 100px;
+  border: none;
+  background: #f8f8f8;
+  transition: var(--transition);
+  font-family: 'Outfit', sans-serif;
+}
+
+.input-field:focus {
+  outline: none;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(77, 12, 48, 0.05);
+}
+
+/* Avatars */
+.avatar-initial {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #f8f0f4 0%, #fff 100%);
+  color: var(--solemia-plum);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  border: none;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+/* Layout */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.layout-dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--solemia-bg);
+}
+
+main {
+  flex: 1;
+  padding: 3rem 0;
+}
+
+/* Animations */
+@keyframes fadeInZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-premium {
+  animation: fadeInZoom 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .client-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+}
