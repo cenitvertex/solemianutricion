@@ -9,6 +9,7 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
         whatsapp: '',
         welcome_message: ''
     });
+    const [countryCode, setCountryCode] = useState('+52');
 
     useEffect(() => {
         if (isOpen && session?.user?.id) {
@@ -25,11 +26,27 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
             .maybeSingle();
 
         if (data && !error) {
+            let phone = data.phone_number || '';
+            let code = '+52';
+            let localPart = phone;
+
+            if (phone.startsWith('+')) {
+                // Si tiene formato +521234567890 o +52 1234567890
+                const commonCodes = ['+52', '+1', '+34', '+54', '+55', '+56', '+57', '+51', '+593', '+502'];
+                const matchedCode = commonCodes.find(c => phone.startsWith(c));
+
+                if (matchedCode) {
+                    code = matchedCode;
+                    localPart = phone.replace(matchedCode, '').trim();
+                }
+            }
+
             setFormData({
                 name: data.name || '',
-                whatsapp: data.phone_number || '',
+                whatsapp: localPart,
                 welcome_message: data.system_prompt || ''
             });
+            setCountryCode(code);
         }
         setLoading(false);
     };
@@ -38,11 +55,14 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
         e.preventDefault();
         setLoading(true);
 
+        const cleanPhone = formData.whatsapp.replace(/\D/g, '');
+        const finalPhone = `${countryCode}${cleanPhone}`;
+
         const { error } = await supabase
             .from('tenants')
             .update({
                 name: formData.name,
-                phone_number: formData.whatsapp,
+                phone_number: finalPhone,
                 system_prompt: formData.welcome_message
             })
             .eq('id', session.user.id);
@@ -100,13 +120,32 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                 <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>WHATSAPP DE CONTACTO</label>
-                                <input
-                                    className="input-field"
-                                    style={{ borderRadius: '1.5rem', padding: '1.25rem 2rem', fontWeight: '900' }}
-                                    value={formData.whatsapp}
-                                    onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
-                                    placeholder="+52 000 000 0000"
-                                />
+                                <div style={{ display: 'flex', gap: '0.75rem' }}>
+                                    <select
+                                        value={countryCode}
+                                        onChange={(e) => setCountryCode(e.target.value)}
+                                        className="input-field"
+                                        style={{ width: '120px', padding: '0 1rem', borderRadius: '1.5rem', fontWeight: '900' }}
+                                    >
+                                        <option value="+52">🇲🇽 +52</option>
+                                        <option value="+1">🇺🇸 +1</option>
+                                        <option value="+34">🇪🇸 +34</option>
+                                        <option value="+54">🇦🇷 +54</option>
+                                        <option value="+55">🇧🇷 +55</option>
+                                        <option value="+56">🇨🇱 +56</option>
+                                        <option value="+57">🇨🇴 +57</option>
+                                        <option value="+51">🇵🇪 +51</option>
+                                        <option value="+593">🇪🇨 +593</option>
+                                        <option value="+502">🇬🇹 +502</option>
+                                    </select>
+                                    <input
+                                        className="input-field"
+                                        style={{ flex: 1, borderRadius: '1.5rem', padding: '1.25rem 2rem', fontWeight: '900' }}
+                                        value={formData.whatsapp}
+                                        onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
+                                        placeholder="000 000 0000"
+                                    />
+                                </div>
                             </div>
                         </div>
 
