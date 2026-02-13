@@ -29,9 +29,9 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
         if (data && !error) {
             setFormData({
                 name: data.name || '',
-                nutritionist_name: data.metadata?.nutritionist_name || '',
-                professional_id: data.metadata?.professional_id || '',
-                whatsapp: data.metadata?.whatsapp || '',
+                nutritionist_name: data.config?.nutritionist_name || '',
+                professional_id: data.config?.professional_id || '',
+                whatsapp: data.config?.whatsapp || '',
                 welcome_message: data.system_prompt || ''
             });
         }
@@ -47,7 +47,7 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
             .update({
                 name: formData.name,
                 system_prompt: formData.welcome_message,
-                metadata: {
+                config: {
                     nutritionist_name: formData.nutritionist_name,
                     professional_id: formData.professional_id,
                     whatsapp: formData.whatsapp
