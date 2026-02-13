@@ -6,8 +6,6 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
-        nutritionist_name: '',
-        professional_id: '',
         whatsapp: '',
         welcome_message: ''
     });
@@ -29,9 +27,7 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
         if (data && !error) {
             setFormData({
                 name: data.name || '',
-                nutritionist_name: data.config?.nutritionist_name || '',
-                professional_id: data.config?.professional_id || '',
-                whatsapp: data.config?.whatsapp || '',
+                whatsapp: data.phone_number || '',
                 welcome_message: data.system_prompt || ''
             });
         }
@@ -46,12 +42,8 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
             .from('tenants')
             .update({
                 name: formData.name,
-                system_prompt: formData.welcome_message,
-                config: {
-                    nutritionist_name: formData.nutritionist_name,
-                    professional_id: formData.professional_id,
-                    whatsapp: formData.whatsapp
-                }
+                phone_number: formData.whatsapp,
+                system_prompt: formData.welcome_message
             })
             .eq('id', session.user.id);
 
@@ -96,37 +88,14 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>CLÍNICA / CONSULTORIO</label>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>NOMBRE DEL ESPECIALISTA</label>
                                 <input
                                     className="input-field"
                                     style={{ borderRadius: '1.5rem', padding: '1.25rem 2rem', fontWeight: '900' }}
                                     value={formData.name}
                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                    placeholder="EJ. SOLEMIA NUTRICIÓN"
-                                    required
-                                />
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>ESPECIALISTA</label>
-                                <input
-                                    className="input-field"
-                                    style={{ borderRadius: '1.5rem', padding: '1.25rem 2rem', fontWeight: '900' }}
-                                    value={formData.nutritionist_name}
-                                    onChange={e => setFormData({ ...formData, nutritionist_name: e.target.value })}
                                     placeholder="EJ. LIC. ANDREA PÉREZ"
-                                />
-                            </div>
-                        </div>
-
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>CÉDULA PROFESIONAL</label>
-                                <input
-                                    className="input-field"
-                                    style={{ borderRadius: '1.5rem', padding: '1.25rem 2rem', fontWeight: '900' }}
-                                    value={formData.professional_id}
-                                    onChange={e => setFormData({ ...formData, professional_id: e.target.value })}
-                                    placeholder="NÚMERO OFICIAL"
+                                    required
                                 />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
