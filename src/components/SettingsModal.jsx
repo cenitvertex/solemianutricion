@@ -125,7 +125,7 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                                         value={countryCode}
                                         onChange={(e) => setCountryCode(e.target.value)}
                                         className="input-field"
-                                        style={{ width: '120px', padding: '0 1rem', borderRadius: '1.5rem', fontWeight: '900' }}
+                                        style={{ width: '100px', padding: '0 1rem', borderRadius: '1.5rem', fontWeight: '900' }}
                                     >
                                         <option value="+52">🇲🇽 +52</option>
                                         <option value="+1">🇺🇸 +1</option>
