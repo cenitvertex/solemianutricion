@@ -10,18 +10,35 @@ import AdminLogin from './pages/AdminLogin';
 
 function App() {
   const [session, setSession] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const checkUser = async (currentSession) => {
+      if (currentSession?.user) {
+        const { data: adminRecord } = await supabase
+          .from('admins')
+          .select('id')
+          .eq('id', currentSession.user.id)
+          .maybeSingle();
+
+        setIsAdmin(!!adminRecord);
+      } else {
+        setIsAdmin(false);
+      }
+      setLoading(false);
+    };
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      setLoading(false);
+      checkUser(session);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      checkUser(session);
     });
 
     return () => subscription.unsubscribe();
@@ -31,7 +48,7 @@ function App() {
     return (
       <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyItems: 'center', width: '100%' }}>
         <div style={{ margin: 'auto', textAlign: 'center' }}>
-          <h2 style={{ color: 'var(--primary)' }}>Cargando Solemia...</h2>
+          <h2 style={{ color: 'var(--primary)', fontFamily: 'Outfit' }}>Cargando Solemia...</h2>
         </div>
       </div>
     );
@@ -42,7 +59,7 @@ function App() {
       <Routes>
         <Route
           path="/login"
-          element={!session ? <Login /> : <Navigate to="/" />}
+          element={!session ? <Login /> : (isAdmin ? <Navigate to="/admin" /> : <Navigate to="/" />)}
         />
         <Route
           path="/signup"
@@ -50,11 +67,11 @@ function App() {
         />
         <Route
           path="/"
-          element={session ? <Dashboard session={session} /> : <Navigate to="/login" />}
+          element={session ? (isAdmin ? <Navigate to="/admin" /> : <Dashboard session={session} />) : <Navigate to="/login" />}
         />
         <Route
           path="/admin"
-          element={session ? <Admin session={session} /> : <AdminLogin />}
+          element={session ? (isAdmin ? <Admin session={session} /> : <Navigate to="/" />) : <AdminLogin />}
         />
       </Routes>
     </Router>
