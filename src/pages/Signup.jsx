@@ -11,7 +11,6 @@ export default function Signup() {
     const [name, setName] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [countryCode, setCountryCode] = useState('+52');
-    const [systemPrompt, setSystemPrompt] = useState('Eres el asistente virtual personal de un nutriólogo profesional.');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -41,7 +40,7 @@ export default function Signup() {
                     name: name,
                     email: email,
                     phone_number: finalPhone,
-                    system_prompt: systemPrompt,
+                    system_prompt: 'Eres el asistente virtual personal de un nutriólogo profesional.',
                     is_active: true,
                     instance_id: `nutri_${user.id.slice(0, 8)}`
                 });
@@ -175,19 +174,6 @@ export default function Signup() {
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>INSTRUCCIONES PARA TU ASISTENTE IA</label>
-                        <div style={{ position: 'relative' }}>
-                            <MessageSquare size={18} style={{ position: 'absolute', left: '15px', top: '22px', color: '#94a3b8' }} />
-                            <textarea
-                                className="input-field"
-                                style={{ minHeight: '100px', padding: '1.25rem 1.25rem 1.25rem 3rem', borderRadius: '1.5rem', fontSize: '0.9rem', lineHeight: '1.5' }}
-                                value={systemPrompt}
-                                onChange={(e) => setSystemPrompt(e.target.value)}
-                                placeholder="Define cómo quieres que la IA atienda a tus pacientes..."
-                            />
-                        </div>
-                    </div>
 
                     {error && (
                         <div style={{ display: 'flex', gap: '0.5rem', color: '#e53e3e', fontSize: '0.875rem', alignItems: 'center', backgroundColor: '#fff5f5', padding: '1rem', borderRadius: '1.5rem' }}>
