@@ -80,28 +80,43 @@ export default function Signup() {
     }
 
     return (
-        <div className="layout-auth">
-            <div className="card glass animate-fade-in" style={{ maxWidth: '600px', width: '100%', padding: '3rem 4rem', borderRadius: '3.5rem' }}>
-                <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                    <img src={logo} alt="Solemia" style={{ height: '60px', objectFit: 'contain', marginBottom: '1.5rem' }} />
-                    <h1 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.5rem', fontFamily: 'Outfit', fontWeight: '900' }}>Nueva Cuenta</h1>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>CONFIGURA TU CONSULTORIO INTELIGENTE</p>
+        <div style={{
+            minHeight: '100vh',
+            background: '#fafbfc',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2rem'
+        }}>
+            <div className="card glass animate-scale-in" style={{
+                maxWidth: '650px',
+                width: '100%',
+                padding: '3.5rem 4.5rem',
+                borderRadius: '3.5rem',
+                border: 'none',
+                background: 'white',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.05)'
+            }}>
+                <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                    <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
+                    <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'Outfit', letterSpacing: '-1px', marginBottom: '0.5rem' }}>Nueva Cuenta</h2>
+                    <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>CONFIGURA TU CONSULTORIO INTELIGENTE</p>
                 </div>
 
                 <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>EMAIL PROFESIONAL</label>
                             <div style={{ position: 'relative' }}>
-                                <Mail size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                                <Mail size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                                 <input
+                                    required
                                     type="email"
                                     className="input-field"
-                                    placeholder="tu@email.com"
-                                    style={{ paddingLeft: '3rem', borderRadius: '1.5rem' }}
+                                    style={{ paddingLeft: '3.5rem', borderRadius: '1.5rem', background: '#f8fafc', border: 'none' }}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    required
+                                    placeholder="tu@email.com"
                                 />
                             </div>
                         </div>
@@ -109,34 +124,34 @@ export default function Signup() {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>CONTRASEÑA</label>
                             <div style={{ position: 'relative' }}>
-                                <Lock size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                                <Lock size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                                 <input
+                                    required
                                     type="password"
                                     className="input-field"
-                                    placeholder="Mínimo 6 caracteres"
-                                    style={{ paddingLeft: '3rem', borderRadius: '1.5rem' }}
+                                    style={{ paddingLeft: '3.5rem', borderRadius: '1.5rem', background: '#f8fafc', border: 'none' }}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    required
+                                    placeholder="••••••••"
                                     minLength={6}
                                 />
                             </div>
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '1.25rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>NOMBRE DEL ESPECIALISTA</label>
                             <div style={{ position: 'relative' }}>
-                                <User size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                                <User size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                                 <input
+                                    required
                                     type="text"
                                     className="input-field"
-                                    placeholder="EJ. LIC. ANDREA PÉREZ"
-                                    style={{ paddingLeft: '3rem', borderRadius: '1.5rem', fontWeight: '700' }}
+                                    style={{ paddingLeft: '3.5rem', borderRadius: '1.5rem', background: '#f8fafc', border: 'none', fontWeight: '700' }}
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    required
+                                    placeholder="EJ. LIC. ANDREA PÉREZ"
                                 />
                             </div>
                         </div>
@@ -148,7 +163,7 @@ export default function Signup() {
                                     value={countryCode}
                                     onChange={(e) => setCountryCode(e.target.value)}
                                     className="input-field"
-                                    style={{ width: '85px', padding: '0 0.5rem', borderRadius: '1.5rem', fontWeight: '900', fontSize: '0.8rem' }}
+                                    style={{ width: '90px', padding: '0 0.5rem', borderRadius: '1.5rem', background: '#f8fafc', border: 'none', fontWeight: '900', fontSize: '0.8rem' }}
                                 >
                                     <option value="+52">🇲🇽 +52</option>
                                     <option value="+1">🇺🇸 +1</option>
@@ -162,40 +177,67 @@ export default function Signup() {
                                     <option value="+502">🇬🇹 +502</option>
                                 </select>
                                 <input
+                                    required
                                     type="tel"
                                     className="input-field"
-                                    placeholder="000 000 0000"
-                                    style={{ flex: 1, borderRadius: '1.5rem', fontWeight: '700' }}
+                                    style={{ flex: 1, borderRadius: '1.5rem', background: '#f8fafc', border: 'none', fontWeight: '700' }}
                                     value={whatsapp}
                                     onChange={(e) => setWhatsapp(e.target.value)}
-                                    required
+                                    placeholder="000 000 0000"
                                 />
                             </div>
                         </div>
                     </div>
 
-
                     {error && (
-                        <div style={{ display: 'flex', gap: '0.5rem', color: '#e53e3e', fontSize: '0.875rem', alignItems: 'center', backgroundColor: '#fff5f5', padding: '1rem', borderRadius: '1.5rem' }}>
-                            <AlertCircle size={16} />
-                            <span>{error}</span>
+                        <div style={{
+                            background: '#fff1f2',
+                            padding: '1rem 1.5rem',
+                            borderRadius: '1.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem',
+                            marginTop: '1rem',
+                            border: '1px solid #fee2e2'
+                        }}>
+                            <AlertCircle size={20} color="#f43f5e" />
+                            <span style={{ fontSize: '0.85rem', color: '#e11d48', fontWeight: '600', lineHeight: '1.2' }}>{error}</span>
                         </div>
                     )}
 
-                    <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', padding: '1.25rem', borderRadius: '1.5rem', fontSize: '1rem', fontWeight: '900', boxShadow: '0 10px 25px rgba(190, 24, 93, 0.2)' }}>
-                        {loading ? 'CREANDO TU CONSULTORIO...' : 'COMENZAR AHORA'}
-                        {!loading && <UserPlus size={20} />}
+                    <button
+                        disabled={loading}
+                        className="btn btn-primary"
+                        style={{
+                            width: '100%',
+                            padding: '1.25rem',
+                            borderRadius: '1.5rem',
+                            marginTop: '1.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.75rem',
+                            fontSize: '1rem',
+                            fontWeight: '900',
+                            letterSpacing: '1px',
+                            background: 'var(--solemia-plum)',
+                            boxShadow: '0 10px 25px rgba(190, 24, 93, 0.2)'
+                        }}
+                    >
+                        {loading ? 'CREANDO TU CONSULTORIO...' : (
+                            <>COMENZAR AHORA <UserPlus size={20} /></>
+                        )}
                     </button>
-                </form>
 
-                <div style={{ marginTop: '2rem', textAlign: 'center', fontSize: '0.875rem' }}>
-                    <p style={{ color: 'var(--text-muted)' }}>
-                        ¿Ya eres parte de Solemia?{' '}
-                        <Link to="/login" style={{ color: 'var(--solemia-plum)', fontWeight: '800', textDecoration: 'none' }}>
-                            INICIA SESIÓN
-                        </Link>
-                    </p>
-                </div>
+                    <div style={{ marginTop: '2.5rem', textAlign: 'center', fontSize: '0.85rem' }}>
+                        <p style={{ color: '#94a3b8', fontWeight: '500' }}>
+                            ¿Ya eres parte de Solemia?{' '}
+                            <Link to="/login" style={{ color: 'var(--solemia-plum)', fontWeight: '800', textDecoration: 'none' }}>
+                                INICIA SESIÓN
+                            </Link>
+                        </p>
+                    </div>
+                </form>
             </div>
         </div>
     );
