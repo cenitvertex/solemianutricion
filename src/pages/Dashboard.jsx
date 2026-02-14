@@ -17,8 +17,10 @@ import {
     ChevronRight,
     Filter,
     ArrowUpDown,
-    Settings
+    Settings,
+    Shield
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ClientModal from '../components/ClientModal';
 import LogsModal from '../components/LogsModal';
 import PreviewModal from '../components/PreviewModal';
@@ -40,6 +42,10 @@ export default function Dashboard({ session }) {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
     const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', 'inactive'
+
+    // LISTA DE CORREOS AUTORIZADOS PARA ACCESO ADMIN
+    const AUTHORIZED_EMAILS = ['andre@solemia.com', 'admin@solemia.com', 'solemianutricion@gmail.com'];
+    const isAdmin = session?.user?.email && AUTHORIZED_EMAILS.includes(session.user.email);
 
     useEffect(() => {
         ensureTenantExists();
@@ -160,6 +166,15 @@ export default function Dashboard({ session }) {
                             >
                                 <Settings size={20} />
                             </button>
+                            {isAdmin && (
+                                <Link
+                                    to="/admin"
+                                    title="Panel de Admin"
+                                    style={{ width: '44px', height: '44px', borderRadius: '14px', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--solemia-plum)', backgroundColor: 'var(--solemia-plum-light)' }}
+                                >
+                                    <Shield size={20} />
+                                </Link>
+                            )}
                             <button
                                 onClick={handleLogout}
                                 title="Salir"
