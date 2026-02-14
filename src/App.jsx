@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 
 import Admin from './pages/Admin';
+import AdminLogin from './pages/AdminLogin';
 
 function App() {
   const [session, setSession] = useState(null);
@@ -53,7 +54,7 @@ function App() {
         />
         <Route
           path="/admin"
-          element={session ? <Admin session={session} /> : <Navigate to="/login" />}
+          element={session ? <Admin session={session} /> : <AdminLogin />}
         />
       </Routes>
     </Router>
