@@ -42,20 +42,36 @@ export default function Dashboard({ session }) {
     const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
     const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', 'inactive'
 
-    // LISTA DE CORREOS AUTORIZADOS PARA ACCESO ADMIN
-    const AUTHORIZED_EMAILS = ['andre@solemia.com', 'admin@solemia.com', 'solemianutricion@gmail.com'];
-    const isAdmin = session?.user?.email && AUTHORIZED_EMAILS.includes(session.user.email);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        ensureTenantExists();
-        fetchPatients();
+        const checkIdentity = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+
+            // 1. Check if it's an admin
+            const { data: adminRecord } = await supabase
+                .from('admins')
+                .select('id')
+                .eq('id', user.id)
+                .maybeSingle();
+
+            const isUserAdmin = !!adminRecord;
+            setIsAdmin(isUserAdmin);
+
+            // 2. Only ensure tenant if NOT an admin
+            if (!isUserAdmin) {
+                await ensureTenantExists(user);
+            }
+
+            fetchPatients();
+        };
+
+        checkIdentity();
     }, [session]);
 
-    const ensureTenantExists = async () => {
+    const ensureTenantExists = async (user) => {
         try {
-            const { data: { user }, error: authError } = await supabase.auth.getUser();
-            if (authError || !user) return;
-
             const { data: tenant, error: selectError } = await supabase
                 .from('tenants')
                 .select('id')

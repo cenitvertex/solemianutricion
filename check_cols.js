@@ -11,19 +11,16 @@ envFile.split('\n').forEach(line => {
 const supabase = createClient(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_ANON_KEY);
 
 async function checkColumns() {
-    const { data, error } = await supabase.from('patients').select('*').limit(1);
+    const { data, error } = await supabase.from('tenants').select('*').limit(1);
     if (error) {
         console.error('Error:', error);
         return;
     }
     if (data && data.length > 0) {
-        console.log('--- Columns in "patients" table ---');
+        console.log('--- Columns in "tenants" table ---');
         console.log(Object.keys(data[0]));
     } else {
-        console.log('No data in "patients" table to infer columns.');
-        // Try another approach
-        const { data: cols } = await supabase.from('patients').select().limit(0);
-        console.log('Columns from limit 0:', cols);
+        console.log('No data in "tenants" table to infer columns.');
     }
 }
 
