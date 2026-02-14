@@ -11,7 +11,8 @@ import {
     ChevronRight,
     ArrowLeft,
     TrendingUp,
-    MessageSquare
+    MessageSquare,
+    LogOut
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
@@ -157,7 +158,7 @@ export default function Admin({ session }) {
                                 <Users size={20} /> Nutriólogos
                             </div>
                             <div
-                                onClick={() => navigate('/')}
+                                onClick={() => supabase.auth.signOut()}
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -168,7 +169,7 @@ export default function Admin({ session }) {
                                     fontWeight: '500',
                                     cursor: 'pointer'
                                 }}>
-                                <ArrowLeft size={20} /> Volver a mi App
+                                <LogOut size={20} /> Salir
                             </div>
                         </nav>
                     </div>
