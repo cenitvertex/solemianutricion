@@ -17,8 +17,7 @@ import {
     ChevronRight,
     Filter,
     ArrowUpDown,
-    Settings,
-    Shield
+    Settings
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ClientModal from '../components/ClientModal';
@@ -166,15 +165,6 @@ export default function Dashboard({ session }) {
                             >
                                 <Settings size={20} />
                             </button>
-                            {isAdmin && (
-                                <Link
-                                    to="/admin"
-                                    title="Panel de Admin"
-                                    style={{ width: '44px', height: '44px', borderRadius: '14px', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--solemia-plum)', backgroundColor: 'var(--solemia-plum-light)' }}
-                                >
-                                    <Shield size={20} />
-                                </Link>
-                            )}
                             <button
                                 onClick={handleLogout}
                                 title="Salir"

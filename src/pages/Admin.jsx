@@ -27,17 +27,35 @@ export default function Admin({ session }) {
         totalPatients: 0
     });
 
-    // LISTA DE CORREOS AUTORIZADOS PARA ACCESO ADMIN
-    const AUTHORIZED_EMAILS = ['andre@solemia.com', 'admin@solemia.com', 'solemianutricion@gmail.com'];
-
     useEffect(() => {
-        if (!session?.user?.email || !AUTHORIZED_EMAILS.includes(session.user.email)) {
-            // Si no está autorizado, lo mandamos al dashboard normal
-            navigate('/');
+        checkAdminAccess();
+    }, [session]);
+
+    const checkAdminAccess = async () => {
+        if (!session?.user?.id) {
+            navigate('/login');
             return;
         }
-        fetchAdminData();
-    }, [session]);
+
+        try {
+            const { data: adminRecord, error } = await supabase
+                .from('admins')
+                .select('id')
+                .eq('id', session.user.id)
+                .maybeSingle();
+
+            if (error || !adminRecord) {
+                console.warn('Unauthorized admin access attempt');
+                navigate('/');
+                return;
+            }
+
+            // If authorized, fetch the data
+            fetchAdminData();
+        } catch (err) {
+            navigate('/');
+        }
+    };
 
     const fetchAdminData = async () => {
         setLoading(true);
