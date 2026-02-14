@@ -46,22 +46,39 @@ export default function Dashboard({ session }) {
 
     useEffect(() => {
         const checkIdentity = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
+            const user = session?.user;
             if (!user) return;
 
-            // 1. Check if it's an admin
-            const { data: adminRecord } = await supabase
-                .from('admins')
-                .select('id')
-                .eq('id', user.id)
-                .maybeSingle();
+            console.log('--- Identidad Logueada ---');
+            console.log('ID:', user.id);
+            console.log('Email:', user.email);
 
-            const isUserAdmin = !!adminRecord;
-            setIsAdmin(isUserAdmin);
+            try {
+                // 1. Buscamos si el ID existe en la tabla Maestra de Admins
+                const { data: adminRecord, error: adminError } = await supabase
+                    .from('admins')
+                    .select('id, email')
+                    .eq('id', user.id)
+                    .maybeSingle();
 
-            // 2. Only ensure tenant if NOT an admin
-            if (!isUserAdmin) {
-                await ensureTenantExists(user);
+                if (adminError) {
+                    console.error('Error verificando rango admin:', adminError);
+                }
+
+                const isUserAdmin = !!adminRecord;
+                console.log('¿Es Administrador?:', isUserAdmin);
+
+                setIsAdmin(isUserAdmin);
+
+                // 2. SOLO si NO es admin, procedemos a asegurar que tenga perfil de Nutriólogo
+                if (!isUserAdmin) {
+                    console.log('Usuario normal detectado, asegurando perfil de nutriólogo...');
+                    await ensureTenantExists(user);
+                } else {
+                    console.log('Acceso Admin detectado. No se creará perfil de nutriólogo.');
+                }
+            } catch (err) {
+                console.error('Fallo crítico en validación de identidad:', err);
             }
 
             fetchPatients();
@@ -72,6 +89,7 @@ export default function Dashboard({ session }) {
 
     const ensureTenantExists = async (user) => {
         try {
+            // Verificamos si ya existe para no duplicar
             const { data: tenant, error: selectError } = await supabase
                 .from('tenants')
                 .select('id')
@@ -79,7 +97,8 @@ export default function Dashboard({ session }) {
                 .maybeSingle();
 
             if (!tenant && !selectError) {
-                await supabase.from('tenants').insert({
+                console.log('Creando nuevo perfil de nutriólogo para:', user.email);
+                const { error: insertError } = await supabase.from('tenants').insert({
                     id: user.id,
                     name: 'Mi Consultorio',
                     email: user.email,
@@ -87,6 +106,8 @@ export default function Dashboard({ session }) {
                     instance_id: `nutri_${user.id.slice(0, 8)}`,
                     system_prompt: 'Eres el asistente virtual personal de un nutriólogo profesional.'
                 });
+
+                if (insertError) console.error('Error al insertar nutriólogo:', insertError);
             }
         } catch (err) {
             console.error('Unexpected error in ensureTenantExists:', err);
