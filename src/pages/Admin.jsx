@@ -27,7 +27,15 @@ export default function Admin({ session }) {
         totalPatients: 0
     });
 
+    // LISTA DE CORREOS AUTORIZADOS PARA ACCESO ADMIN
+    const AUTHORIZED_EMAILS = ['andre@solemia.com', 'admin@solemia.com', 'solemianutricion@gmail.com'];
+
     useEffect(() => {
+        if (!session?.user?.email || !AUTHORIZED_EMAILS.includes(session.user.email)) {
+            // Si no está autorizado, lo mandamos al dashboard normal
+            navigate('/');
+            return;
+        }
         fetchAdminData();
     }, [session]);
 
