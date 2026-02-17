@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ClientModal from '../components/ClientModal';
+import PatientProfileModal from '../components/PatientProfileModal';
 import LogsModal from '../components/LogsModal';
 import PreviewModal from '../components/PreviewModal';
 import SettingsModal from '../components/SettingsModal';
@@ -40,6 +41,7 @@ export default function Dashboard({ session }) {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [previewData, setPreviewData] = useState({ url: '', title: '' });
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
     const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', 'inactive'
 
@@ -167,6 +169,15 @@ export default function Dashboard({ session }) {
             .slice(0, 2)
             .join('')
             .toUpperCase();
+    };
+
+    const formatPhoneNumber = (phone) => {
+        if (!phone) return '';
+        const cleaned = phone.replace(/[^\d+]/g, '');
+        if (cleaned.startsWith('+52') && cleaned.length === 13) {
+            return `+52 ${cleaned.slice(3, 6)} ${cleaned.slice(6, 9)} ${cleaned.slice(9)}`;
+        }
+        return cleaned;
     };
 
     const stats = [
@@ -323,7 +334,7 @@ export default function Dashboard({ session }) {
                                         overflow: 'hidden',
                                         cursor: 'pointer'
                                     }}
-                                    onClick={() => { setEditingPatient(patient); setIsModalOpen(true); }}
+                                    onClick={() => { setEditingPatient(patient); setIsProfileOpen(true); }}
                                 >
                                     {/* Brand Accent */}
                                     <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '6px', background: 'var(--solemia-plum)' }}></div>
@@ -356,16 +367,7 @@ export default function Dashboard({ session }) {
 
                                     <div className="hide-mobile" style={{ flex: 1, minWidth: '150px' }}>
                                         <div className="text-detail" style={{ fontSize: '8px', marginBottom: '6px' }}>TELÉFONO</div>
-                                        <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'var(--solemia-plum)', fontFamily: 'Outfit' }}>{patient.phone}</div>
-                                    </div>
-
-                                    <div className="hide-mobile" style={{ flex: 1, minWidth: '180px' }}>
-                                        <div className="text-detail" style={{ fontSize: '8px', marginBottom: '6px' }}>ALERGIAS</div>
-                                        <div style={{ fontWeight: '900', fontSize: '0.9rem', color: 'var(--solemia-charcoal)', opacity: 0.8, fontFamily: 'Outfit' }}>
-                                            {Array.isArray(patient.allergies) && patient.allergies.length > 0
-                                                ? patient.allergies.join(', ').toUpperCase()
-                                                : 'SIN ALERGIAS'}
-                                        </div>
+                                        <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'var(--solemia-plum)', fontFamily: 'Outfit' }}>{formatPhoneNumber(patient.phone)}</div>
                                     </div>
 
                                     <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginLeft: 'auto' }}>
@@ -452,6 +454,18 @@ export default function Dashboard({ session }) {
                     onClose={() => { setIsModalOpen(false); setEditingPatient(null); }}
                     onSuccess={fetchPatients}
                     client={editingPatient}
+                />
+            )}
+
+            {isProfileOpen && (
+                <PatientProfileModal
+                    isOpen={isProfileOpen}
+                    onClose={() => { setIsProfileOpen(false); setEditingPatient(null); }}
+                    patient={editingPatient}
+                    onEdit={() => {
+                        setIsProfileOpen(false);
+                        setIsModalOpen(true);
+                    }}
                 />
             )}
 
