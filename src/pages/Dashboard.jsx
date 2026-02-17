@@ -454,6 +454,10 @@ export default function Dashboard({ session }) {
                     onClose={() => { setIsModalOpen(false); setEditingPatient(null); }}
                     onSuccess={fetchPatients}
                     client={editingPatient}
+                    onBack={editingPatient ? () => {
+                        setIsModalOpen(false);
+                        setIsProfileOpen(true);
+                    } : null}
                 />
             )}
 

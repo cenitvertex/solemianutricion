@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { X, Upload, Save, Phone, User, FileText, Loader2, Check } from 'lucide-react';
+import { X, Upload, Save, Phone, User, FileText, Loader2, Check, ChevronLeft } from 'lucide-react';
 
-export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
+export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack }) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [countryCode, setCountryCode] = useState('+52');
@@ -21,16 +21,13 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
             setAllergies(Array.isArray(client.allergies) ? client.allergies.join(', ') : '');
             setObjective(client.objective_and_params || '');
 
-            // Intentar separar el código de país del teléfono
             const fullPhone = client.phone || '';
             if (fullPhone.startsWith('+')) {
-                // Buscamos el primer espacio o los primeros 3-4 caracteres
                 const parts = fullPhone.split(' ');
                 if (parts.length > 1) {
                     setCountryCode(parts[0]);
                     setPhone(parts.slice(1).join(' '));
                 } else {
-                    // Si no hay espacio, intentamos detectar si es +52 u otro
                     if (fullPhone.startsWith('+52')) {
                         setCountryCode('+52');
                         setPhone(fullPhone.replace('+52', ''));
@@ -47,7 +44,6 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
     const uploadFile = async (file, bucket, clientId) => {
         if (!file) return null;
         const fileExt = file.name.split('.').pop();
-        // Path: id-paciente/tipo-doc.pdf
         const fileName = `${clientId}/${bucket}-${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
@@ -75,10 +71,10 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
 
         try {
             const { data: { user }, error: userError } = await supabase.auth.getUser();
-            if (userError || !user) throw new Error('No se pudo obtener la sesión del usuario. Intenta cerrar sesión y volver a entrar.');
+            if (userError || !user) throw new Error('No se pudo obtener la sesión del usuario.');
 
             let clientId = client?.id;
-            const cleanPhone = phone.replace(/\D/g, ''); // Solo números del input principal
+            const cleanPhone = phone.replace(/\D/g, '');
             const finalPhone = `${countryCode}${cleanPhone}`;
 
             const patientData = {
@@ -90,7 +86,6 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
                 objective_and_params: objective || '⏳ En proceso de análisis por el Agente IA...'
             };
 
-            // 1. Verificar Duplicados (Solo si estamos creando nuevo)
             if (!clientId) {
                 const { data: existingPatient } = await supabase
                     .from('patients')
@@ -107,7 +102,6 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
                 }
             }
 
-            // 2. Crear/Actualizar registro
             const finalClientId = clientId || existingPatientData?.id;
 
             if (finalClientId) {
@@ -120,13 +114,12 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
                 clientId = data.id;
             }
 
-            // 3. Subir Archivos
             const updates = {};
             try {
                 if (expediente) updates.expediente_url = await uploadFile(expediente, 'expediente', clientId);
                 if (plan) updates.plan_url = await uploadFile(plan, 'plan', clientId);
             } catch (uploadErr) {
-                throw new Error(`Error al subir archivos: ${uploadErr.message || 'Verifica los permisos del bucket "documents"'}`);
+                throw new Error(`Error al subir archivos: ${uploadErr.message}`);
             }
 
             if (Object.keys(updates).length > 0) {
@@ -150,45 +143,72 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
     return (
         <>
             <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--solemia-charcoal)', opacity: 0.2, backdropFilter: 'blur(20px)', zIndex: 999 }}></div>
-            <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1.5rem' }}>
+            <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
                 <div className="modal-content glass animate-premium" style={{
-                    maxWidth: '600px',
+                    maxWidth: '550px',
                     width: '100%',
                     position: 'relative',
-                    padding: '3rem 4rem',
-                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    padding: '2.5rem 3.5rem',
+                    backgroundColor: 'rgba(255, 255, 255, 0.98)',
                     boxShadow: '0 40px 100px rgba(0,0,0,0.2)',
-                    borderRadius: '3.5rem',
-                    overflow: 'hidden'
+                    borderRadius: '3rem',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column'
                 }}>
-                    {/* Beauty Accent */}
-                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '8px', background: 'var(--solemia-gradient)' }}></div>
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'var(--solemia-gradient)' }}></div>
 
-                    <button onClick={onClose} style={{ position: 'absolute', right: '2rem', top: '2.5rem', color: '#ddd', backgroundColor: 'transparent', width: '36px', height: '36px', border: 'none', cursor: 'pointer' }}>
-                        <X size={24} />
+                    {onBack && (
+                        <button
+                            onClick={onBack}
+                            style={{
+                                position: 'absolute',
+                                left: '1.5rem',
+                                top: '1.5rem',
+                                color: 'var(--solemia-plum)',
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                fontSize: '9px',
+                                fontWeight: '900',
+                                opacity: 0.6,
+                                transition: 'opacity 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                            onMouseLeave={(e) => e.currentTarget.style.opacity = '0.6'}
+                        >
+                            <ChevronLeft size={20} /> VOLVER AL PERFIL
+                        </button>
+                    )}
+
+                    <button onClick={onClose} style={{ position: 'absolute', right: '1.5rem', top: '1.5rem', color: '#ccc', backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }} onMouseEnter={(e) => e.target.style.color = 'var(--solemia-plum)'} onMouseLeave={(e) => e.target.style.color = '#ccc'}>
+                        <X size={22} />
                     </button>
 
-                    <div style={{ marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'Outfit', fontWeight: '900', lineHeight: 1 }}>{client ? 'Actualizar' : 'Nueva Clienta'}</h2>
-                        <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px' }}>
-                            REGISTRA UN NUEVO EXPEDIENTE EN EL DIRECTORIO
+                    <div style={{ marginBottom: '2rem', marginTop: onBack ? '1rem' : '0' }}>
+                        <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', marginBottom: '0.2rem', fontFamily: 'Outfit', fontWeight: '900', lineHeight: 1 }}>{client ? 'ACTUALIZAR' : 'NUEVA PACIENTE'}</h2>
+                        <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', color: 'var(--solemia-plum)', opacity: 0.6 }}>
+                            {client ? `MODIFICANDO EXPEDIENTE DE ${client.name.toUpperCase()}` : 'REGISTRA UN NUEVO EXPEDIENTE EN EL DIRECTORIO'}
                         </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>IDENTIDAD DE LA PACIENTE *</label>
-                            <input type="text" className="input-field" style={{ textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '900', borderRadius: '1.5rem', padding: '1.25rem 2rem' }} placeholder="EJ. MARIANA SÁNCHEZ" value={name} onChange={(e) => setName(e.target.value)} required />
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>NOMBRE COMPLETO *</label>
+                            <input type="text" className="input-field" style={{ textTransform: 'uppercase', fontWeight: '700', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }} placeholder="EJ. MARIANA SÁNCHEZ" value={name} onChange={(e) => setName(e.target.value)} required />
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>TELÉFONO WHATSAPP *</label>
-                            <div style={{ display: 'flex', gap: '0.75rem' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>TELÉFONO WHATSAPP *</label>
+                            <div style={{ display: 'flex', gap: '0.5rem' }}>
                                 <select
                                     value={countryCode}
                                     onChange={(e) => setCountryCode(e.target.value)}
                                     className="input-field"
-                                    style={{ width: '120px', padding: '0 1rem', borderRadius: '1.5rem', fontWeight: '900' }}
+                                    style={{ width: '100px', padding: '0 0.75rem', borderRadius: '1.25rem', fontWeight: '700', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }}
                                 >
                                     <option value="+52">🇲🇽 +52</option>
                                     <option value="+1">🇺🇸 +1</option>
@@ -204,7 +224,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
                                 <input
                                     type="tel"
                                     className="input-field"
-                                    style={{ flex: 1, fontWeight: '900', letterSpacing: '0.5px', borderRadius: '1.5rem', padding: '1.25rem 2rem' }}
+                                    style={{ flex: 1, fontWeight: '700', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }}
                                     placeholder="000 000 0000"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
@@ -213,74 +233,115 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client }) {
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginTop: '0.5rem' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>EXPEDIENTE</label>
-                                <label className="btn" style={{ cursor: 'pointer', height: '110px', flexDirection: 'column', textAlign: 'center', borderRadius: '1.5rem', position: 'relative', backgroundColor: '#f8f0f4', border: 'none' }}>
-                                    <Upload size={22} style={{ color: 'var(--solemia-plum)', opacity: 0.8 }} />
-                                    <span style={{ fontSize: '0.75rem', marginTop: '0.5rem', fontWeight: 'normal' }}>{expediente ? 'Archivo Listo' : 'PDF'}</span>
+                        {client && (
+                            <>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                    <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>ALERGIAS (Separadas por comas)</label>
+                                    <input type="text" className="input-field" style={{ textTransform: 'uppercase', fontWeight: '700', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }} placeholder="EJ. NUEZ, LACTOSA" value={allergies} onChange={(e) => setAllergies(e.target.value)} />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                    <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>ANÁLISIS Y OBJETIVOS</label>
+                                    <textarea className="input-field" style={{ minHeight: '80px', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa', resize: 'none' }} value={objective} onChange={(e) => setObjective(e.target.value)} />
+                                </div>
+                            </>
+                        )}
+
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>EXPEDIENTE</label>
+                                <label style={{
+                                    cursor: 'pointer',
+                                    height: '80px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    textAlign: 'center',
+                                    borderRadius: '1.5rem',
+                                    position: 'relative',
+                                    backgroundColor: '#f8f0f4',
+                                    border: '1px dashed #e5d5dc',
+                                    transition: 'all 0.2s'
+                                }} onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--solemia-plum)'} onMouseLeave={(e) => e.currentTarget.style.borderColor = '#e5d5dc'}>
+                                    <Upload size={18} style={{ color: 'var(--solemia-plum)', opacity: 0.8 }} />
+                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{expediente ? 'LISTO' : 'SUBIR PDF'}</span>
                                     <input type="file" hidden accept=".pdf" onChange={(e) => setExpediente(e.target.files[0])} />
-                                    {expediente && <span style={{ fontSize: '9px', width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', position: 'absolute', bottom: '10px' }}>{expediente.name}</span>}
+                                    {expediente && <span style={{ fontSize: '8px', color: 'var(--solemia-charcoal)', width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', position: 'absolute', bottom: '8px' }}>{expediente.name}</span>}
                                 </label>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>PLAN ALIMENTICIO</label>
-                                <label className="btn" style={{ cursor: 'pointer', height: '110px', flexDirection: 'column', textAlign: 'center', borderRadius: '1.5rem', position: 'relative', backgroundColor: '#f8f0f4', border: 'none' }}>
-                                    <Upload size={22} style={{ color: 'var(--solemia-plum)', opacity: 0.8 }} />
-                                    <span style={{ fontSize: '0.75rem', marginTop: '0.5rem', fontWeight: 'normal' }}>{plan ? 'Plan Listo' : 'PDF'}</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>PLAN ALIMENTICIO</label>
+                                <label style={{
+                                    cursor: 'pointer',
+                                    height: '80px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    textAlign: 'center',
+                                    borderRadius: '1.5rem',
+                                    position: 'relative',
+                                    backgroundColor: '#f8f0f4',
+                                    border: '1px dashed #e5d5dc',
+                                    transition: 'all 0.2s'
+                                }} onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--solemia-plum)'} onMouseLeave={(e) => e.currentTarget.style.borderColor = '#e5d5dc'}>
+                                    <Upload size={18} style={{ color: 'var(--solemia-plum)', opacity: 0.8 }} />
+                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{plan ? 'LISTO' : 'SUBIR PDF'}</span>
                                     <input type="file" hidden accept=".pdf" onChange={(e) => setPlan(e.target.files[0])} />
-                                    {plan && <span style={{ fontSize: '9px', width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', position: 'absolute', bottom: '10px' }}>{plan.name}</span>}
+                                    {plan && <span style={{ fontSize: '8px', color: 'var(--solemia-charcoal)', width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', position: 'absolute', bottom: '8px' }}>{plan.name}</span>}
                                 </label>
                             </div>
                         </div>
 
-                        {error && <div className="text-detail" style={{ color: '#e11d48', backgroundColor: '#fff1f2', padding: '1rem', borderRadius: '1.5rem', letterSpacing: '0.5px', textTransform: 'none' }}>{error}</div>}
+                        {error && <div className="text-detail" style={{ color: '#e11d48', backgroundColor: '#fff1f2', padding: '0.75rem 1rem', borderRadius: '1rem', letterSpacing: '0.5px', textTransform: 'none', fontSize: '10px' }}>{error}</div>}
 
-                        <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.5rem' }}>
-                            <button type="button" onClick={onClose} className="btn" style={{ flex: 1, color: '#aaa', fontSize: '9px', fontWeight: '900' }}>CANCELAR</button>
+                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                             <button
                                 type="submit"
                                 disabled={loading}
                                 className="btn btn-primary"
                                 style={{
-                                    flex: 1.5,
-                                    borderRadius: '1.5rem',
-                                    padding: '1.25rem',
+                                    flex: 1,
+                                    borderRadius: '1.25rem',
+                                    padding: '1rem',
                                     fontSize: '10px',
-                                    boxShadow: '0 10px 30px rgba(77, 12, 48, 0.2)'
+                                    fontWeight: '900',
+                                    background: 'var(--solemia-gradient)',
+                                    color: 'white',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 10px 25px rgba(77, 12, 48, 0.2)'
                                 }}
                             >
-                                {loading ? <Loader2 className="animate-spin" size={20} /> : (client ? 'ACTUALIZAR EXPEDIENTE' : 'CREAR EXPEDIENTE')}
+                                {loading ? <Loader2 className="animate-spin" size={20} style={{ margin: '0 auto' }} /> : (client ? 'GUARDAR CAMBIOS' : 'CREAR REGISTRO')}
                             </button>
                         </div>
                     </form>
 
-                    {/* Custom Confirmation Modal */}
                     {showConfirm && (
-                        <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(77,12,48,0.95)', backdropFilter: 'blur(12px)', borderRadius: '3.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem', zIndex: 10, textAlign: 'center' }}>
-                            <div className="animate-premium" style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem', color: 'white' }}>
-                                <div style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '1.25rem', borderRadius: '50%', width: 'fit-content', margin: '0 auto' }}>
-                                    <Phone size={32} />
+                        <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(77,12,48,0.98)', backdropFilter: 'blur(12px)', borderRadius: '3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2.5rem', zIndex: 10, textAlign: 'center' }}>
+                            <div className="animate-premium" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', color: 'white' }}>
+                                <div style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '50%', width: 'fit-content', margin: '0 auto' }}>
+                                    <Phone size={28} />
                                 </div>
                                 <div>
-                                    <h3 style={{ fontSize: '1.5rem', marginBottom: '0.75rem', color: 'white', fontFamily: 'Outfit', fontWeight: '900' }}>Registro Duplicado</h3>
-                                    <p style={{ fontSize: '0.9rem', opacity: 0.8, lineHeight: '1.5' }}>
-                                        Ya existe un paciente ({existingPatientData?.name}) con este número.
+                                    <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: 'white', fontFamily: 'Outfit', fontWeight: '900' }}>REGISTRO DUPLICADO</h3>
+                                    <p style={{ fontSize: '0.85rem', opacity: 0.8, lineHeight: '1.5' }}>
+                                        Ya existe una paciente ({existingPatientData?.name}) con este número. ¿Deseas actualizar sus datos?
                                     </p>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                     <button
                                         onClick={() => handleSubmit()}
                                         className="btn"
-                                        style={{ width: '100%', backgroundColor: 'white', color: 'var(--solemia-plum)', padding: '1.1rem', borderRadius: '1.5rem' }}
+                                        style={{ width: '100%', backgroundColor: 'white', color: 'var(--solemia-plum)', padding: '1rem', borderRadius: '1.25rem', fontWeight: '900', fontSize: '10px' }}
                                         disabled={loading}
                                     >
-                                        {loading ? 'Actualizando...' : 'SÍ, ACTUALIZAR DATOS'}
+                                        {loading ? '...' : 'SÍ, ACTUALIZAR DATOS'}
                                     </button>
                                     <button
                                         onClick={() => { setShowConfirm(false); setExistingPatientData(null); }}
-                                        className="btn"
-                                        style={{ width: '100%', backgroundColor: 'transparent', color: 'white', padding: '0.8rem', border: '1px solid rgba(255,255,255,0.2)', fontSize: '8px' }}
+                                        style={{ width: '100%', backgroundColor: 'transparent', color: 'white', padding: '0.8rem', border: 'none', fontSize: '9px', fontWeight: '900', opacity: 0.6, cursor: 'pointer' }}
                                     >
                                         CANCELAR
                                     </button>
