@@ -67,7 +67,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
 
         try {
             const { data: { user }, error: userError } = await supabase.auth.getUser();
-            if (userError || !user) throw new Error('No se pudo obtener la sesión del usuario.');
+            if (userError || !user) throw new Error('No pudimos verificar tu sesión. Por favor, intenta entrar de nuevo.');
 
             let clientId = client?.id;
             const cleanPhone = phone.replace(/\D/g, '');
@@ -77,7 +77,10 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 name,
                 phone: finalPhone,
                 tenant_id: user.id,
-                is_active: true
+                is_active: true,
+                // Restauramos valores por defecto para evitar errores de base de datos
+                allergies: client?.allergies || [],
+                objective_and_params: client?.objective_and_params || '⏳ En proceso de análisis por el Agente IA...'
             };
 
             if (!clientId) {
@@ -113,7 +116,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 if (expediente) updates.expediente_url = await uploadFile(expediente, 'expediente', clientId);
                 if (plan) updates.plan_url = await uploadFile(plan, 'plan', clientId);
             } catch (uploadErr) {
-                throw new Error(`Error al subir archivos: ${uploadErr.message}`);
+                throw new Error('Hubo un problema al subir los archivos. Por favor, revisa que sean PDF e intenta de nuevo.');
             }
 
             if (Object.keys(updates).length > 0) {
@@ -126,7 +129,17 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
             onClose();
         } catch (err) {
             console.error('Detailed error:', err);
-            setError(err.message || 'Error de conexión desconocido.');
+            let userFriendlyMessage = 'Ups, algo salió mal. Por favor, inténtalo de nuevo.';
+
+            if (err.message?.includes('not-null constraint')) {
+                userFriendlyMessage = 'Faltan algunos datos necesarios para completar el registro.';
+            } else if (err.message?.includes('network')) {
+                userFriendlyMessage = 'Parece que hay un problema con tu conexión a internet.';
+            } else if (err.message) {
+                userFriendlyMessage = err.message;
+            }
+
+            setError(userFriendlyMessage);
         } finally {
             setLoading(false);
         }
