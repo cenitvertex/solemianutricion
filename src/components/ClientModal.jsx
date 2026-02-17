@@ -6,8 +6,6 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [countryCode, setCountryCode] = useState('+52');
-    const [allergies, setAllergies] = useState('');
-    const [objective, setObjective] = useState('');
     const [expediente, setExpediente] = useState(null);
     const [plan, setPlan] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -18,8 +16,6 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
     useEffect(() => {
         if (client) {
             setName(client.name || '');
-            setAllergies(Array.isArray(client.allergies) ? client.allergies.join(', ') : '');
-            setObjective(client.objective_and_params || '');
 
             const fullPhone = client.phone || '';
             if (fullPhone.startsWith('+')) {
@@ -81,9 +77,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 name,
                 phone: finalPhone,
                 tenant_id: user.id,
-                is_active: true,
-                allergies: allergies ? allergies.split(',').map(s => s.trim()).filter(s => s) : [],
-                objective_and_params: objective || '⏳ En proceso de análisis por el Agente IA...'
+                is_active: true
             };
 
             if (!clientId) {
@@ -232,19 +226,6 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                 />
                             </div>
                         </div>
-
-                        {client && (
-                            <>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                    <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>ALERGIAS (Separadas por comas)</label>
-                                    <input type="text" className="input-field" style={{ textTransform: 'uppercase', fontWeight: '700', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }} placeholder="EJ. NUEZ, LACTOSA" value={allergies} onChange={(e) => setAllergies(e.target.value)} />
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                    <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>ANÁLISIS Y OBJETIVOS</label>
-                                    <textarea className="input-field" style={{ minHeight: '80px', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa', resize: 'none' }} value={objective} onChange={(e) => setObjective(e.target.value)} />
-                                </div>
-                            </>
-                        )}
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
