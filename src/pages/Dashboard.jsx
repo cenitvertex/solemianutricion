@@ -17,7 +17,8 @@ import {
     ChevronRight,
     Filter,
     ArrowUpDown,
-    Settings
+    Settings,
+    ClipboardList
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ClientModal from '../components/ClientModal';
@@ -378,10 +379,26 @@ export default function Dashboard({ session }) {
                                                     }
                                                 }}
                                                 className="btn"
+                                                title="Ver Expediente"
                                                 style={{ padding: '0.7rem', backgroundColor: '#f8f0f4', color: patient.expediente_url ? 'var(--solemia-plum)' : '#ddd', borderRadius: '14px', transition: 'all' }}
                                                 disabled={!patient.expediente_url}
                                             >
                                                 <FileText size={18} />
+                                            </button>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (patient.plan_url) {
+                                                        setPreviewData({ url: patient.plan_url, title: `Plan Nutricional: ${patient.name}` });
+                                                        setIsPreviewOpen(true);
+                                                    }
+                                                }}
+                                                className="btn"
+                                                title="Ver Plan Nutricional"
+                                                style={{ padding: '0.7rem', backgroundColor: '#eff6ff', color: patient.plan_url ? '#3b82f6' : '#ddd', borderRadius: '14px', transition: 'all' }}
+                                                disabled={!patient.plan_url}
+                                            >
+                                                <ClipboardList size={18} />
                                             </button>
                                             <button
                                                 onClick={(e) => {
