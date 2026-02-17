@@ -340,16 +340,16 @@ export default function Dashboard({ session }) {
                                     <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '6px', background: 'var(--solemia-plum)' }}></div>
 
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: 1.5, minWidth: '300px' }}>
-                                        <div className="avatar-initial" style={{ width: '64px', height: '64px', borderRadius: '24px', backgroundColor: '#f8f0f4', color: 'var(--solemia-plum)', border: '2px solid white', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
+                                        <div className="avatar-initial" style={{ width: '56px', height: '56px', borderRadius: '20px', backgroundColor: '#f8f0f4', color: 'var(--solemia-plum)', border: '2px solid white', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', fontSize: '1.2rem' }}>
                                             {getInitials(patient.name)}
                                         </div>
                                         <div>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                                <div style={{ fontWeight: '900', fontSize: '1.2rem', color: 'var(--solemia-charcoal)', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{patient.name}</div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                                                <div style={{ fontWeight: '800', fontSize: '1.05rem', color: 'var(--solemia-charcoal)', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '0.2px' }}>{patient.name}</div>
                                                 <span style={{
-                                                    padding: '4px 12px',
+                                                    padding: '3px 10px',
                                                     borderRadius: '100px',
-                                                    fontSize: '8px',
+                                                    fontSize: '7px',
                                                     fontWeight: '900',
                                                     textTransform: 'uppercase',
                                                     letterSpacing: '1px',
@@ -359,15 +359,15 @@ export default function Dashboard({ session }) {
                                                     {patient.is_active ? 'ACTIVO' : 'INACTIVO'}
                                                 </span>
                                             </div>
-                                            <div className="text-detail" style={{ fontSize: '9px', marginTop: '6px', opacity: 0.5 }}>
+                                            <div className="text-detail" style={{ fontSize: '8px', marginTop: '4px', opacity: 0.5 }}>
                                                 ÚLTIMA ALTA: {new Date(patient.created_at).toLocaleDateString()}
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="hide-mobile" style={{ flex: 1, minWidth: '150px' }}>
-                                        <div className="text-detail" style={{ fontSize: '8px', marginBottom: '6px' }}>TELÉFONO</div>
-                                        <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'var(--solemia-plum)', fontFamily: 'Outfit' }}>{formatPhoneNumber(patient.phone)}</div>
+                                        <div className="text-detail" style={{ fontSize: '7px', marginBottom: '4px', opacity: 0.5 }}>TELÉFONO</div>
+                                        <div style={{ fontWeight: '800', fontSize: '0.95rem', color: 'var(--solemia-charcoal)', fontFamily: 'Outfit', opacity: 0.9 }}>{formatPhoneNumber(patient.phone)}</div>
                                     </div>
 
                                     <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginLeft: 'auto' }}>
@@ -417,17 +417,17 @@ export default function Dashboard({ session }) {
                                         <button
                                             className="btn"
                                             style={{
-                                                padding: '0.8rem 1.75rem',
+                                                padding: '0.6rem 1.25rem',
                                                 backgroundColor: '#f8f8f8',
                                                 color: 'var(--solemia-plum)',
-                                                fontSize: '9px',
-                                                borderRadius: '12px',
+                                                fontSize: '8px',
+                                                borderRadius: '10px',
                                                 fontFamily: 'Outfit',
                                                 fontWeight: '900',
-                                                letterSpacing: '1px'
+                                                letterSpacing: '0.5px'
                                             }}
                                         >
-                                            VER PERFIL <ChevronRight size={14} />
+                                            VER PERFIL <ChevronRight size={12} />
                                         </button>
                                         <button
                                             onClick={(e) => {
