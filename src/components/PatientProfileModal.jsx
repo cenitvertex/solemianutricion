@@ -247,7 +247,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                     ) : (
                                         <div style={{ display: 'flex', gap: '0.5rem' }}>
                                             <button onClick={() => handleSaveField('allergies', allergiesText, setIsEditingAllergies)} disabled={isSaving} style={{ backgroundColor: 'var(--solemia-plum)', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '8px', padding: '4px 10px', fontSize: '9px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                {isSaving ? '...' : <><Check size={12} /> GUARDAR</>}
+                                                {isSaving ? '...' : <><Check size={12} /> Guardar</>}
                                             </button>
                                             <button onClick={() => { setIsEditingAllergies(false); setAllergiesText(Array.isArray(localPatient.allergies) ? localPatient.allergies.join(', ') : ''); }} style={{ backgroundColor: '#f5f5f5', border: 'none', color: '#999', cursor: 'pointer', borderRadius: '8px', padding: '4px 10px', fontSize: '9px', fontWeight: '900' }}>
                                                 Cancelar

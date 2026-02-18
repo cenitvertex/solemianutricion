@@ -465,8 +465,7 @@ export default function Dashboard({ session }) {
                                         className="btn btn-primary"
                                         style={{ padding: '1.25rem 3rem', fontSize: '10px', boxShadow: '0 10px 30px rgba(225, 29, 72, 0.4)', borderRadius: '1.5rem' }}
                                     >
-                                        <Plus size={18} />
-                                        Nuevo paciente
+                                        <Plus size={18} /> Nuevo paciente
                                     </button>
                                 </div>
                             </div>
@@ -755,7 +754,7 @@ export default function Dashboard({ session }) {
                                                             )}
                                                         </div>
                                                         <div className="text-detail" style={{ fontSize: '8px', opacity: 0.5 }}>
-                                                            ALTA: {new Date(patient.created_at).toLocaleDateString()}
+                                                            Alta: {new Date(patient.created_at).toLocaleDateString()}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -896,7 +895,7 @@ export default function Dashboard({ session }) {
                                                             )}
                                                         </div>
                                                         <div className="text-detail" style={{ fontSize: '8px', opacity: 0.5 }}>
-                                                            ALTA: {new Date(patient.created_at).toLocaleDateString()}
+                                                            Alta: {new Date(patient.created_at).toLocaleDateString()}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1024,7 +1023,7 @@ export default function Dashboard({ session }) {
                                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                 className="footer-link"
                             >
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>Aviso de privacidad</div>
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>Directorio clínico digital</div>
                             </button>
                             <button
                                 onClick={() => setLegalConfig({
