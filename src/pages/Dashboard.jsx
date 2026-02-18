@@ -961,6 +961,7 @@ export default function Dashboard({ session }) {
                             )}
                         </div>
                     )}
+                </main>
             </div>
 
             {/* Modals outside the animated container for perfect fixed positioning */}
@@ -1030,3 +1031,5 @@ export default function Dashboard({ session }) {
         </>
     );
 }
+
+export default Dashboard;
