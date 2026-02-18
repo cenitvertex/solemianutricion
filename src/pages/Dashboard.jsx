@@ -962,6 +962,32 @@ export default function Dashboard({ session }) {
                         </div>
                     )}
                 </main>
+
+                <footer style={{ marginTop: 'auto', padding: '3rem 0 4rem', borderTop: '1px solid rgba(0,0,0,0.03)' }}>
+                    <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                <div style={{ width: '24px', height: '24px', borderRadius: '6px', background: 'var(--solemia-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'white' }}></div>
+                                </div>
+                                <span style={{ fontWeight: '900', fontSize: '0.8rem', color: 'var(--solemia-plum)', letterSpacing: '2px', fontFamily: 'var(--font-outfit)' }}>SOLEMIA BEAUTY</span>
+                            </div>
+                            <div className="text-detail" style={{ fontSize: '9px', opacity: 0.4 }}>© 2026 Todos los derechos reservados. Consultorio Digital de Nutrición.</div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>AVISO DE PRIVACIDAD</div>
+                            </a>
+                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>TÉRMINOS</div>
+                            </a>
+                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>SOPORTE</div>
+                            </a>
+                        </div>
+                    </div>
+                </footer>
             </div>
 
             {/* Modals outside the animated container for perfect fixed positioning */}
