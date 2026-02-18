@@ -1057,5 +1057,3 @@ export default function Dashboard({ session }) {
         </>
     );
 }
-
-export default Dashboard;
