@@ -53,9 +53,21 @@ export default function Dashboard({ session }) {
     const [activeView, setActiveView] = useState('directory'); // 'directory', 'hoy'
     const [recentLogs, setRecentLogs] = useState([]);
     const [consultationCounts, setConsultationCounts] = useState({});
-    const [lastConsultationDates, setLastConsultationDates] = useState({});
     const [toasts, setToasts] = useState([]);
     const [openDropdown, setOpenDropdown] = useState(null); // 'sort', 'time' or null
+
+    // Bloqueo de scroll cuando hay un modal abierto
+    useEffect(() => {
+        const anyModalOpen = isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen;
+        if (anyModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isModalOpen, isSettingsOpen, isProfileOpen, isDeleteModalOpen, editingPatient, isLogsOpen, isPreviewOpen]);
 
     const showToast = (message, type = 'success') => {
         const id = Date.now();
