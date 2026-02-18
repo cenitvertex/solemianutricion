@@ -23,7 +23,8 @@ import {
     MessageCircle,
     Power,
     Zap,
-    History
+    History,
+    LifeBuoy
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ClientModal from '../components/ClientModal';
@@ -31,6 +32,7 @@ import PatientProfileModal from '../components/PatientProfileModal';
 import LogsModal from '../components/LogsModal';
 import PreviewModal from '../components/PreviewModal';
 import SettingsModal from '../components/SettingsModal';
+import LegalModal from '../components/LegalModal';
 import logo from '../assets/logo.png';
 
 export default function Dashboard({ session }) {
@@ -55,10 +57,12 @@ export default function Dashboard({ session }) {
     const [consultationCounts, setConsultationCounts] = useState({});
     const [toasts, setToasts] = useState([]);
     const [openDropdown, setOpenDropdown] = useState(null); // 'sort', 'time' or null
+    const [tenantName, setTenantName] = useState('');
+    const [legalConfig, setLegalConfig] = useState({ isOpen: false, title: '', content: null });
 
     // Bloqueo de scroll cuando hay un modal abierto
     useEffect(() => {
-        const anyModalOpen = isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen;
+        const anyModalOpen = isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen || legalConfig.isOpen;
         if (anyModalOpen) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -67,7 +71,7 @@ export default function Dashboard({ session }) {
         return () => {
             document.body.style.overflow = 'unset';
         };
-    }, [isModalOpen, isSettingsOpen, isProfileOpen, isDeleteModalOpen, editingPatient, isLogsOpen, isPreviewOpen]);
+    }, [isModalOpen, isSettingsOpen, isProfileOpen, isDeleteModalOpen, editingPatient, isLogsOpen, isPreviewOpen, legalConfig.isOpen]);
 
     const showToast = (message, type = 'success') => {
         const id = Date.now();
@@ -81,6 +85,17 @@ export default function Dashboard({ session }) {
         const checkIdentity = async () => {
             if (!session?.user) return;
             fetchPatients();
+
+            // Fetch tenant name
+            const { data, error } = await supabase
+                .from('tenants')
+                .select('name')
+                .eq('id', session.user.id)
+                .maybeSingle();
+
+            if (data && !error) {
+                setTenantName(data.name);
+            }
         };
         checkIdentity();
     }, [session]);
@@ -327,8 +342,9 @@ export default function Dashboard({ session }) {
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', justifyContent: 'flex-end' }}>
                             <div className="hide-mobile" style={{ textAlign: 'right', borderRight: '1px solid rgba(255,255,255,0.2)', paddingRight: '1.25rem' }}>
-                                <div className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', letterSpacing: '1px', color: 'rgba(255,255,255,0.7)' }}>Gestión profesional</div>
-                                <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'white', fontFamily: 'var(--font-inter)' }}>{session.user.email.split('@')[0]}</div>
+                                <div style={{ fontWeight: '900', fontSize: '1.2rem', color: 'white', fontFamily: 'var(--font-outfit)', letterSpacing: '-0.5px' }}>
+                                    {tenantName || session.user.email.split('@')[0]}
+                                </div>
                             </div>
 
                             <div style={{ display: 'flex', gap: '0.75rem' }}>
@@ -350,6 +366,25 @@ export default function Dashboard({ session }) {
                                     }}
                                 >
                                     <Settings size={20} />
+                                </button>
+                                <button
+                                    onClick={() => window.open('https://wa.me/message/YOUR_WHATSAPP_LINK', '_blank')}
+                                    title="Soporte Técnico"
+                                    style={{
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '14px',
+                                        border: '1px solid rgba(255,255,255,0.2)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        color: 'white',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)'
+                                    }}
+                                >
+                                    <LifeBuoy size={20} />
                                 </button>
                                 <button
                                     onClick={handleLogout}
@@ -973,15 +1008,42 @@ export default function Dashboard({ session }) {
                         </div>
 
                         <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
-                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                            <button
+                                onClick={() => setLegalConfig({
+                                    isOpen: true,
+                                    title: 'AVISO DE PRIVACIDAD',
+                                    content: (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                            <p>En <strong>SOLEMIA</strong>, la privacidad de tus datos y los de tus pacientes es nuestra máxima prioridad. Este sistema ha sido diseñado bajo los estándares más estrictos de seguridad digital.</p>
+                                            <p><strong>Recopilación de Datos:</strong> Solo almacenamos la información necesaria para el seguimiento nutricional (nombres, medidas, objetivos y registros de progreso). Nunca compartiremos esta información con terceros.</p>
+                                            <p><strong>Seguridad:</strong> Toda la información está encriptada y protegida mediante Supabase Auth y protocolos de seguridad de nivel industrial. Tú eres el único dueño de la información de tus pacientes.</p>
+                                            <p><strong>Derechos ARCO:</strong> Puedes consultar, rectificar o eliminar cualquier registro directamente desde el panel de control en cualquier momento.</p>
+                                        </div>
+                                    )
+                                })}
+                                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                                className="footer-link"
+                            >
                                 <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>AVISO DE PRIVACIDAD</div>
-                            </a>
-                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                            </button>
+                            <button
+                                onClick={() => setLegalConfig({
+                                    isOpen: true,
+                                    title: 'TÉRMINOS DE SERVICIO',
+                                    content: (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                            <p>Bienvenido al Ecosistema Digital de <strong>SOLEMIA</strong>. Al utilizar esta plataforma, aceptas nuestros términos de uso profesional.</p>
+                                            <p><strong>Propiedad Intelectual:</strong> El software, las plantillas de seguimiento y la algoritmo de IA son propiedad exclusiva de Solemia. El contenido ingresado por el profesional es propiedad del mismo.</p>
+                                            <p><strong>Uso Responsable:</strong> Esta herramienta es un apoyo para el profesional de la nutrición. El criterio clínico final siempre corresponde al nutriólogo a cargo.</p>
+                                            <p><strong>Disponibilidad:</strong> Nos esforzamos por mantener el sistema en línea el 99.9% del tiempo, garantizando que siempre tengas acceso a tus expedientes clínicos.</p>
+                                        </div>
+                                    )
+                                })}
+                                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                                className="footer-link"
+                            >
                                 <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>TÉRMINOS</div>
-                            </a>
-                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>SOPORTE</div>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </footer>
@@ -1049,6 +1111,15 @@ export default function Dashboard({ session }) {
                     isOpen={isSettingsOpen}
                     onClose={() => setIsSettingsOpen(false)}
                     session={session}
+                />
+            )}
+
+            {legalConfig.isOpen && (
+                <LegalModal
+                    isOpen={legalConfig.isOpen}
+                    onClose={() => setLegalConfig({ ...legalConfig, isOpen: false })}
+                    title={legalConfig.title}
+                    content={legalConfig.content}
                 />
             )}
         </>

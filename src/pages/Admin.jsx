@@ -12,9 +12,11 @@ import {
     ArrowLeft,
     TrendingUp,
     MessageSquare,
-    LogOut
+    LogOut,
+    LifeBuoy
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import LegalModal from '../components/LegalModal';
 import logo from '../assets/logo.png';
 
 export default function Admin({ session }) {
@@ -27,6 +29,7 @@ export default function Admin({ session }) {
         activeTenants: 0,
         totalPatients: 0
     });
+    const [legalConfig, setLegalConfig] = useState({ isOpen: false, title: '', content: null });
 
     useEffect(() => {
         checkAdminAccess();
@@ -168,6 +171,25 @@ export default function Admin({ session }) {
                         </div>
 
                         <div style={{ display: 'flex', gap: '0.75rem' }}>
+                            <button
+                                onClick={() => window.open('https://wa.me/message/YOUR_WHATSAPP_LINK', '_blank')}
+                                title="Soporte Técnico"
+                                style={{
+                                    width: '44px',
+                                    height: '44px',
+                                    borderRadius: '14px',
+                                    border: '1px solid rgba(255,255,255,0.2)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    color: 'white',
+                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                    backdropFilter: 'blur(10px)'
+                                }}
+                            >
+                                <LifeBuoy size={20} />
+                            </button>
                             <button
                                 onClick={() => supabase.auth.signOut()}
                                 title="Salir"
@@ -353,19 +375,51 @@ export default function Admin({ session }) {
                         </div>
 
                         <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
-                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                            <button
+                                onClick={() => setLegalConfig({
+                                    isOpen: true,
+                                    title: 'SEGURIDAD DE DATOS',
+                                    content: (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                            <p>Este panel utiliza <strong>Row Level Security (RLS)</strong> de Supabase para garantizar que cada administrador solo acceda a la información permitida.</p>
+                                            <p>Toda la comunicación entre el cliente y el servidor está cifrada vía SSL.</p>
+                                        </div>
+                                    )
+                                })}
+                                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                                className="footer-link"
+                            >
                                 <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>SEGURIDAD</div>
-                            </a>
-                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                            </button>
+                            <button
+                                onClick={() => setLegalConfig({
+                                    isOpen: true,
+                                    title: 'POLÍTICA DE BACKUP',
+                                    content: (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                            <p>Realizamos copias de seguridad automáticas cada 24 horas.</p>
+                                            <p>En caso de desastre, el tiempo estimado de recuperación (RTO) es de menos de 1 hora.</p>
+                                        </div>
+                                    )
+                                })}
+                                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                                className="footer-link"
+                            >
                                 <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>BACKUP</div>
-                            </a>
-                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>SOPORTE TÉCNICO</div>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </footer>
             </main>
+
+            {legalConfig.isOpen && (
+                <LegalModal
+                    isOpen={legalConfig.isOpen}
+                    onClose={() => setLegalConfig({ ...legalConfig, isOpen: false })}
+                    title={legalConfig.title}
+                    content={legalConfig.content}
+                />
+            )}
         </div>
     );
 }
