@@ -197,7 +197,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                     </button>
 
                     <div style={{ marginBottom: '2rem', marginTop: onBack ? '1rem' : '0' }}>
-                        <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', marginBottom: '0.2rem', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1 }}>{client ? 'Actualizar' : 'Nueva paciente'}</h2>
+                        <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', marginBottom: '0.2rem', fontFamily: 'var(--font-display)', fontWeight: '900', lineHeight: 1 }}>{client ? 'Actualizar' : 'Nueva paciente'}</h2>
                         <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', color: 'var(--solemia-plum)', opacity: 0.6 }}>
                             {client ? `Modificando expediente de ${client.name}` : 'Registra un nuevo expediente en el directorio'}
                         </div>
@@ -323,7 +323,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     <Phone size={28} />
                                 </div>
                                 <div>
-                                    <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: 'white', fontFamily: 'var(--font-outfit)', fontWeight: '900' }}>Registro duplicado</h3>
+                                    <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: 'white', fontFamily: 'var(--font-display)', fontWeight: '900' }}>Registro duplicado</h3>
                                     <p style={{ fontSize: '0.85rem', opacity: 0.8, lineHeight: '1.5' }}>
                                         Ya existe una paciente ({existingPatientData?.name}) con este número. ¿Deseas actualizar sus datos?
                                     </p>

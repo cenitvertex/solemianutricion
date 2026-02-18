@@ -154,7 +154,7 @@ export default function Admin({ session }) {
                             fontWeight: '300',
                             letterSpacing: '1px',
                             color: 'white',
-                            fontFamily: 'var(--font-outfit)',
+                            fontFamily: 'var(--font-display)',
                             opacity: 0.9,
                             marginTop: '2px'
                         }}>
@@ -218,7 +218,7 @@ export default function Admin({ session }) {
                 {/* Header Section */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
                     <div>
-                        <h2 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-outfit)', fontWeight: '900', letterSpacing: '-1px' }}>
+                        <h2 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: '800', letterSpacing: '-2px', lineHeight: 1 }}>
                             Ecosistema Solemia
                         </h2>
                         <div className="text-detail" style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>

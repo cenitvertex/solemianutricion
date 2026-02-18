@@ -44,7 +44,7 @@ export default function Login() {
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                     <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
-                    <h2 style={{ fontSize: '1.8rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'var(--font-outfit)', letterSpacing: '-0.5px', marginBottom: '0.5rem' }}>Bienvenido</h2>
+                    <h2 style={{ fontSize: '1.8rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'var(--font-display)', letterSpacing: '-0.5px', marginBottom: '0.5rem' }}>Bienvenido</h2>
                     <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>Ecosistema Solemia Nutrición</p>
                 </div>
 

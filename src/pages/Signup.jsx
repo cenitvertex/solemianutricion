@@ -64,7 +64,7 @@ export default function Signup() {
             <div className="layout-auth">
                 <div className="card glass animate-fade-in" style={{ maxWidth: '500px', width: '100%', textAlign: 'center', padding: '3rem' }}>
                     <CheckCircle size={64} color="#10b981" style={{ marginBottom: '1.5rem' }} />
-                    <h2 style={{ fontSize: '2rem', color: 'var(--solemia-plum)', fontFamily: 'var(--font-outfit)', fontWeight: '900' }}>¡Bienvenido, {name.split(' ')[0]}!</h2>
+                    <h2 style={{ fontSize: '2rem', color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', fontWeight: '900' }}>¡Bienvenido, {name.split(' ')[0]}!</h2>
                     <p style={{ margin: '1.5rem 0', color: 'var(--text-muted)', lineHeight: '1.6' }}>
                         Tu cuenta ha sido creada exitosamente. Hemos enviado un correo de confirmación a <strong>{email}</strong>.
                     </p>
@@ -99,7 +99,7 @@ export default function Signup() {
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                     <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
-                    <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'var(--font-outfit)', letterSpacing: '-1px', marginBottom: '0.5rem' }}>Nueva Cuenta</h2>
+                    <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Nueva Cuenta</h2>
                     <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>Configura tu consultorio inteligente</p>
                 </div>
 

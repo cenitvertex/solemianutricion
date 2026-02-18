@@ -1085,7 +1085,7 @@ export default function Dashboard({ session }) {
                         <div style={{ backgroundColor: '#fff5f5', color: '#e53e3e', padding: '1rem', borderRadius: '50%', width: 'fit-content', margin: '0 auto 1.5rem' }}>
                             <Trash2 size={32} />
                         </div>
-                        <h3 style={{ fontSize: '1.25rem', marginBottom: '0.75rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'var(--font-outfit)' }}>¿Eliminar Paciente?</h3>
+                        <h3 style={{ fontSize: '1.25rem', marginBottom: '0.75rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'var(--font-display)' }}>¿Eliminar Paciente?</h3>
                         <p style={{ color: '#64748b', marginBottom: '2rem', fontSize: '0.875rem' }}>
                             Estás por eliminar a <strong>{patientToDelete?.name}</strong>. Esta acción no se puede deshacer.
                         </p>

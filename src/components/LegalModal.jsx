@@ -52,7 +52,7 @@ export default function LegalModal({ isOpen, onClose, title, content }) {
                                 fontSize: '1.75rem',
                                 color: 'var(--solemia-plum)',
                                 fontWeight: '900',
-                                fontFamily: 'var(--font-outfit)',
+                                fontFamily: 'var(--font-display)',
                                 margin: 0,
                                 letterSpacing: '-0.5px'
                             }}>{title}</h2>

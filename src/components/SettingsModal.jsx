@@ -100,7 +100,7 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                     </button>
 
                     <div style={{ marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1 }}>Configuración</h2>
+                        <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'var(--font-display)', fontWeight: '900', lineHeight: 1 }}>Configuración</h2>
                         <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px' }}>
                             Personalización del consultorio y asistente IA
                         </div>

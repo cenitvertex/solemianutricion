@@ -53,7 +53,7 @@ export default function LogsModal({ isOpen, onClose, patient }) {
                     </button>
 
                     <div style={{ marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1 }}>Actividad IA</h2>
+                        <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'var(--font-display)', fontWeight: '900', lineHeight: 1 }}>Actividad IA</h2>
                         <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px' }}>
                             Historial clínico de {patient.name}
                         </div>

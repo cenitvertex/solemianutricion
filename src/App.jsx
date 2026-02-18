@@ -48,7 +48,7 @@ function App() {
     return (
       <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyItems: 'center', width: '100%' }}>
         <div style={{ margin: 'auto', textAlign: 'center' }}>
-          <h2 style={{ color: 'var(--primary)', fontFamily: 'var(--font-outfit)' }}>Cargando Solemia...</h2>
+          <h2 style={{ color: 'var(--primary)', fontFamily: 'var(--font-display)' }}>Cargando Solemia...</h2>
         </div>
       </div>
     );

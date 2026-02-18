@@ -114,7 +114,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                         </div>
                         <div style={{ flex: 1 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
-                                <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1, margin: 0 }}>{localPatient.name}</h2>
+                                <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-display)', fontWeight: '900', lineHeight: 1, margin: 0 }}>{localPatient.name}</h2>
                                 <span style={{
                                     padding: '4px 12px',
                                     borderRadius: '100px',
@@ -162,7 +162,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                                         <Brain size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-outfit)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Análisis y objetivos</h3>
+                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Análisis y objetivos</h3>
                                     </div>
                                     {!isEditingAnalysis ? (
                                         <button
@@ -232,7 +232,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                                         <Heart size={18} style={{ color: 'var(--solemia-pink)' }} />
-                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-outfit)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Condiciones y alergias</h3>
+                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Condiciones y alergias</h3>
                                     </div>
                                     {!isEditingAllergies ? (
                                         <button
@@ -311,7 +311,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                             <section>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
                                     <Phone size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-outfit)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>CONTACTO DIRECTO</h3>
+                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>CONTACTO DIRECTO</h3>
                                 </div>
                                 <button
                                     onClick={handleWhatsAppClick}
@@ -343,7 +343,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                             <section>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
                                     <FileText size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-outfit)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>DOCUMENTACIÓN</h3>
+                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>DOCUMENTACIÓN</h3>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                     <a

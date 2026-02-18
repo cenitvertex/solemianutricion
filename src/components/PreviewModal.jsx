@@ -32,7 +32,7 @@ export default function PreviewModal({ isOpen, onClose, url, title }) {
                                 <FileText size={24} />
                             </div>
                             <div>
-                                <h3 style={{ fontSize: '1.5rem', margin: 0, color: 'var(--solemia-plum)', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1.1 }}>{title || 'Documento'}</h3>
+                                <h3 style={{ fontSize: '1.5rem', margin: 0, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', fontWeight: '900', lineHeight: 1.1 }}>{title || 'Documento'}</h3>
                                 <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', marginTop: '4px' }}>Vista previa oficial</div>
                             </div>
                         </div>
