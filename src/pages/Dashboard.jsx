@@ -1011,7 +1011,7 @@ export default function Dashboard({ session }) {
                             <button
                                 onClick={() => setLegalConfig({
                                     isOpen: true,
-                                    title: 'AVISO DE PRIVACIDAD',
+                                    title: 'Aviso de Privacidad',
                                     content: (
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                             <p>En <strong>SOLEMIA</strong>, la privacidad de tus datos y los de tus pacientes es nuestra máxima prioridad. Este sistema ha sido diseñado bajo los estándares más estrictos de seguridad digital.</p>
@@ -1024,12 +1024,12 @@ export default function Dashboard({ session }) {
                                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                 className="footer-link"
                             >
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>AVISO DE PRIVACIDAD</div>
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>Aviso de privacidad</div>
                             </button>
                             <button
                                 onClick={() => setLegalConfig({
                                     isOpen: true,
-                                    title: 'TÉRMINOS DE SERVICIO',
+                                    title: 'Términos de Servicio',
                                     content: (
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                             <p>Bienvenido al Ecosistema Digital de <strong>SOLEMIA</strong>. Al utilizar esta plataforma, aceptas nuestros términos de uso profesional.</p>
@@ -1042,7 +1042,7 @@ export default function Dashboard({ session }) {
                                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                 className="footer-link"
                             >
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>TÉRMINOS</div>
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>Términos</div>
                             </button>
                         </div>
                     </div>

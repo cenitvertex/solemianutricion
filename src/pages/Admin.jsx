@@ -356,7 +356,7 @@ export default function Admin({ session }) {
                                             }}
                                         >
                                             <Power size={14} />
-                                            {tenant.is_active ? 'SUSPENDER' : 'ACTIVAR'}
+                                            {tenant.is_active ? 'Suspender' : 'Activar'}
                                         </button>
                                     </td>
                                 </tr>
@@ -378,7 +378,7 @@ export default function Admin({ session }) {
                             <button
                                 onClick={() => setLegalConfig({
                                     isOpen: true,
-                                    title: 'SEGURIDAD DE DATOS',
+                                    title: 'Seguridad de Datos',
                                     content: (
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                             <p>Este panel utiliza <strong>Row Level Security (RLS)</strong> de Supabase para garantizar que cada administrador solo acceda a la información permitida.</p>
@@ -389,12 +389,12 @@ export default function Admin({ session }) {
                                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                 className="footer-link"
                             >
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>SEGURIDAD</div>
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>Seguridad</div>
                             </button>
                             <button
                                 onClick={() => setLegalConfig({
                                     isOpen: true,
-                                    title: 'POLÍTICA DE BACKUP',
+                                    title: 'Política de Backup',
                                     content: (
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                             <p>Realizamos copias de seguridad automáticas cada 24 horas.</p>
@@ -405,7 +405,7 @@ export default function Admin({ session }) {
                                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                 className="footer-link"
                             >
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>BACKUP</div>
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>Backup</div>
                             </button>
                         </div>
                     </div>

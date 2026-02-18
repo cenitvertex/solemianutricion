@@ -311,7 +311,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                             <section>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
                                     <Phone size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>CONTACTO DIRECTO</h3>
+                                    <h3 style={{ fontSize: '1rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Contacto directo</h3>
                                 </div>
                                 <button
                                     onClick={handleWhatsAppClick}
@@ -343,7 +343,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                             <section>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
                                     <FileText size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>DOCUMENTACIÓN</h3>
+                                    <h3 style={{ fontSize: '1rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Documentación</h3>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                     <a
@@ -366,7 +366,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                     >
                                         <FileText size={18} />
                                         <div style={{ flex: 1 }}>
-                                            <div style={{ fontSize: '9px', fontWeight: '900' }}>EXPEDIENTE CLÍNICO</div>
+                                            <div style={{ fontSize: '9px', fontWeight: '900' }}>Expediente clínico</div>
                                             <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{localPatient.expediente_url ? 'Consultar PDF' : 'No disponible'}</div>
                                         </div>
                                         {localPatient.expediente_url && <ChevronRight size={14} />}
@@ -392,7 +392,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                     >
                                         <Activity size={18} />
                                         <div style={{ flex: 1 }}>
-                                            <div style={{ fontSize: '9px', fontWeight: '900' }}>PLAN ALIMENTICIO</div>
+                                            <div style={{ fontSize: '9px', fontWeight: '900' }}>Plan alimenticio</div>
                                             <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{localPatient.plan_url ? 'Consultar PDF' : 'No disponible'}</div>
                                         </div>
                                         {localPatient.plan_url && <ChevronRight size={14} />}
