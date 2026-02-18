@@ -418,7 +418,7 @@ export default function Dashboard({ session }) {
                             </h2>
                             <div className="text-detail" style={{ color: 'var(--solemia-plum)', opacity: 0.8 }}>
                                 {activeView === 'directory' ?
-                                    <><Users size={14} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} /> Registro clínico profesional</> :
+                                    <><Users size={14} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} /> Expedientes digitales</> :
                                     <><History size={14} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} /> Últimas consultas IA</>
                                 }
                             </div>
@@ -453,9 +453,9 @@ export default function Dashboard({ session }) {
                                             </div>
                                         </div>
                                         <div>
-                                            <div className="text-detail" style={{ fontSize: '9px', marginBottom: '6px', opacity: 0.7 }}>{stat.label}</div>
-                                            <div style={{ fontSize: '2.5rem', fontWeight: '900', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-inter)', lineHeight: 0.9, marginBottom: '6px' }}>{stat.value}</div>
-                                            <div className="text-detail" style={{ fontSize: '10px', textTransform: 'none', letterSpacing: '0', opacity: 0.5 }}>{stat.sub}</div>
+                                            <div className="text-detail" style={{ fontSize: '11px', marginBottom: '8px', opacity: 0.7 }}>{stat.label}</div>
+                                            <div style={{ fontSize: '2.8rem', fontWeight: '900', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-inter)', lineHeight: 0.9, marginBottom: '8px' }}>{stat.value}</div>
+                                            <div className="text-detail" style={{ fontSize: '12px', textTransform: 'none', letterSpacing: '0', opacity: 0.5 }}>{stat.sub}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -463,9 +463,9 @@ export default function Dashboard({ session }) {
                                     <button
                                         onClick={() => { setEditingPatient(null); setIsModalOpen(true); }}
                                         className="btn btn-primary"
-                                        style={{ padding: '1.25rem 3rem', fontSize: '10px', boxShadow: '0 10px 30px rgba(225, 29, 72, 0.4)', borderRadius: '1.5rem' }}
+                                        style={{ padding: '1.4rem 4rem', fontSize: '13px', boxShadow: '0 10px 30px rgba(225, 29, 72, 0.4)', borderRadius: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
                                     >
-                                        <Plus size={18} /> Nuevo paciente
+                                        <Plus size={20} /> Nuevo paciente
                                     </button>
                                 </div>
                             </div>
@@ -1023,7 +1023,7 @@ export default function Dashboard({ session }) {
                                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                 className="footer-link"
                             >
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>Directorio clínico digital</div>
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>Aviso de privacidad</div>
                             </button>
                             <button
                                 onClick={() => setLegalConfig({
