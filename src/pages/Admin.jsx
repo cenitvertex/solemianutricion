@@ -346,9 +346,8 @@ export default function Admin({ session }) {
                 <footer style={{ marginTop: 'auto', padding: '3rem 0 4rem', borderTop: '1px solid rgba(0,0,0,0.03)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                <img src="/solemia-logo.png" alt="SOLEMIA" style={{ height: '24px', width: 'auto' }} />
-                                <span style={{ fontWeight: '900', fontSize: '0.8rem', color: 'var(--solemia-plum)', letterSpacing: '3px', fontFamily: 'var(--font-outfit)' }}>SOLEMIA ADMIN</span>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <img src="/solemia-logo.png" alt="SOLEMIA" style={{ height: '32px', width: 'auto' }} />
                             </div>
                             <div className="text-detail" style={{ fontSize: '9px', opacity: 0.4 }}>© 2026 Ecosistema Digital Solemia.</div>
                         </div>
