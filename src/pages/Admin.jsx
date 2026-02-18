@@ -343,13 +343,31 @@ export default function Admin({ session }) {
                     </table>
                 </div>
 
-                {/* Footer Quote */}
-                <div style={{ marginTop: '3rem', textAlign: 'center', paddingBottom: '4rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', opacity: 0.5 }}>
-                        <Shield size={16} color="var(--solemia-plum)" />
-                        <span style={{ fontWeight: '900', fontSize: '0.7rem', color: 'var(--solemia-plum)', letterSpacing: '2px' }}>SODO ADMIN CORE</span>
+                <footer style={{ marginTop: 'auto', padding: '3rem 0 4rem', borderTop: '1px solid rgba(0,0,0,0.03)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                <div style={{ width: '24px', height: '24px', borderRadius: '6px', background: 'var(--solemia-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'white' }}></div>
+                                </div>
+                                <span style={{ fontWeight: '900', fontSize: '0.8rem', color: 'var(--solemia-plum)', letterSpacing: '2px', fontFamily: 'var(--font-outfit)' }}>SODO ADMIN CORE</span>
+                            </div>
+                            <div className="text-detail" style={{ fontSize: '9px', opacity: 0.4 }}>Módulo de gestión centralizada para administradores de Solemia.</div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>SEGURIDAD</div>
+                            </a>
+                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>BACKUP</div>
+                            </a>
+                            <a href="#" style={{ textDecoration: 'none' }} className="footer-link">
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px' }}>SOPORTE TÉCNICO</div>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                </footer>
             </main>
         </div>
     );

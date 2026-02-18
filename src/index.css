@@ -403,3 +403,21 @@ input:checked+.slider-ia:before {
   color: #3b82f6;
   margin-left: 0.75rem;
 }
+
+.footer-link {
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+.footer-link:hover {
+  opacity: 0.6;
+  transform: translateY(-1px);
+}
+
+.footer-link .text-detail {
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover .text-detail {
+  color: var(--solemia-pink);
+}
