@@ -342,7 +342,7 @@ export default function Dashboard({ session }) {
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', justifyContent: 'flex-end' }}>
                             <div className="hide-mobile" style={{ textAlign: 'right', borderRight: '1px solid rgba(255,255,255,0.2)', paddingRight: '1.25rem' }}>
-                                <div style={{ fontWeight: '900', fontSize: '1.2rem', color: 'white', fontFamily: 'var(--font-outfit)', letterSpacing: '-0.5px' }}>
+                                <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'white', fontFamily: 'var(--font-inter)' }}>
                                     {tenantName || session.user.email.split('@')[0]}
                                 </div>
                             </div>
