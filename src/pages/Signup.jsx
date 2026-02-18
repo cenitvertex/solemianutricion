@@ -182,7 +182,10 @@ export default function Signup() {
                                     className="input-field"
                                     style={{ flex: 1, borderRadius: '1.5rem', background: '#f8fafc', border: 'none', fontWeight: '700' }}
                                     value={whatsapp}
-                                    onChange={(e) => setWhatsapp(e.target.value)}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                        setWhatsapp(value);
+                                    }}
                                     placeholder="000 000 0000"
                                 />
                             </div>

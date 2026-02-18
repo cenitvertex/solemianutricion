@@ -321,7 +321,7 @@ export default function Dashboard({ session }) {
                     marginBottom: '-2.25rem', // Compensación para que el fade no aleje el contenido
                     pointerEvents: 'none'
                 }}>
-                    <div className="container" style={{ display: 'grid', gridTemplateColumns: '250px 1fr 250px', alignItems: 'center', pointerEvents: 'auto' }}>
+                    <div className="container" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'center', pointerEvents: 'auto' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                             <img src={logo} alt="Solemia" style={{ height: '36px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                             <div style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.3)', margin: '0 0.25rem' }}></div>
@@ -330,7 +330,7 @@ export default function Dashboard({ session }) {
                                 fontWeight: '300',
                                 letterSpacing: '1px',
                                 color: 'white',
-                                fontFamily: 'var(--font-outfit)',
+                                fontFamily: 'var(--font-display)',
                                 opacity: 0.9,
                                 marginTop: '2px' // Ajuste fino manual para balancear con el logo
                             }}>
@@ -342,7 +342,7 @@ export default function Dashboard({ session }) {
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', justifyContent: 'flex-end' }}>
                             <div className="hide-mobile" style={{ textAlign: 'right', borderRight: '1px solid rgba(255,255,255,0.2)', paddingRight: '1.25rem' }}>
-                                <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'white', fontFamily: 'var(--font-inter)' }}>
+                                <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'white', fontFamily: 'var(--font-inter)', whiteSpace: 'nowrap' }}>
                                     {tenantName || session.user.email.split('@')[0]}
                                 </div>
                             </div>
@@ -413,7 +413,7 @@ export default function Dashboard({ session }) {
                 <main className="container" style={{ marginTop: '1.25rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
                         <div>
-                            <h2 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-outfit)', fontWeight: '900', letterSpacing: '-1px' }}>
+                            <h2 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: '800', letterSpacing: '-2px' }}>
                                 {activeView === 'directory' ? 'Expedientes' : 'Actividad de hoy'}
                             </h2>
                             <div className="text-detail" style={{ color: 'var(--solemia-plum)', opacity: 0.8 }}>

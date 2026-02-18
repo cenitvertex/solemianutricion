@@ -141,9 +141,12 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                                     </select>
                                     <input
                                         className="input-field"
-                                        style={{ flex: 1, borderRadius: '1.5rem', padding: '1.25rem 2rem', fontWeight: '900' }}
+                                        style={{ flex: 1, borderRadius: '1.5rem', padding: '1rem 2rem', fontWeight: '900' }}
                                         value={formData.whatsapp}
-                                        onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
+                                        onChange={e => {
+                                            const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                            setFormData({ ...formData, whatsapp: value });
+                                        }}
                                         placeholder="000 000 0000"
                                     />
                                 </div>

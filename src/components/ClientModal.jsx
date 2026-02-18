@@ -235,7 +235,10 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     style={{ flex: 1, fontWeight: '700', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }}
                                     placeholder="000 000 0000"
                                     value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                        setPhone(value);
+                                    }}
                                     required
                                 />
                             </div>
