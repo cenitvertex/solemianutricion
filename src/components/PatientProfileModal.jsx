@@ -105,7 +105,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                             justifyContent: 'center',
                             fontSize: '1.75rem',
                             fontWeight: '900',
-                            fontFamily: 'Outfit',
+                            fontFamily: 'var(--font-inter)',
                             border: '3px solid white',
                             boxShadow: '0 10px 25px rgba(142,45,79,0.08)'
                         }}>
@@ -113,22 +113,21 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                         </div>
                         <div style={{ flex: 1 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
-                                <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', fontFamily: 'Outfit', fontWeight: '900', lineHeight: 1, margin: 0 }}>{localPatient.name.toUpperCase()}</h2>
+                                <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1, margin: 0 }}>{localPatient.name}</h2>
                                 <span style={{
                                     padding: '4px 12px',
                                     borderRadius: '100px',
                                     fontSize: '9px',
                                     fontWeight: '900',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '1px',
+                                    letterSpacing: '0.5px',
                                     backgroundColor: localPatient.is_active ? '#ecfdf5' : '#fef2f2',
                                     color: localPatient.is_active ? '#10b981' : '#ef4444'
                                 }}>
-                                    {localPatient.is_active ? 'ACTIVA' : 'INACTIVA'}
+                                    {localPatient.is_active ? 'Activa' : 'Inactiva'}
                                 </span>
                             </div>
                             <div className="text-detail" style={{ fontSize: '9px', color: 'var(--solemia-plum)', opacity: 0.6 }}>
-                                EXPEDIENTE DESDE EL {new Date(localPatient.created_at).toLocaleDateString()}
+                                Expediente desde el {new Date(localPatient.created_at).toLocaleDateString()}
                             </div>
                         </div>
                         <button
@@ -146,12 +145,12 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                 fontSize: '9px',
                                 cursor: 'pointer',
                                 transition: 'all 0.2s',
-                                fontFamily: 'Outfit'
+                                fontFamily: 'var(--font-inter)'
                             }}
                             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f8f0f4'; e.currentTarget.style.borderColor = 'var(--solemia-plum)'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.borderColor = '#f0f0f0'; }}
                         >
-                            <Edit size={14} /> EDITAR PERFIL
+                            <Edit size={14} /> Editar perfil
                         </button>
                     </div>
 
@@ -162,7 +161,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                                         <Brain size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'Outfit', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>ANÁLISIS Y OBJETIVOS</h3>
+                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-outfit)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Análisis y objetivos</h3>
                                     </div>
                                     {!isEditingAnalysis ? (
                                         <button
@@ -232,7 +231,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                                         <Heart size={18} style={{ color: 'var(--solemia-pink)' }} />
-                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'Outfit', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>CONDICIONES Y ALERGIAS</h3>
+                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-outfit)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Condiciones y alergias</h3>
                                     </div>
                                     {!isEditingAllergies ? (
                                         <button
@@ -269,7 +268,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                             type="text"
                                             value={allergiesText}
                                             onChange={(e) => setAllergiesText(e.target.value)}
-                                            placeholder="Ej. NUEZ, LACTOSA, GLUTEN (Separar por comas)"
+                                            placeholder="Ej. Nuez, lactosa, gluten (Separar por comas)"
                                             style={{
                                                 width: '100%',
                                                 border: 'none',
@@ -278,8 +277,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                                 color: 'var(--solemia-charcoal)',
                                                 outline: 'none',
                                                 backgroundColor: 'transparent',
-                                                fontWeight: '900',
-                                                textTransform: 'uppercase'
+                                                fontWeight: '900'
                                             }}
                                             autoFocus
                                         />
@@ -294,8 +292,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                                     backgroundColor: '#fff1f2',
                                                     color: '#e11d48',
                                                     fontSize: '10px',
-                                                    fontWeight: '900',
-                                                    textTransform: 'uppercase'
+                                                    fontWeight: '900'
                                                 }}>
                                                     {allergy}
                                                 </span>
@@ -313,7 +310,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                             <section>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
                                     <Phone size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'Outfit', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>CONTACTO DIRECTO</h3>
+                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-outfit)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>CONTACTO DIRECTO</h3>
                                 </div>
                                 <button
                                     onClick={handleWhatsAppClick}
@@ -335,8 +332,8 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                     onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                                 >
                                     <div style={{ textAlign: 'left' }}>
-                                        <div style={{ fontSize: '8px', fontWeight: '900', opacity: 0.8, letterSpacing: '1px' }}>WHATSAPP</div>
-                                        <div style={{ fontSize: '1.2rem', fontWeight: '900', fontFamily: 'Outfit' }}>{formatPhoneNumber(localPatient.phone)}</div>
+                                        <div style={{ fontSize: '8px', fontWeight: '900', opacity: 0.8, letterSpacing: '1px' }}>WhatsApp</div>
+                                        <div style={{ fontSize: '1.2rem', fontWeight: '900', fontFamily: 'var(--font-inter)' }}>{formatPhoneNumber(localPatient.phone)}</div>
                                     </div>
                                     <ChevronRight size={20} />
                                 </button>
@@ -345,7 +342,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                             <section>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
                                     <FileText size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'Outfit', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>DOCUMENTACIÓN</h3>
+                                    <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-outfit)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>DOCUMENTACIÓN</h3>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                     <a
@@ -405,7 +402,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                     </div>
 
                     <div style={{ marginTop: '2.5rem', textAlign: 'center' }}>
-                        <button onClick={onClose} className="btn" style={{ padding: '0.8rem 3rem', borderRadius: '1.25rem', fontSize: '9px', fontWeight: '900', color: '#bbb', backgroundColor: '#fcfcfc', border: '1px solid #f0f0f0' }}>CERRAR VISTA</button>
+                        <button onClick={onClose} className="btn" style={{ padding: '0.8rem 3rem', borderRadius: '1.25rem', fontSize: '9px', fontWeight: '900', color: '#bbb', backgroundColor: '#fcfcfc', border: '1px solid #f0f0f0' }}>Cerrar vista</button>
                     </div>
                 </div>
             </div>

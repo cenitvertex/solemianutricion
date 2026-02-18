@@ -99,27 +99,27 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                     </button>
 
                     <div style={{ marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'Outfit', fontWeight: '900', lineHeight: 1 }}>Configuración</h2>
+                        <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1 }}>Configuración</h2>
                         <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px' }}>
-                            PERSONALIZACIÓN DEL CONSULTORIO Y ASISTENTE IA
+                            Personalización del consultorio y asistente IA
                         </div>
                     </div>
 
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>NOMBRE DEL ESPECIALISTA</label>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Nombre del especialista</label>
                                 <input
                                     className="input-field"
                                     style={{ borderRadius: '1.5rem', padding: '1.25rem 2rem', fontWeight: '900' }}
                                     value={formData.name}
                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                    placeholder="EJ. LIC. ANDREA PÉREZ"
+                                    placeholder="Ej. Lic. Andrea Pérez"
                                     required
                                 />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>WHATSAPP DE CONTACTO</label>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>WhatsApp de contacto</label>
                                 <div style={{ display: 'flex', gap: '0.75rem' }}>
                                     <select
                                         value={countryCode}
@@ -150,18 +150,18 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>INSTRUCCIONES PARA LA IA</label>
+                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Instrucciones para la IA</label>
                             <textarea
                                 className="input-field"
                                 style={{ minHeight: '120px', borderRadius: '1.5rem', padding: '1.5rem 2rem', fontWeight: '500', lineHeight: '1.6' }}
                                 value={formData.welcome_message}
                                 onChange={e => setFormData({ ...formData, welcome_message: e.target.value })}
-                                placeholder="DEFINE CÓMO DEBE COMPORTARSE EL ASISTENTE..."
+                                placeholder="Define cómo debe comportarse el asistente..."
                             />
                         </div>
 
                         <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.5rem' }}>
-                            <button type="button" onClick={onClose} className="btn" style={{ flex: 1, color: '#aaa', fontSize: '9px', fontWeight: '900' }}>DESCARTAR</button>
+                            <button type="button" onClick={onClose} className="btn" style={{ flex: 1, color: '#aaa', fontSize: '9px', fontWeight: '900' }}>Descartar</button>
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -174,7 +174,7 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                                     boxShadow: '0 10px 30px rgba(77, 12, 48, 0.2)'
                                 }}
                             >
-                                {loading ? 'GUARDANDO CAMBIOS...' : 'ACTUALIZAR CONFIGURACIÓN'}
+                                {loading ? 'Guardando cambios...' : 'Actualizar configuración'}
                             </button>
                         </div>
                     </form>

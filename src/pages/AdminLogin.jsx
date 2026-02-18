@@ -68,8 +68,8 @@ export default function AdminLogin() {
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                     <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
-                    <h2 style={{ fontSize: '1.8rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'Outfit', letterSpacing: '-0.5px', marginBottom: '0.5rem' }}>Portal Maestro</h2>
-                    <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>SISTEMA DE GESTIÓN INTERNA</p>
+                    <h2 style={{ fontSize: '1.8rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'var(--font-outfit)', letterSpacing: '-0.5px', marginBottom: '0.5rem' }}>Portal Maestro</h2>
+                    <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>Sistema de gestión interna</p>
                 </div>
 
                 {error && (
@@ -90,7 +90,7 @@ export default function AdminLogin() {
 
                 <form onSubmit={handleAdminLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>EMAIL DE ADMINISTRADOR</label>
+                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Email de administrador</label>
                         <div style={{ position: 'relative' }}>
                             <Mail size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                             <input
@@ -106,7 +106,7 @@ export default function AdminLogin() {
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>CONTRASEÑA</label>
+                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Contraseña</label>
                         <div style={{ position: 'relative' }}>
                             <Lock size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                             <input
@@ -142,7 +142,7 @@ export default function AdminLogin() {
                         {loading ? (
                             <Loader2 className="animate-spin" size={20} />
                         ) : (
-                            <>ACCEDER AL PANEL <ArrowRight size={18} /></>
+                            <>Acceder al panel <ArrowRight size={18} /></>
                         )}
                     </button>
 

@@ -187,7 +187,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                             onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
                             onMouseLeave={(e) => e.currentTarget.style.opacity = '0.6'}
                         >
-                            <ChevronLeft size={20} /> VOLVER AL PERFIL
+                            <ChevronLeft size={20} /> Volver al perfil
                         </button>
                     )}
 
@@ -196,20 +196,20 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                     </button>
 
                     <div style={{ marginBottom: '2rem', marginTop: onBack ? '1rem' : '0' }}>
-                        <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', marginBottom: '0.2rem', fontFamily: 'Outfit', fontWeight: '900', lineHeight: 1 }}>{client ? 'ACTUALIZAR' : 'NUEVA PACIENTE'}</h2>
+                        <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-charcoal)', marginBottom: '0.2rem', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1 }}>{client ? 'Actualizar' : 'Nueva paciente'}</h2>
                         <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', color: 'var(--solemia-plum)', opacity: 0.6 }}>
-                            {client ? `MODIFICANDO EXPEDIENTE DE ${client.name.toUpperCase()}` : 'REGISTRA UN NUEVO EXPEDIENTE EN EL DIRECTORIO'}
+                            {client ? `Modificando expediente de ${client.name}` : 'Registra un nuevo expediente en el directorio'}
                         </div>
                     </div>
 
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>NOMBRE COMPLETO *</label>
-                            <input type="text" className="input-field" style={{ textTransform: 'uppercase', fontWeight: '700', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }} placeholder="EJ. MARIANA SÁNCHEZ" value={name} onChange={(e) => setName(e.target.value)} required />
+                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>Nombre completo *</label>
+                            <input type="text" className="input-field" style={{ fontWeight: '700', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }} placeholder="Ej. Mariana Sánchez" value={name} onChange={(e) => setName(e.target.value)} required />
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>TELÉFONO WHATSAPP *</label>
+                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>Teléfono WhatsApp *</label>
                             <div style={{ display: 'flex', gap: '0.5rem' }}>
                                 <select
                                     value={countryCode}
@@ -242,7 +242,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>EXPEDIENTE</label>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>Expediente</label>
                                 <label style={{
                                     cursor: 'pointer',
                                     height: '80px',
@@ -258,13 +258,13 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     transition: 'all 0.2s'
                                 }} onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--solemia-plum)'} onMouseLeave={(e) => e.currentTarget.style.borderColor = '#e5d5dc'}>
                                     <Upload size={18} style={{ color: 'var(--solemia-plum)', opacity: 0.8 }} />
-                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{expediente ? 'LISTO' : 'SUBIR PDF'}</span>
+                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{expediente ? 'Listo' : 'Subir PDF'}</span>
                                     <input type="file" hidden accept=".pdf" onChange={(e) => setExpediente(e.target.files[0])} />
                                     {expediente && <span style={{ fontSize: '8px', color: 'var(--solemia-charcoal)', width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', position: 'absolute', bottom: '8px' }}>{expediente.name}</span>}
                                 </label>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>PLAN ALIMENTICIO</label>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>Plan alimenticio</label>
                                 <label style={{
                                     cursor: 'pointer',
                                     height: '80px',
@@ -280,7 +280,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     transition: 'all 0.2s'
                                 }} onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--solemia-plum)'} onMouseLeave={(e) => e.currentTarget.style.borderColor = '#e5d5dc'}>
                                     <Upload size={18} style={{ color: 'var(--solemia-plum)', opacity: 0.8 }} />
-                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{plan ? 'LISTO' : 'SUBIR PDF'}</span>
+                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{plan ? 'Listo' : 'Subir PDF'}</span>
                                     <input type="file" hidden accept=".pdf" onChange={(e) => setPlan(e.target.files[0])} />
                                     {plan && <span style={{ fontSize: '8px', color: 'var(--solemia-charcoal)', width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', position: 'absolute', bottom: '8px' }}>{plan.name}</span>}
                                 </label>
@@ -307,7 +307,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     boxShadow: '0 10px 25px rgba(77, 12, 48, 0.2)'
                                 }}
                             >
-                                {loading ? <Loader2 className="animate-spin" size={20} style={{ margin: '0 auto' }} /> : (client ? 'GUARDAR CAMBIOS' : 'CREAR REGISTRO')}
+                                {loading ? <Loader2 className="animate-spin" size={20} style={{ margin: '0 auto' }} /> : (client ? 'Guardar cambios' : 'Crear registro')}
                             </button>
                         </div>
                     </form>
@@ -319,7 +319,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     <Phone size={28} />
                                 </div>
                                 <div>
-                                    <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: 'white', fontFamily: 'Outfit', fontWeight: '900' }}>REGISTRO DUPLICADO</h3>
+                                    <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: 'white', fontFamily: 'var(--font-outfit)', fontWeight: '900' }}>Registro duplicado</h3>
                                     <p style={{ fontSize: '0.85rem', opacity: 0.8, lineHeight: '1.5' }}>
                                         Ya existe una paciente ({existingPatientData?.name}) con este número. ¿Deseas actualizar sus datos?
                                     </p>
@@ -331,13 +331,13 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                         style={{ width: '100%', backgroundColor: 'white', color: 'var(--solemia-plum)', padding: '1rem', borderRadius: '1.25rem', fontWeight: '900', fontSize: '10px' }}
                                         disabled={loading}
                                     >
-                                        {loading ? '...' : 'SÍ, ACTUALIZAR DATOS'}
+                                        {loading ? '...' : 'Sí, actualizar datos'}
                                     </button>
                                     <button
                                         onClick={() => { setShowConfirm(false); setExistingPatientData(null); }}
                                         style={{ width: '100%', backgroundColor: 'transparent', color: 'white', padding: '0.8rem', border: 'none', fontSize: '9px', fontWeight: '900', opacity: 0.6, cursor: 'pointer' }}
                                     >
-                                        CANCELAR
+                                        Cancelar
                                     </button>
                                 </div>
                             </div>

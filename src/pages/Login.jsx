@@ -44,8 +44,8 @@ export default function Login() {
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                     <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
-                    <h2 style={{ fontSize: '1.8rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'Outfit', letterSpacing: '-0.5px', marginBottom: '0.5rem' }}>Bienvenido</h2>
-                    <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>ECOSISTEMA SOLEMIA NUTRICIÓN</p>
+                    <h2 style={{ fontSize: '1.8rem', color: 'var(--solemia-plum)', fontWeight: '900', fontFamily: 'var(--font-outfit)', letterSpacing: '-0.5px', marginBottom: '0.5rem' }}>Bienvenido</h2>
+                    <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>Ecosistema Solemia Nutrición</p>
                 </div>
 
                 {error && (
@@ -66,7 +66,7 @@ export default function Login() {
 
                 <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>EMAIL PROFESIONAL</label>
+                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Email profesional</label>
                         <div style={{ position: 'relative' }}>
                             <Mail size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                             <input
@@ -82,7 +82,7 @@ export default function Login() {
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>CONTRASEÑA</label>
+                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Contraseña</label>
                         <div style={{ position: 'relative' }}>
                             <Lock size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                             <input
@@ -115,8 +115,8 @@ export default function Login() {
                             background: 'var(--solemia-plum)'
                         }}
                     >
-                        {loading ? 'CARGANDO...' : (
-                            <>INICIAR SESIÓN <LogIn size={18} /></>
+                        {loading ? 'Cargando...' : (
+                            <>Iniciar sesión <LogIn size={18} /></>
                         )}
                     </button>
 
@@ -124,7 +124,7 @@ export default function Login() {
                         <p style={{ color: '#94a3b8', fontWeight: '500' }}>
                             ¿No tienes cuenta?{' '}
                             <Link to="/signup" style={{ color: 'var(--solemia-plum)', fontWeight: '800', textDecoration: 'none' }}>
-                                REGÍSTRATE AQUÍ
+                                Regístrate aquí
                             </Link>
                         </p>
                     </div>

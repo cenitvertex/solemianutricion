@@ -6,6 +6,13 @@
   --solemia-emerald: #10b981;
   --solemia-bg: #fcfcfd;
 
+  /* Typography System */
+  --font-outfit: "Outfit", sans-serif;
+  --font-inter: "Inter", sans-serif;
+
+  --container-width: 1400px;
+  --container-padding: 3rem;
+
   /* Legacy for compatibility */
   --primary: var(--solemia-plum);
   --primary-light: var(--solemia-pink);
@@ -35,31 +42,39 @@
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   background-color: var(--solemia-bg);
   color: var(--solemia-charcoal);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  width: 100%;
+}
+
 /* Typography */
 h1,
 h2,
 h3,
-h4 {
-  font-family: 'Outfit', sans-serif;
+h4,
+h5,
+h6 {
+  font-family: var(--font-outfit);
   font-weight: 900;
-  /* Black */
   color: var(--solemia-plum);
 }
 
 .text-detail {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
+  text-transform: none;
+  letter-spacing: 0.15em;
   font-size: 0.65rem;
   font-weight: 900;
   color: var(--text-muted);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-inter);
   opacity: 0.7;
 }
 
@@ -131,14 +146,14 @@ h4 {
   padding: 1rem 2.25rem;
   border-radius: 100px;
   font-weight: 900;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-inter);
   transition: var(--transition);
   gap: 0.75rem;
   font-size: 10px;
   border: none !important;
   cursor: pointer;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-transform: none;
 }
 
 .btn-primary {
@@ -171,7 +186,7 @@ h4 {
   border: none;
   background: #f8f8f8;
   transition: var(--transition);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-inter);
 }
 
 .input-field:focus {
@@ -190,7 +205,7 @@ h4 {
   align-items: center;
   justify-content: center;
   border-radius: 18px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-inter);
   font-weight: 900;
   font-size: 1.4rem;
   flex-shrink: 0;
@@ -255,4 +270,136 @@ main {
   .hide-mobile {
     display: none !important;
   }
+}
+
+/* IA Toggle Switch */
+.switch-ia {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 28px;
+}
+
+.switch-ia input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-ia {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider-ia:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input:checked+.slider-ia {
+  background: var(--solemia-gradient);
+}
+
+input:checked+.slider-ia:before {
+  transform: translateX(26px);
+}
+
+/* Notification Bubbles (Hoy View) */
+.notification-bubble {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: var(--transition);
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+.notification-bubble::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--solemia-gradient);
+  opacity: 0.8;
+}
+
+.notification-bubble:hover {
+  transform: scale(1.01);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+}
+
+.notif-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #f8fafc;
+}
+
+/* Nav Tabs */
+.nav-tab-container {
+  display: flex;
+  background: #f1f5f9;
+  padding: 0.4rem;
+  border-radius: 1.25rem;
+  width: fit-content;
+  gap: 0.25rem;
+  margin-bottom: 2rem;
+}
+
+.nav-tab-btn {
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  font-size: 11px;
+  font-weight: 900;
+  font-family: var(--font-inter);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  color: #64748b;
+  background: transparent;
+  letter-spacing: 0.5px;
+}
+
+.nav-tab-btn.active {
+  background: white;
+  color: var(--solemia-plum);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Consultation Badge */
+.consult-badge {
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 9px;
+  font-weight: 900;
+  background: #f0f4ff;
+  color: #3b82f6;
+  margin-left: 0.75rem;
 }

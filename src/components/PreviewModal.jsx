@@ -31,8 +31,8 @@ export default function PreviewModal({ isOpen, onClose, url, title }) {
                                 <FileText size={24} />
                             </div>
                             <div>
-                                <h3 style={{ fontSize: '1.5rem', margin: 0, color: 'var(--solemia-plum)', fontFamily: 'Outfit', fontWeight: '900', lineHeight: 1.1 }}>{title || 'Documento'}</h3>
-                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', marginTop: '4px' }}>VISTA PREVIA OFICIAL</div>
+                                <h3 style={{ fontSize: '1.5rem', margin: 0, color: 'var(--solemia-plum)', fontFamily: 'var(--font-outfit)', fontWeight: '900', lineHeight: 1.1 }}>{title || 'Documento'}</h3>
+                                <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', marginTop: '4px' }}>Vista previa oficial</div>
                             </div>
                         </div>
 
@@ -57,9 +57,9 @@ export default function PreviewModal({ isOpen, onClose, url, title }) {
 
                     {/* Footer (Actions) */}
                     <div style={{ padding: '2rem 3rem', display: 'flex', justifyContent: 'center', gap: '2rem', backgroundColor: 'white', borderTop: '1px solid #f0f0f0' }}>
-                        <button onClick={onClose} className="btn" style={{ minWidth: '180px', color: '#aaa', fontSize: '9px', fontWeight: '900' }}>REGRESAR</button>
+                        <button onClick={onClose} className="btn" style={{ minWidth: '180px', color: '#aaa', fontSize: '9px', fontWeight: '900' }}>Regresar</button>
                         <a href={url} download className="btn btn-primary" style={{ minWidth: '250px', borderRadius: '1.5rem', padding: '1.25rem', fontSize: '10px' }}>
-                            <Download size={18} /> DESCARGAR PDF
+                            <Download size={18} /> Descargar PDF
                         </a>
                     </div>
                 </div>

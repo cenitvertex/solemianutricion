@@ -125,197 +125,232 @@ export default function Admin({ session }) {
     );
 
     return (
-        <div className="dashboard-container" style={{ padding: '0' }}>
-            {/* Header / Sidebar Sidebar mockup inside main view */}
-            <div style={{ display: 'flex', minHeight: '100vh' }}>
+        <div className="layout-dashboard animate-premium">
+            <header style={{
+                background: 'linear-gradient(135deg, rgba(77, 12, 48, 0.94) 0%, rgba(225, 29, 72, 0.94) 100%)',
+                padding: '1rem 0 3.25rem 0',
+                position: 'sticky',
+                top: 0,
+                zIndex: 100,
+                boxShadow: '0 10px 50px rgba(77, 12, 48, 0.04)',
+                border: 'none',
+                borderRadius: 0,
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                maskImage: 'linear-gradient(to bottom, black 0%, black 35%, rgba(0,0,0,0.98) 45%, rgba(0,0,0,0.9) 55%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.15) 88%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 35%, rgba(0,0,0,0.98) 45%, rgba(0,0,0,0.9) 55%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.15) 88%, transparent 100%)',
+                marginBottom: '-2.25rem',
+                pointerEvents: 'none'
+            }}>
+                <div className="container" style={{ display: 'grid', gridTemplateColumns: '250px 1fr 250px', alignItems: 'center', pointerEvents: 'auto' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <img src={logo} alt="Solemia" style={{ height: '36px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                        <div style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.3)', margin: '0 0.25rem' }}></div>
+                        <h1 style={{
+                            fontSize: '1.2rem',
+                            fontWeight: '300',
+                            letterSpacing: '1px',
+                            color: 'white',
+                            fontFamily: 'var(--font-outfit)',
+                            opacity: 0.9,
+                            marginTop: '2px'
+                        }}>
+                            Admin
+                        </h1>
+                    </div>
 
-                {/* Lateral Admin Menu */}
-                <aside style={{
-                    width: '300px',
-                    background: 'white',
-                    padding: '3rem 2rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '2.5rem',
-                    borderRight: '1px solid #f0f0f0'
-                }}>
-                    <img src={logo} alt="Solemia" style={{ height: '40px', objectFit: 'contain', width: 'fit-content' }} />
+                    <div style={{ flex: 1 }} className="hide-mobile"></div>
 
-                    <div style={{ marginTop: '2rem' }}>
-                        <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8', marginBottom: '1.5rem' }}>MENU SUPERADMIN</div>
-                        <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem',
-                                padding: '1rem 1.5rem',
-                                background: 'var(--solemia-plum-light)',
-                                color: 'var(--solemia-plum)',
-                                borderRadius: '1.5rem',
-                                fontWeight: '700',
-                                cursor: 'pointer'
-                            }}>
-                                <Users size={20} /> Nutriólogos
-                            </div>
-                            <div
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', justifyContent: 'flex-end' }}>
+                        <div className="hide-mobile" style={{ textAlign: 'right', borderRight: '1px solid rgba(255,255,255,0.2)', paddingRight: '1.25rem' }}>
+                            <div className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', letterSpacing: '1px', color: 'rgba(255,255,255,0.7)' }}>Superadministrador</div>
+                            <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'white', fontFamily: 'var(--font-inter)' }}>{session.user.email.split('@')[0]}</div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '0.75rem' }}>
+                            <button
                                 onClick={() => supabase.auth.signOut()}
+                                title="Salir"
                                 style={{
+                                    width: '44px',
+                                    height: '44px',
+                                    borderRadius: '14px',
+                                    border: '1px solid rgba(255,255,255,0.2)',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '1rem',
-                                    padding: '1rem 1.5rem',
-                                    color: '#64748b',
-                                    borderRadius: '1.5rem',
-                                    fontWeight: '500',
-                                    cursor: 'pointer'
-                                }}>
-                                <LogOut size={20} /> Salir
-                            </div>
-                        </nav>
-                    </div>
-
-                    <div style={{ marginTop: 'auto', padding: '1.5rem', background: '#f8fafc', borderRadius: '1.5rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
-                            <Shield size={20} color="var(--solemia-plum)" />
-                            <span style={{ fontWeight: '800', fontSize: '0.8rem', color: 'var(--solemia-plum)' }}>SODO ADMIN</span>
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    color: 'white',
+                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                    backdropFilter: 'blur(10px)'
+                                }}
+                            >
+                                <LogOut size={20} />
+                            </button>
                         </div>
-                        <p style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: '1.4' }}>Control total del ecosistema Solemia Nutrición.</p>
                     </div>
-                </aside>
+                </div>
+            </header>
 
-                {/* Main Content */}
-                <main style={{ flex: 1, padding: '4rem 5rem', background: '#fafbfc', overflowY: 'auto' }}>
-
-                    {/* Header */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem' }}>
-                        <div>
-                            <h1 style={{ fontSize: '3rem', color: 'var(--solemia-plum)', marginBottom: '0.5rem', fontFamily: 'Outfit', fontWeight: '900', lineHeight: 1 }}>Panel de Control</h1>
-                            <div className="text-detail" style={{ fontSize: '10px', fontWeight: '900', letterSpacing: '2px' }}>SUPERVISIÓN GLOBAL DE NUTRIÓLOGOS</div>
-                        </div>
-
-                        <div style={{ position: 'relative', width: '350px' }}>
-                            <Search size={20} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-                            <input
-                                type="text"
-                                placeholder="Buscar especialista o email..."
-                                className="input-field"
-                                style={{ paddingLeft: '3.5rem', borderRadius: '2rem', background: 'white', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
+            <main className="container" style={{ marginTop: '2.5rem' }}>
+                {/* Header Section */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
+                    <div>
+                        <h2 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-outfit)', fontWeight: '900', letterSpacing: '-1px' }}>
+                            Ecosistema Solemia
+                        </h2>
+                        <div className="text-detail" style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>
+                            CONTROL GLOBAL DE NUTRIÓLOGOS
                         </div>
                     </div>
 
-                    {/* Quick Stats */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', marginBottom: '4rem' }}>
-                        <div className="card glass" style={{ padding: '2rem', borderRadius: '2.5rem', border: 'none', background: 'white' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                                <div style={{ background: '#f0f4ff', padding: '0.75rem', borderRadius: '1rem' }}><Users size={24} color="#3b82f6" /></div>
-                                <span style={{ fontWeight: '800', fontSize: '0.8rem', color: '#94a3b8', letterSpacing: '1px' }}>TOTAL ESPECIALISTAS</span>
-                            </div>
-                            <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#1e293b' }}>{stats.totalTenants}</div>
-                        </div>
-                        <div className="card glass" style={{ padding: '2rem', borderRadius: '2.5rem', border: 'none', background: 'white' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                                <div style={{ background: '#f0fdf4', padding: '0.75rem', borderRadius: '1rem' }}><Activity size={24} color="#22c55e" /></div>
-                                <span style={{ fontWeight: '800', fontSize: '0.8rem', color: '#94a3b8', letterSpacing: '1px' }}>CUENTAS ACTIVAS</span>
-                            </div>
-                            <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#1e293b' }}>{stats.activeTenants}</div>
-                        </div>
-                        <div className="card glass" style={{ padding: '2rem', borderRadius: '2.5rem', border: 'none', background: 'white' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                                <div style={{ background: '#fff1f2', padding: '0.75rem', borderRadius: '1rem' }}><TrendingUp size={24} color="#f43f5e" /></div>
-                                <span style={{ fontWeight: '800', fontSize: '0.8rem', color: '#94a3b8', letterSpacing: '1px' }}>PACIENTES TOTALES</span>
-                            </div>
-                            <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#1e293b' }}>{stats.totalPatients}</div>
-                        </div>
+                    <div style={{ position: 'relative', width: '350px' }}>
+                        <Search size={18} style={{ position: 'absolute', left: '1.25rem', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                        <input
+                            type="text"
+                            placeholder="Buscar especialista o email..."
+                            className="input-field"
+                            style={{
+                                paddingLeft: '3.5rem',
+                                height: '48px',
+                                borderRadius: '1.5rem',
+                                background: 'white',
+                                border: '1px solid #f1f5f9',
+                                fontSize: '0.9rem',
+                                boxShadow: '0 10px 30px rgba(0,0,0,0.02)'
+                            }}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
+                </div>
 
-                    {/* Tenants Table */}
-                    <div className="card glass" style={{ padding: '2.5rem', borderRadius: '3.5rem', border: 'none', background: 'white' }}>
-                        <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 1rem' }}>
-                            <thead>
-                                <tr style={{ textAlign: 'left' }}>
-                                    <th className="text-detail" style={{ fontSize: '9px', fontWeight: '900', padding: '0 1.5rem', color: '#94a3b8' }}>ESPECIALISTA / EMAIL</th>
-                                    <th className="text-detail" style={{ fontSize: '9px', fontWeight: '900', padding: '0 1.5rem', color: '#94a3b8' }}>MÉTRICAS</th>
-                                    <th className="text-detail" style={{ fontSize: '9px', fontWeight: '900', padding: '0 1.5rem', color: '#94a3b8' }}>ESTATUS</th>
-                                    <th className="text-detail" style={{ fontSize: '9px', fontWeight: '900', padding: '0 1.5rem', color: '#94a3b8' }}>ACCIONES</th>
+                {/* Quick Stats Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '3rem' }}>
+                    {[
+                        { label: 'Especialistas', value: stats.totalTenants, icon: Users, color: '#3b82f6', bg: '#eff6ff' },
+                        { label: 'Cuentas Activas', value: stats.activeTenants, icon: Activity, color: '#10b981', bg: '#ecfdf5' },
+                        { label: 'Pacientes Totales', value: stats.totalPatients, icon: TrendingUp, color: '#f43f5e', bg: '#fff1f2' }
+                    ].map((item, idx) => (
+                        <div key={idx} className="card glass" style={{
+                            padding: '2rem',
+                            borderRadius: '2.5rem',
+                            background: 'white',
+                            border: '1px solid #f1f5f9',
+                            boxShadow: '0 20px 40px rgba(0,0,0,0.02)'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+                                <div style={{ background: item.bg, padding: '0.75rem', borderRadius: '1.25rem' }}>
+                                    <item.icon size={22} color={item.color} />
+                                </div>
+                                <span style={{ fontWeight: '800', fontSize: '0.75rem', color: '#94a3b8', letterSpacing: '1px', fontFamily: 'var(--font-inter)' }}>
+                                    {item.label.toUpperCase()}
+                                </span>
+                            </div>
+                            <div style={{ fontSize: '2.8rem', fontWeight: '900', color: '#0f172a', fontFamily: 'var(--font-inter)', letterSpacing: '-1px' }}>
+                                {item.value}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Main Table Card */}
+                <div className="card glass" style={{
+                    padding: '2.5rem',
+                    borderRadius: '3.5rem',
+                    background: 'white',
+                    border: '1px solid #f1f5f9',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.02)'
+                }}>
+                    <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 0.75rem' }}>
+                        <thead>
+                            <tr style={{ textAlign: 'left' }}>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESPECIALISTA / EMAIL</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>MÉTRICAS</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESTATUS</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="4" style={{ textAlign: 'center', padding: '5rem' }}>
+                                        <div style={{ color: 'var(--solemia-plum)', fontWeight: '800', fontSize: '1.1rem', letterSpacing: '1px' }}>
+                                            Sincronizando datos maestros...
+                                        </div>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {loading ? (
-                                    <tr>
-                                        <td colSpan="4" style={{ textAlign: 'center', padding: '4rem' }}>
-                                            <div style={{ color: 'var(--solemia-plum)', fontWeight: '700' }}>Cargando datos maestros...</div>
-                                        </td>
-                                    </tr>
-                                ) : filteredTenants.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="4" style={{ textAlign: 'center', padding: '4rem' }}>
-                                            <div style={{ color: '#94a3b8' }}>No se encontraron registros.</div>
-                                        </td>
-                                    </tr>
-                                ) : filteredTenants.map(tenant => (
-                                    <tr key={tenant.id} style={{ background: '#fafbfc', borderRadius: '2rem' }}>
-                                        <td style={{ padding: '1.5rem', borderRadius: '2rem 0 0 2rem' }}>
-                                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                <span style={{ fontWeight: '800', color: '#1e293b', fontSize: '1rem' }}>{tenant.name || 'Sin nombre'}</span>
-                                                <span style={{ color: '#94a3b8', fontSize: '0.8rem' }}>{tenant.email}</span>
+                            ) : filteredTenants.length === 0 ? (
+                                <tr>
+                                    <td colSpan="4" style={{ textAlign: 'center', padding: '5rem' }}>
+                                        <div style={{ color: '#94a3b8', fontWeight: '600' }}>No se encontraron registros en el ecosistema.</div>
+                                    </td>
+                                </tr>
+                            ) : filteredTenants.map(tenant => (
+                                <tr key={tenant.id} style={{ background: '#f8fafc', borderRadius: '1.5rem', transition: 'transform 0.2s ease' }}>
+                                    <td style={{ padding: '1.25rem 1.5rem', borderRadius: '1.5rem 0 0 1.5rem' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                            <span style={{ fontWeight: '800', color: '#0f172a', fontSize: '0.95rem' }}>{tenant.name || 'Especialista Solemia'}</span>
+                                            <span style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: '500' }}>{tenant.email}</span>
+                                        </div>
+                                    </td>
+                                    <td style={{ padding: '1.25rem 1.5rem' }}>
+                                        <div style={{ display: 'flex', gap: '1.5rem' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <Users size={14} color="#94a3b8" />
+                                                <span style={{ fontWeight: '900', color: '#0f172a', fontSize: '0.85rem' }}>{tenant.patientCount}</span>
+                                                <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: '700', letterSpacing: '0.5px' }}>PACIENTES</span>
                                             </div>
-                                        </td>
-                                        <td style={{ padding: '1.5rem' }}>
-                                            <div style={{ display: 'flex', gap: '1.5rem' }}>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                                    <Users size={14} color="#64748b" />
-                                                    <span style={{ fontWeight: '700', color: '#1e293b' }}>{tenant.patientCount}</span>
-                                                    <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Pacientes</span>
-                                                </div>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                                    <MessageSquare size={14} color="#64748b" />
-                                                    <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Actividad</span>
-                                                </div>
+                                        </div>
+                                    </td>
+                                    <td style={{ padding: '1.25rem 1.5rem' }}>
+                                        {tenant.is_active ? (
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#10b981', background: '#ecfdf5', padding: '0.5rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.7rem', fontWeight: '900', border: '1px solid rgba(16, 185, 129, 0.1)' }}>
+                                                <CheckCircle2 size={12} /> ACTIVO
                                             </div>
-                                        </td>
-                                        <td style={{ padding: '1.5rem' }}>
-                                            {tenant.is_active ? (
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#22c55e', background: '#f0fdf4', padding: '0.4rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.75rem', fontWeight: '800' }}>
-                                                    <CheckCircle2 size={14} /> ACTIVO
-                                                </div>
-                                            ) : (
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#f43f5e', background: '#fff1f2', padding: '0.4rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.75rem', fontWeight: '800' }}>
-                                                    <XCircle size={14} /> SUSPENDIDO
-                                                </div>
-                                            )}
-                                        </td>
-                                        <td style={{ padding: '1.5rem', borderRadius: '0 2rem 2rem 0' }}>
-                                            <button
-                                                onClick={() => toggleTenantStatus(tenant.id, tenant.is_active)}
-                                                style={{
-                                                    padding: '0.75rem 1.5rem',
-                                                    borderRadius: '1.25rem',
-                                                    border: 'none',
-                                                    background: tenant.is_active ? '#fff1f2' : '#f0fdf4',
-                                                    color: tenant.is_active ? '#f43f5e' : '#22c55e',
-                                                    fontWeight: '900',
-                                                    fontSize: '0.75rem',
-                                                    cursor: 'pointer',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: '0.5rem',
-                                                    transition: 'all 0.2s'
-                                                }}
-                                            >
-                                                <Power size={14} />
-                                                {tenant.is_active ? 'SUSPENDER' : 'ACTIVAR'}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                        ) : (
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#f43f5e', background: '#fff1f2', padding: '0.5rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.7rem', fontWeight: '900', border: '1px solid rgba(244, 63, 94, 0.1)' }}>
+                                                <XCircle size={12} /> SUSPENDIDO
+                                            </div>
+                                        )}
+                                    </td>
+                                    <td style={{ padding: '1.25rem 1.5rem', borderRadius: '0 1.5rem 1.5rem 0' }}>
+                                        <button
+                                            onClick={() => toggleTenantStatus(tenant.id, tenant.is_active)}
+                                            style={{
+                                                padding: '0.6rem 1.25rem',
+                                                borderRadius: '1rem',
+                                                border: 'none',
+                                                background: tenant.is_active ? '#fff1f2' : '#ecfdf5',
+                                                color: tenant.is_active ? '#f43f5e' : '#10b981',
+                                                fontWeight: '900',
+                                                fontSize: '0.7rem',
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0.5rem',
+                                                transition: 'all 0.2s',
+                                                letterSpacing: '0.5px'
+                                            }}
+                                        >
+                                            <Power size={14} />
+                                            {tenant.is_active ? 'SUSPENDER' : 'ACTIVAR'}
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Footer Quote */}
+                <div style={{ marginTop: '3rem', textAlign: 'center', paddingBottom: '4rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', opacity: 0.5 }}>
+                        <Shield size={16} color="var(--solemia-plum)" />
+                        <span style={{ fontWeight: '900', fontSize: '0.7rem', color: 'var(--solemia-plum)', letterSpacing: '2px' }}>SODO ADMIN CORE</span>
                     </div>
-                </main>
-            </div>
+                </div>
+            </main>
         </div>
     );
 }
