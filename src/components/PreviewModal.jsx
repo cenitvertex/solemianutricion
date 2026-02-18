@@ -6,8 +6,8 @@ export default function PreviewModal({ isOpen, onClose, url, title }) {
 
     return (
         <>
-            <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--solemia-charcoal)', opacity: 0.2, backdropFilter: 'blur(20px)', zIndex: 999 }}></div>
-            <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1.5rem' }}>
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'var(--solemia-charcoal)', opacity: 0.2, backdropFilter: 'blur(20px)', zIndex: 9998 }}></div>
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1.5rem' }}>
                 <div className="modal-content glass animate-premium" style={{
                     maxWidth: '1000px',
                     width: '100%',
@@ -19,7 +19,8 @@ export default function PreviewModal({ isOpen, onClose, url, title }) {
                     padding: 0,
                     backgroundColor: 'rgba(255, 255, 255, 0.95)',
                     borderRadius: '3.5rem',
-                    boxShadow: '0 40px 100px rgba(0,0,0,0.3)'
+                    boxShadow: '0 40px 100px rgba(0,0,0,0.3)',
+                    margin: 'auto'
                 }}>
                     {/* Beauty Accent */}
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '8px', background: 'var(--solemia-gradient)', zIndex: 10 }}></div>

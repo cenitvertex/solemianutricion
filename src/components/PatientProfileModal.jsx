@@ -70,8 +70,8 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
 
     return (
         <>
-            <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--solemia-charcoal)', opacity: 0.2, backdropFilter: 'blur(20px)', zIndex: 999 }}></div>
-            <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'var(--solemia-charcoal)', opacity: 0.2, backdropFilter: 'blur(20px)', zIndex: 9998 }}></div>
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem' }}>
                 <div className="modal-content glass animate-premium" style={{
                     maxWidth: '850px',
                     width: '100%',
@@ -83,7 +83,8 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                     borderRadius: '3rem',
                     overflow: 'hidden',
                     display: 'flex',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    margin: 'auto'
                 }}>
                     {/* Beauty Accent */}
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'var(--solemia-gradient)' }}></div>
