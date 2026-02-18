@@ -129,6 +129,13 @@ export default function Login() {
                         </p>
                     </div>
                 </form>
+
+                <div style={{ marginTop: '2.5rem', textAlign: 'center' }}>
+                    <div className="text-detail" style={{ fontSize: '9px', opacity: 0.3, letterSpacing: '1px' }}>
+                        © 2026 Todos los derechos reservados.<br />
+                        v1.0.2
+                    </div>
+                </div>
             </div>
         </div>
     );

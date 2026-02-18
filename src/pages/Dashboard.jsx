@@ -1005,7 +1005,7 @@ export default function Dashboard({ session }) {
                             </div>
                             <div className="text-detail" style={{ fontSize: '9px', opacity: 0.4 }}>
                                 © 2026 Todos los derechos reservados.<br />
-                                v1.0.2 - Versión de Producción
+                                v1.0.2
                             </div>
                         </div>
 
