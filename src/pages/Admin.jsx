@@ -371,7 +371,10 @@ export default function Admin({ session }) {
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <img src="/solemia-logo.png" alt="SOLEMIA" style={{ height: '32px', width: 'auto' }} />
                             </div>
-                            <div className="text-detail" style={{ fontSize: '9px', opacity: 0.4 }}>© 2026 Ecosistema Digital Solemia.</div>
+                            <div className="text-detail" style={{ fontSize: '9px', opacity: 0.4 }}>
+                                © 2026 Todos los derechos reservados.<br />
+                                v1.0.2 - Versión de Producción
+                            </div>
                         </div>
 
                         <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
