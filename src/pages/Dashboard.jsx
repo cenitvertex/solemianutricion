@@ -242,9 +242,9 @@ export default function Dashboard({ session }) {
     };
 
     const stats = [
-        { label: 'DIRECTORIO', value: patients.length, sub: 'PERFILES TOTALES', icon: <Users size={20} />, color: 'var(--solemia-plum)' },
-        { label: 'ACTIVOS', value: patients.filter(p => p.is_active).length, sub: 'PACIENTES DE ALTA', icon: <UserCheck size={20} />, color: 'var(--solemia-emerald)' },
-        { label: 'NUEVOS', value: patients.filter(p => new Date(p.created_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length, sub: 'ÚLTIMA SEMANA', icon: <Star size={20} />, color: 'var(--solemia-pink)' }
+        { label: 'Directorio', value: patients.length, sub: 'Perfiles totales', icon: <Users size={20} />, color: 'var(--solemia-plum)' },
+        { label: 'Activos', value: patients.filter(p => p.is_active).length, sub: 'Pacientes en alta', icon: <UserCheck size={20} />, color: 'var(--solemia-emerald)' },
+        { label: 'Nuevos', value: patients.filter(p => new Date(p.created_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length, sub: 'Última semana', icon: <Star size={20} />, color: 'var(--solemia-pink)' }
     ];
 
     return (
@@ -466,7 +466,7 @@ export default function Dashboard({ session }) {
                                         style={{ padding: '1.25rem 3rem', fontSize: '10px', boxShadow: '0 10px 30px rgba(225, 29, 72, 0.4)', borderRadius: '1.5rem' }}
                                     >
                                         <Plus size={18} />
-                                        NUEVO PACIENTE
+                                        Nuevo paciente
                                     </button>
                                 </div>
                             </div>
@@ -652,7 +652,7 @@ export default function Dashboard({ session }) {
 
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem', minWidth: '350px' }}>
                                     <div className="text-detail" style={{ fontSize: '0.65rem' }}>
-                                        {filteredPatients.length} COINCIDENCIAS
+                                        {filteredPatients.length} coincidencias
                                     </div>
                                     <div style={{ position: 'relative', width: '100%', maxWidth: '380px' }}>
                                         <Search size={18} style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', color: 'var(--solemia-plum)', opacity: 0.5 }} />
@@ -714,7 +714,7 @@ export default function Dashboard({ session }) {
                                                 className="btn btn-primary"
                                                 style={{ marginTop: '1rem', padding: '1rem 2.5rem' }}
                                             >
-                                                <Plus size={18} /> AGREGAR PACIENTE
+                                                <Plus size={18} /> Agregar paciente
                                             </button>
                                         )}
                                     </div>
