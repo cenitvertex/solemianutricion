@@ -69,8 +69,16 @@ export default function LandingPage() {
         };
 
         const selectedPlan = planDetails[plan];
+        const mpKey = import.meta.env.VITE_MP_PUBLIC_KEY;
+
+        if (!mpKey) {
+            console.error("CRITICAL: VITE_MP_PUBLIC_KEY is not defined in the environment.");
+            alert("Error de configuración: No se encontró la llave pública de Mercado Pago.");
+            return;
+        }
 
         try {
+            console.log(`Iniciando pago para plan: ${plan}...`);
             const response = await fetch('/api/create-preference', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -81,20 +89,33 @@ export default function LandingPage() {
                 })
             });
 
+            if (!response.ok) {
+                const errorBody = await response.text();
+                throw new Error(`Error API (${response.status}): ${errorBody}`);
+            }
+
             const data = await response.json();
+            console.log("Preferencia creada con éxito:", data.id);
+
             if (data.id) {
-                setPreferenceId(data.id);
-                // El modal de Mercado Pago se activará automáticamente vía el componente Wallet o vía Redirect si preferimos
-                // Para Modal dinámico, usaremos window.mercadopago.checkout().open()
-                const mp = new window.MercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY);
-                mp.checkout({
-                    preference: { id: data.id },
-                    autoOpen: true
-                });
+                if (window.MercadoPago) {
+                    const mp = new window.MercadoPago(mpKey, {
+                        locale: 'es-MX'
+                    });
+                    mp.checkout({
+                        preference: { id: data.id },
+                        autoOpen: true
+                    });
+                } else {
+                    console.error("SDK de Mercado Pago no cargado en window.");
+                    alert("El sistema de pagos no se cargó correctamente. Por favor, refresca la página.");
+                }
+            } else {
+                throw new Error("La respuesta de la API no contiene un preference ID.");
             }
         } catch (error) {
             console.error("Error al procesar el pago:", error);
-            alert("Error al conectar con la pasarela de pago. Intenta de nuevo.");
+            alert(`No se pudo iniciar el pago: ${error.message}`);
         }
     };
 
