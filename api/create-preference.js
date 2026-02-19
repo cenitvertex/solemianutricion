@@ -1,4 +1,4 @@
-import { MercadoPagoConfig, Preference, PreApproval } from 'mercadopago';
+import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -6,44 +6,49 @@ export default async function handler(req, res) {
     }
 
     const { title, unit_price, quantity, type } = req.body;
-
     const accessToken = process.env.MP_ACCESS_TOKEN;
 
     if (!accessToken) {
-        console.error('CRITICAL: MP_ACCESS_TOKEN is missing in server environment');
-        return res.status(500).json({ error: 'Server configuration error: Missing Access Token' });
+        return res.status(500).json({ error: 'Missing MP_ACCESS_TOKEN' });
     }
 
-    // DEBUG LOG: Verificar el tipo de token sin exponerlo completo
-    console.log(`Token Type Check: ${accessToken.substring(0, 8)}...`);
-
-    const client = new MercadoPagoConfig({
-        accessToken: accessToken
-    });
+    const baseUrl = process.env.VITE_APP_URL || 'https://solemianutricion-m338.vercel.app';
 
     try {
-        const baseUrl = process.env.VITE_APP_URL || 'https://solemianutricion-m338.vercel.app';
-
-        // 1. Lógica para SUSCRIPCIÓN MENSUAL (RECURRENTE)
+        // 1. SUSCRIPCIÓN MENSUAL (Uso de fetch directo para evitar errores de SDK)
         if (type === 'monthly') {
-            const preapproval = new PreApproval(client);
-            // Intentamos crear la suscripción sin email forzado para que MP lo pida al usuario si es necesario
-            const result = await preapproval.create({
-                body: {
+            console.log("Iniciando creación de suscripción via API directa...");
+            const mpResponse = await fetch('https://api.mercadopago.com/preapproval', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
                     reason: title || 'Suscripción Mensual Solemia',
                     auto_recurring: {
                         frequency: 1,
                         frequency_type: 'months',
                         transaction_amount: Number(unit_price),
-                        currency_id: 'MXN',
+                        currency_id: 'MXN'
                     },
+                    payer_email: 'cliente_nuevo@solemia.com', // Email genérico para evitar conflictos de cuenta
                     back_url: `${baseUrl}/signup`,
-                    status: 'pending',
-                    external_reference: 'solemia-monthly-recurring'
-                }
+                    status: 'pending'
+                })
             });
 
-            console.log("Subscription created successfully:", result.id);
+            const result = await mpResponse.json();
+
+            if (!mpResponse.ok) {
+                console.error("Error directo de MP Preapproval:", result);
+                return res.status(mpResponse.status).json({
+                    error: 'Mercado Pago Error',
+                    details: result.message || 'Error en validación de suscripción',
+                    fullError: JSON.stringify(result)
+                });
+            }
+
             return res.status(200).json({
                 id: result.id,
                 init_point: result.init_point,
@@ -51,17 +56,17 @@ export default async function handler(req, res) {
             });
         }
 
-        // 2. Lógica para PAGOS ÚNICOS (Contado y MSI)
+        // 2. PAGOS ÚNICOS (Contado y MSI)
+        const client = new MercadoPagoConfig({ accessToken });
         const preference = new Preference(client);
+
         let preferenceBody = {
-            items: [
-                {
-                    title: title || 'Plan Solemia',
-                    unit_price: Number(unit_price),
-                    quantity: Number(quantity) || 1,
-                    currency_id: 'MXN'
-                }
-            ],
+            items: [{
+                title: title || 'Plan Solemia',
+                unit_price: Number(unit_price),
+                quantity: Number(quantity) || 1,
+                currency_id: 'MXN'
+            }],
             back_urls: {
                 success: `${baseUrl}/signup`,
                 failure: `${baseUrl}/#pricing`,
@@ -70,14 +75,9 @@ export default async function handler(req, res) {
             auto_return: 'approved',
         };
 
-        // Si es el plan de MSI, forzamos cuotas y excluimos otros medios
+        // Si es MSI, habilitamos explícitamente las cuotas
         if (type === 'founder_msi') {
             preferenceBody.payment_methods = {
-                excluded_payment_types: [
-                    { id: "ticket" },
-                    { id: "atm" },
-                    { id: "bank_transfer" }
-                ],
                 installments: 6,
                 default_installments: 6
             };
@@ -92,11 +92,10 @@ export default async function handler(req, res) {
         });
 
     } catch (error) {
-        console.error('Mercado Pago Error Detail:', error);
+        console.error('CRITICAL SERVER ERROR:', error);
         res.status(500).json({
-            error: 'Mercado Pago Error',
-            details: error.message || 'Unknown Error',
-            fullError: JSON.stringify(error) // Enviamos más info al front para ver el problema real
+            error: 'Server Error',
+            details: error.message
         });
     }
 }
