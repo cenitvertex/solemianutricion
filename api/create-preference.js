@@ -31,9 +31,12 @@ export default async function handler(req, res) {
                         frequency: 1,
                         frequency_type: 'months',
                         transaction_amount: Number(unit_price),
-                        currency_id: 'MXN'
+                        currency_id: 'MXN',
                     },
-                    payer_email: 'cliente@solemianutricion.com', // Requerido por MP para generar la suscripción
+                    payer_email: 'contacto@solemianutricion.com',
+                    payer: {
+                        email: 'contacto@solemianutricion.com'
+                    },
                     back_url: `${baseUrl}/signup`,
                     status: 'pending',
                     external_reference: 'solemia-monthly-recurring'
