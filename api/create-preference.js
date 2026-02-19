@@ -33,9 +33,9 @@ export default async function handler(req, res) {
                         transaction_amount: Number(unit_price),
                         currency_id: 'MXN'
                     },
+                    payer_email: 'cliente@solemianutricion.com', // Requerido por MP para generar la suscripción
                     back_url: `${baseUrl}/signup`,
                     status: 'pending',
-                    // Importante: No podemos usar el modal de Preapproval, requiere redirección
                     external_reference: 'solemia-monthly-recurring'
                 }
             });
