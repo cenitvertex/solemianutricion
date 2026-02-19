@@ -14,6 +14,9 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'Server configuration error: Missing Access Token' });
     }
 
+    // DEBUG LOG: Verificar el tipo de token sin exponerlo completo
+    console.log(`Token Type Check: ${accessToken.substring(0, 8)}...`);
+
     const client = new MercadoPagoConfig({
         accessToken: accessToken
     });
@@ -24,6 +27,7 @@ export default async function handler(req, res) {
         // 1. Lógica para SUSCRIPCIÓN MENSUAL (RECURRENTE)
         if (type === 'monthly') {
             const preapproval = new PreApproval(client);
+            // Intentamos crear la suscripción sin email forzado para que MP lo pida al usuario si es necesario
             const result = await preapproval.create({
                 body: {
                     reason: title || 'Suscripción Mensual Solemia',
@@ -33,17 +37,13 @@ export default async function handler(req, res) {
                         transaction_amount: Number(unit_price),
                         currency_id: 'MXN',
                     },
-                    payer_email: 'contacto@solemianutricion.com',
-                    payer: {
-                        email: 'contacto@solemianutricion.com'
-                    },
                     back_url: `${baseUrl}/signup`,
                     status: 'pending',
                     external_reference: 'solemia-monthly-recurring'
                 }
             });
 
-            console.log("Subscription created:", result.id);
+            console.log("Subscription created successfully:", result.id);
             return res.status(200).json({
                 id: result.id,
                 init_point: result.init_point,
@@ -70,14 +70,13 @@ export default async function handler(req, res) {
             auto_return: 'approved',
         };
 
-        // Si es el plan de MSI, forzamos la interfaz de cuotas
+        // Si es el plan de MSI, forzamos cuotas y excluimos otros medios
         if (type === 'founder_msi') {
             preferenceBody.payment_methods = {
                 excluded_payment_types: [
-                    { id: "ticket" },       // Bloqueamos efectivo para MSI
+                    { id: "ticket" },
                     { id: "atm" },
-                    { id: "bank_transfer" },
-                    { id: "debit_card" }    // MSI es solo crédito
+                    { id: "bank_transfer" }
                 ],
                 installments: 6,
                 default_installments: 6
@@ -93,11 +92,11 @@ export default async function handler(req, res) {
         });
 
     } catch (error) {
-        console.error('Error detail in MP Flow:', error);
-        const mpError = error.cause || error;
+        console.error('Mercado Pago Error Detail:', error);
         res.status(500).json({
             error: 'Mercado Pago Error',
-            details: error.message || 'Unknown Error'
+            details: error.message || 'Unknown Error',
+            fullError: JSON.stringify(error) // Enviamos más info al front para ver el problema real
         });
     }
 }

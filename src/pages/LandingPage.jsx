@@ -122,7 +122,16 @@ export default function LandingPage() {
             }
         } catch (error) {
             console.error("Error al procesar el pago:", error);
-            alert(`No se pudo iniciar el pago: ${error.message}`);
+            // Intentamos extraer el detalle técnico si viene de nuestra API
+            let detailMsg = error.message;
+            try {
+                // Si el error tiene formato JSON (enviado por nuestra API)
+                if (error.message.includes('{')) {
+                    const parsed = JSON.parse(error.message.split('): ')[1]);
+                    detailMsg = parsed.details || parsed.fullError || error.message;
+                }
+            } catch (e) { }
+            alert(`No se pudo iniciar el pago: ${detailMsg}`);
         }
     };
 
