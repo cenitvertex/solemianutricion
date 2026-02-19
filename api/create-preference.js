@@ -8,13 +8,22 @@ export default async function handler(req, res) {
 
     const { title, unit_price, quantity } = req.body;
 
+    const accessToken = process.env.MP_ACCESS_TOKEN;
+
+    if (!accessToken) {
+        console.error('CRITICAL: MP_ACCESS_TOKEN is missing in server environment');
+        return res.status(500).json({ error: 'Server configuration error: Missing Access Token' });
+    }
+
     const client = new MercadoPagoConfig({
-        accessToken: process.env.MP_ACCESS_TOKEN
+        accessToken: accessToken
     });
 
     const preference = new Preference(client);
 
     try {
+        const baseUrl = process.env.VITE_APP_URL || 'https://solemianutricion-m338.vercel.app';
+
         const result = await preference.create({
             body: {
                 items: [
@@ -26,9 +35,9 @@ export default async function handler(req, res) {
                     }
                 ],
                 back_urls: {
-                    success: `${process.env.VITE_APP_URL || 'http://localhost:5173'}/signup`,
-                    failure: `${process.env.VITE_APP_URL || 'http://localhost:5173'}/#pricing`,
-                    pending: `${process.env.VITE_APP_URL || 'http://localhost:5173'}/#pricing`
+                    success: `${baseUrl}/signup`,
+                    failure: `${baseUrl}/#pricing`,
+                    pending: `${baseUrl}/#pricing`
                 },
                 auto_return: 'approved',
             }
@@ -37,6 +46,11 @@ export default async function handler(req, res) {
         res.status(200).json({ id: result.id });
     } catch (error) {
         console.error('Error creating preference:', error);
-        res.status(500).json({ error: 'Failed to create preference' });
+        // Devolvemos el error real de MP si existe
+        const mpError = error.cause || error;
+        res.status(500).json({
+            error: 'Failed to create preference',
+            details: mpError.message || 'Unknown MP Error'
+        });
     }
 }
