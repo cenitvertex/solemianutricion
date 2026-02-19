@@ -166,7 +166,10 @@ export default function Dashboard({ session }) {
         }
     };
 
-    const handleLogout = () => supabase.auth.signOut();
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        window.location.href = '/';
+    };
 
     const deletePatient = async () => {
         if (!patientToDelete) return;

@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import SuspendedScreen from './pages/SuspendedScreen';
+import LandingPage from './pages/LandingPage';
 
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
@@ -76,26 +77,38 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Landing Page Pública */}
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Auth Routes */}
         <Route
           path="/login"
-          element={!session ? <Login /> : (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Navigate to="/" />))}
+          element={!session ? <Login /> : (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Navigate to="/app" />))}
         />
         <Route
           path="/signup"
-          element={!session ? <Signup /> : <Navigate to="/" />}
+          element={!session ? <Signup /> : <Navigate to="/app" />}
         />
+
+        {/* App Privada */}
+        <Route
+          path="/app"
+          element={session ? (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Dashboard session={session} />)) : <Navigate to="/login" />}
+        />
+
         <Route
           path="/suspended"
           element={session && isSuspended ? <SuspendedScreen /> : <Navigate to="/" />}
         />
-        <Route
-          path="/"
-          element={session ? (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Dashboard session={session} />)) : <Navigate to="/login" />}
-        />
+
+        {/* Admin Routes */}
         <Route
           path="/admin"
-          element={session ? (isAdmin ? <Admin session={session} /> : <Navigate to="/" />) : <AdminLogin />}
+          element={session ? (isAdmin ? <Admin session={session} /> : <Navigate to="/app" />) : <AdminLogin />}
         />
+
+        {/* Redirección por defecto */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
