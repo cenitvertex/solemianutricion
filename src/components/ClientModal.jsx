@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { X, Upload, Save, Phone, User, FileText, Loader2, Check, ChevronLeft } from 'lucide-react';
+import { X, Upload, Save, Phone, User, FileText, Loader2, Check, ChevronLeft, Info } from 'lucide-react';
 
 export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack }) {
     const [name, setName] = useState('');
@@ -12,6 +12,11 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
     const [error, setError] = useState(null);
     const [showConfirm, setShowConfirm] = useState(false);
     const [existingPatientData, setExistingPatientData] = useState(null);
+    const [isExpedienteProcessed, setIsExpedienteProcessed] = useState(false);
+    const [isPlanProcessed, setIsPlanProcessed] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [expedienteUrl, setExpedienteUrl] = useState('');
+    const [planUrl, setPlanUrl] = useState('');
 
     useEffect(() => {
         if (client) {
@@ -53,6 +58,29 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
             .getPublicUrl(fileName);
 
         return publicUrl;
+    };
+
+    const handleProcessFiles = async () => {
+        if (!expediente && !plan) return;
+        setIsProcessing(true);
+        setError(null);
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (expediente && !isExpedienteProcessed) {
+                const url = await uploadFile(expediente, 'expediente', user.id);
+                setExpedienteUrl(url);
+                setIsExpedienteProcessed(true);
+            }
+            if (plan && !isPlanProcessed) {
+                const url = await uploadFile(plan, 'plan', user.id);
+                setPlanUrl(url);
+                setIsPlanProcessed(true);
+            }
+        } catch (err) {
+            setError('Error al procesar archivos. Revisa tu conexión.');
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -112,16 +140,37 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
             }
 
             const updates = {};
-            try {
-                if (expediente) updates.expediente_url = await uploadFile(expediente, 'expediente', clientId);
-                if (plan) updates.plan_url = await uploadFile(plan, 'plan', clientId);
-            } catch (uploadErr) {
-                throw new Error('Hubo un problema al subir los archivos. Por favor, revisa que sean PDF e intenta de nuevo.');
-            }
+            if (isExpedienteProcessed && expedienteUrl) updates.expediente_url = expedienteUrl;
+            if (isPlanProcessed && planUrl) updates.plan_url = planUrl;
 
             if (Object.keys(updates).length > 0) {
                 const { error: finalError } = await supabase.from('patients').update(updates).eq('id', clientId);
                 if (finalError) throw finalError;
+            }
+
+            // ⚡️ DISPARAR LA IA (n8n Webhook)
+            if (isExpedienteProcessed || isPlanProcessed) {
+                try {
+                    console.log('⚡️ Disparando IA para análisis...');
+                    // Intentamos obtener la URL de las variables de entorno de Vite o usamos la proporcionada por Mario por defecto
+                    const WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://n8n.tu-dominio.com/webhook/nutribot-ingesta';
+
+                    fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            patientId: clientId,
+                            nutriologistId: user.id,
+                            expedienteUrl: updates.expediente_url || null,
+                            planUrl: updates.plan_url || null,
+                            timestamp: new Date().toISOString(),
+                            source: 'Solemia Dashboard'
+                        })
+                    }).then(() => console.log('✅ IA Notificada con éxito'))
+                        .catch(err => console.error('⚠️ Error avisando a la IA:', err));
+                } catch (webhookError) {
+                    console.error('⚠️ Error en la petición a la IA:', webhookError);
+                }
             }
 
             setShowConfirm(false);
@@ -257,14 +306,17 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     textAlign: 'center',
                                     borderRadius: '1.5rem',
                                     position: 'relative',
-                                    backgroundColor: '#f8f0f4',
-                                    border: '1px dashed #e5d5dc',
+                                    backgroundColor: isExpedienteProcessed ? '#ecfdf5' : '#f8f0f4',
+                                    border: isExpedienteProcessed ? '1px solid #10b981' : '1px dashed #e5d5dc',
                                     transition: 'all 0.2s'
-                                }} onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--solemia-plum)'} onMouseLeave={(e) => e.currentTarget.style.borderColor = '#e5d5dc'}>
-                                    <Upload size={18} style={{ color: 'var(--solemia-plum)', opacity: 0.8 }} />
-                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{expediente ? 'Listo' : 'Subir PDF'}</span>
-                                    <input type="file" hidden accept=".pdf" onChange={(e) => setExpediente(e.target.files[0])} />
+                                }} onMouseEnter={(e) => !isExpedienteProcessed && (e.currentTarget.style.borderColor = 'var(--solemia-plum)')} onMouseLeave={(e) => !isExpedienteProcessed && (e.currentTarget.style.borderColor = '#e5d5dc')}>
+                                    <Upload size={18} style={{ color: isExpedienteProcessed ? '#10b981' : 'var(--solemia-plum)', opacity: 0.8 }} />
+                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: isExpedienteProcessed ? '#10b981' : 'var(--solemia-plum)' }}>
+                                        {isExpedienteProcessed ? 'Procesado' : (expediente ? 'Click para cambiar' : 'Subir archivo')}
+                                    </span>
+                                    <input type="file" hidden accept=".pdf,image/jpeg,image/png" onChange={(e) => { setExpediente(e.target.files[0]); setIsExpedienteProcessed(false); }} />
                                     {expediente && <span style={{ fontSize: '8px', color: 'var(--solemia-charcoal)', width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', position: 'absolute', bottom: '8px' }}>{expediente.name}</span>}
+                                    {isExpedienteProcessed && <Check size={12} style={{ position: 'absolute', top: '8px', right: '8px', color: '#10b981' }} />}
                                 </label>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -279,17 +331,62 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     textAlign: 'center',
                                     borderRadius: '1.5rem',
                                     position: 'relative',
-                                    backgroundColor: '#f8f0f4',
-                                    border: '1px dashed #e5d5dc',
+                                    backgroundColor: isPlanProcessed ? '#ecfdf5' : '#f8f0f4',
+                                    border: isPlanProcessed ? '1px solid #10b981' : '1px dashed #e5d5dc',
                                     transition: 'all 0.2s'
-                                }} onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--solemia-plum)'} onMouseLeave={(e) => e.currentTarget.style.borderColor = '#e5d5dc'}>
-                                    <Upload size={18} style={{ color: 'var(--solemia-plum)', opacity: 0.8 }} />
-                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{plan ? 'Listo' : 'Subir PDF'}</span>
-                                    <input type="file" hidden accept=".pdf" onChange={(e) => setPlan(e.target.files[0])} />
+                                }} onMouseEnter={(e) => !isPlanProcessed && (e.currentTarget.style.borderColor = 'var(--solemia-plum)')} onMouseLeave={(e) => !isPlanProcessed && (e.currentTarget.style.borderColor = '#e5d5dc')}>
+                                    <Upload size={18} style={{ color: isPlanProcessed ? '#10b981' : 'var(--solemia-plum)', opacity: 0.8 }} />
+                                    <span style={{ fontSize: '0.7rem', marginTop: '4px', fontWeight: '900', color: isPlanProcessed ? '#10b981' : 'var(--solemia-plum)' }}>
+                                        {isPlanProcessed ? 'Procesado' : (plan ? 'Click para cambiar' : 'Subir archivo')}
+                                    </span>
+                                    <input type="file" hidden accept=".pdf,image/jpeg,image/png" onChange={(e) => { setPlan(e.target.files[0]); setIsPlanProcessed(false); }} />
                                     {plan && <span style={{ fontSize: '8px', color: 'var(--solemia-charcoal)', width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', position: 'absolute', bottom: '8px' }}>{plan.name}</span>}
+                                    {isPlanProcessed && <Check size={12} style={{ position: 'absolute', top: '8px', right: '8px', color: '#10b981' }} />}
                                 </label>
                             </div>
                         </div>
+
+                        <div style={{
+                            display: 'flex',
+                            gap: '0.75rem',
+                            backgroundColor: '#f1f5f9',
+                            padding: '1rem',
+                            borderRadius: '1.25rem',
+                            marginTop: '-0.5rem',
+                            border: '1px solid #e2e8f0',
+                            marginBottom: '1rem'
+                        }}>
+                            <Info size={18} style={{ color: '#64748b', flexShrink: 0, marginTop: '2px' }} />
+                            <p style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: '1.4', margin: 0, fontWeight: '500' }}>
+                                Si necesitas corregir o cambiar un archivo, simplemente pulsa de nuevo sobre el botón para seleccionar uno nuevo.
+                            </p>
+                        </div>
+
+                        {((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) && (
+                            <button
+                                type="button"
+                                onClick={handleProcessFiles}
+                                disabled={isProcessing}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.85rem',
+                                    borderRadius: '1.25rem',
+                                    border: '1px solid var(--solemia-plum)',
+                                    background: 'transparent',
+                                    color: 'var(--solemia-plum)',
+                                    fontSize: '10px',
+                                    fontWeight: '900',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '0.5rem',
+                                    marginTop: '-0.5rem'
+                                }}
+                            >
+                                {isProcessing ? <Loader2 className="animate-spin" size={16} /> : <><FileText size={16} /> Procesar archivos seleccionados</>}
+                            </button>
+                        )}
 
                         {error && <div className="text-detail" style={{ color: '#e11d48', backgroundColor: '#fff1f2', padding: '0.75rem 1rem', borderRadius: '1rem', letterSpacing: '0.5px', textTransform: 'none', fontSize: '10px' }}>{error}</div>}
 
@@ -308,10 +405,13 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                                     color: 'white',
                                     border: 'none',
                                     cursor: 'pointer',
-                                    boxShadow: '0 10px 25px rgba(77, 12, 48, 0.2)'
+                                    boxShadow: '0 10px 25px rgba(77, 12, 48, 0.2)',
+                                    opacity: ((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) ? 0.5 : 1
                                 }}
                             >
-                                {loading ? <Loader2 className="animate-spin" size={20} style={{ margin: '0 auto' }} /> : (client ? 'Guardar cambios' : 'Crear registro')}
+                                {loading ? <Loader2 className="animate-spin" size={20} style={{ margin: '0 auto' }} /> :
+                                    ((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) ? 'Procesa archivos primero' :
+                                        (client ? 'Guardar cambios' : 'Crear registro')}
                             </button>
                         </div>
                     </form>
