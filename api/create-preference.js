@@ -1,12 +1,11 @@
-
-import { MercadoPagoConfig, Preference } from 'mercadopago';
+import { MercadoPagoConfig, Preference, PreApproval } from 'mercadopago';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { title, unit_price, quantity } = req.body;
+    const { title, unit_price, quantity, type } = req.body;
 
     const accessToken = process.env.MP_ACCESS_TOKEN;
 
@@ -19,38 +18,83 @@ export default async function handler(req, res) {
         accessToken: accessToken
     });
 
-    const preference = new Preference(client);
-
     try {
         const baseUrl = process.env.VITE_APP_URL || 'https://solemianutricion-m338.vercel.app';
 
-        const result = await preference.create({
-            body: {
-                items: [
-                    {
-                        title: title || 'Plan Solemia',
-                        unit_price: Number(unit_price),
-                        quantity: Number(quantity) || 1,
+        // 1. Lógica para SUSCRIPCIÓN MENSUAL (RECURRENTE)
+        if (type === 'monthly') {
+            const preapproval = new PreApproval(client);
+            const result = await preapproval.create({
+                body: {
+                    reason: title || 'Suscripción Mensual Solemia',
+                    auto_recurring: {
+                        frequency: 1,
+                        frequency_type: 'months',
+                        transaction_amount: Number(unit_price),
                         currency_id: 'MXN'
-                    }
+                    },
+                    back_url: `${baseUrl}/signup`,
+                    status: 'pending',
+                    // Importante: No podemos usar el modal de Preapproval, requiere redirección
+                    external_reference: 'solemia-monthly-recurring'
+                }
+            });
+
+            console.log("Subscription created:", result.id);
+            return res.status(200).json({
+                id: result.id,
+                init_point: result.init_point,
+                type: 'subscription'
+            });
+        }
+
+        // 2. Lógica para PAGOS ÚNICOS (Contado y MSI)
+        const preference = new Preference(client);
+        let preferenceBody = {
+            items: [
+                {
+                    title: title || 'Plan Solemia',
+                    unit_price: Number(unit_price),
+                    quantity: Number(quantity) || 1,
+                    currency_id: 'MXN'
+                }
+            ],
+            back_urls: {
+                success: `${baseUrl}/signup`,
+                failure: `${baseUrl}/#pricing`,
+                pending: `${baseUrl}/#pricing`
+            },
+            auto_return: 'approved',
+        };
+
+        // Si es el plan de MSI, forzamos la interfaz de cuotas
+        if (type === 'founder_msi') {
+            preferenceBody.payment_methods = {
+                excluded_payment_types: [
+                    { id: "ticket" },       // Bloqueamos efectivo para MSI
+                    { id: "atm" },
+                    { id: "bank_transfer" },
+                    { id: "debit_card" }    // MSI es solo crédito
                 ],
-                back_urls: {
-                    success: `${baseUrl}/signup`,
-                    failure: `${baseUrl}/#pricing`,
-                    pending: `${baseUrl}/#pricing`
-                },
-                auto_return: 'approved',
-            }
+                installments: 6,
+                default_installments: 6
+            };
+        }
+
+        const result = await preference.create({ body: preferenceBody });
+
+        res.status(200).json({
+            id: result.id,
+            init_point: result.init_point,
+            type: 'preference'
         });
 
-        res.status(200).json({ id: result.id });
     } catch (error) {
-        console.error('Error creating preference:', error);
-        // Devolvemos el error real de MP si existe
+        console.error('Error detail in MP Flow:', error);
         const mpError = error.cause || error;
         res.status(500).json({
-            error: 'Failed to create preference',
-            details: mpError.message || 'Unknown MP Error'
+            error: 'Mercado Pago Error',
+            details: error.message || 'Unknown Error'
         });
     }
 }

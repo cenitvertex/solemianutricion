@@ -85,7 +85,8 @@ export default function LandingPage() {
                 body: JSON.stringify({
                     title: selectedPlan.title,
                     unit_price: selectedPlan.price,
-                    quantity: 1
+                    quantity: 1,
+                    type: plan // Enviamos el tipo de plan (monthly, founder_cash, founder_msi)
                 })
             });
 
@@ -95,9 +96,15 @@ export default function LandingPage() {
             }
 
             const data = await response.json();
-            console.log("Preferencia creada con éxito:", data.id);
+            console.log("Cobro iniciado con éxito:", data.id);
 
             if (data.id) {
+                // Si es suscripción (monthly), usamos redirección directa al init_point
+                if (plan === 'monthly' && data.init_point) {
+                    window.location.href = data.init_point;
+                    return;
+                }
+
                 if (window.MercadoPago) {
                     const mp = new window.MercadoPago(mpKey, {
                         locale: 'es-MX'
@@ -111,7 +118,7 @@ export default function LandingPage() {
                     alert("El sistema de pagos no se cargó correctamente. Por favor, refresca la página.");
                 }
             } else {
-                throw new Error("La respuesta de la API no contiene un preference ID.");
+                throw new Error("La respuesta de la API no contiene un ID de transacción.");
             }
         } catch (error) {
             console.error("Error al procesar el pago:", error);
