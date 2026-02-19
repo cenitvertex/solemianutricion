@@ -4,6 +4,7 @@ import { supabase } from './lib/supabase';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import SuspendedScreen from './pages/SuspendedScreen';
 
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
@@ -11,20 +12,38 @@ import AdminLogin from './pages/AdminLogin';
 function App() {
   const [session, setSession] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuspended, setIsSuspended] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkUser = async (currentSession) => {
       if (currentSession?.user) {
+        // 1. Check if Admin
         const { data: adminRecord } = await supabase
           .from('admins')
           .select('id')
           .eq('id', currentSession.user.id)
           .maybeSingle();
 
-        setIsAdmin(!!adminRecord);
+        const adminStatus = !!adminRecord;
+        setIsAdmin(adminStatus);
+
+        // 2. If not admin, check if active tenant
+        if (!adminStatus) {
+          const { data: tenantRecord } = await supabase
+            .from('tenants')
+            .select('is_active')
+            .eq('id', currentSession.user.id)
+            .maybeSingle();
+
+          // Si no existe el registro o is_active es false, suspendemos
+          setIsSuspended(tenantRecord ? !tenantRecord.is_active : true);
+        } else {
+          setIsSuspended(false);
+        }
       } else {
         setIsAdmin(false);
+        setIsSuspended(false);
       }
       setLoading(false);
     };
@@ -59,15 +78,19 @@ function App() {
       <Routes>
         <Route
           path="/login"
-          element={!session ? <Login /> : (isAdmin ? <Navigate to="/admin" /> : <Navigate to="/" />)}
+          element={!session ? <Login /> : (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Navigate to="/" />))}
         />
         <Route
           path="/signup"
           element={!session ? <Signup /> : <Navigate to="/" />}
         />
         <Route
+          path="/suspended"
+          element={session && isSuspended ? <SuspendedScreen /> : <Navigate to="/" />}
+        />
+        <Route
           path="/"
-          element={session ? (isAdmin ? <Navigate to="/admin" /> : <Dashboard session={session} />) : <Navigate to="/login" />}
+          element={session ? (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Dashboard session={session} />)) : <Navigate to="/login" />}
         />
         <Route
           path="/admin"
