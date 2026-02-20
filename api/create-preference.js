@@ -1,4 +1,4 @@
-import { MercadoPagoConfig, Preference } from 'mercadopago';
+import { MercadoPagoConfig, Preference, PreApproval } from 'mercadopago';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -9,22 +9,18 @@ export default async function handler(req, res) {
     const accessToken = process.env.MP_ACCESS_TOKEN;
 
     if (!accessToken) {
-        return res.status(500).json({ error: 'Missing MP_ACCESS_TOKEN' });
+        return res.status(500).json({ error: 'Configuración faltante: MP_ACCESS_TOKEN' });
     }
 
+    const client = new MercadoPagoConfig({ accessToken });
     const baseUrl = process.env.VITE_APP_URL || 'https://solemianutricion-m338.vercel.app';
 
     try {
-        // 1. SUSCRIPCIÓN MENSUAL (Uso de fetch directo para evitar errores de SDK)
+        // 1. SUSCRIPCIÓN MENSUAL (RECURRENTE)
         if (type === 'monthly') {
-            console.log("Iniciando creación de suscripción via API directa...");
-            const mpResponse = await fetch('https://api.mercadopago.com/preapproval', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+            const preapproval = new PreApproval(client);
+            const result = await preapproval.create({
+                body: {
                     reason: title || 'Suscripción Mensual Solemia',
                     auto_recurring: {
                         frequency: 1,
@@ -32,22 +28,13 @@ export default async function handler(req, res) {
                         transaction_amount: Number(unit_price),
                         currency_id: 'MXN'
                     },
-                    payer_email: 'cliente_nuevo@solemia.com', // Email genérico para evitar conflictos de cuenta
                     back_url: `${baseUrl}/signup`,
-                    status: 'pending'
-                })
+                    status: 'pending',
+                    // En Sandbox de MP, el payer_email debe ser de un USUARIO DE PRUEBA 
+                    // creado en el panel de desarrolladores.
+                    payer_email: 'test_user_123@testuser.com'
+                }
             });
-
-            const result = await mpResponse.json();
-
-            if (!mpResponse.ok) {
-                console.error("Error directo de MP Preapproval:", result);
-                return res.status(mpResponse.status).json({
-                    error: 'Mercado Pago Error',
-                    details: result.message || 'Error en validación de suscripción',
-                    fullError: JSON.stringify(result)
-                });
-            }
 
             return res.status(200).json({
                 id: result.id,
@@ -57,9 +44,7 @@ export default async function handler(req, res) {
         }
 
         // 2. PAGOS ÚNICOS (Contado y MSI)
-        const client = new MercadoPagoConfig({ accessToken });
         const preference = new Preference(client);
-
         let preferenceBody = {
             items: [{
                 title: title || 'Plan Solemia',
@@ -75,7 +60,7 @@ export default async function handler(req, res) {
             auto_return: 'approved',
         };
 
-        // Si es MSI, habilitamos explícitamente las cuotas
+        // Configuración de MSI para México
         if (type === 'founder_msi') {
             preferenceBody.payment_methods = {
                 installments: 6,
@@ -92,10 +77,12 @@ export default async function handler(req, res) {
         });
 
     } catch (error) {
-        console.error('CRITICAL SERVER ERROR:', error);
+        console.error('SERVER ERROR MP:', error);
+        // Devolvemos el mensaje de error mas limpio
+        const errorDetail = error.message || 'Error desconocido en Mercado Pago';
         res.status(500).json({
-            error: 'Server Error',
-            details: error.message
+            error: 'Mercado Pago Error',
+            details: errorDetail
         });
     }
 }
