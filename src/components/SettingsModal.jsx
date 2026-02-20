@@ -11,6 +11,14 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
     });
     const [countryCode, setCountryCode] = useState('+52');
 
+    const [subscription, setSubscription] = useState({
+        status: 'inactive',
+        plan: 'none',
+        validUntil: null,
+        cancelling: false,
+        patientCount: 0
+    });
+
     useEffect(() => {
         if (isOpen && session?.user?.id) {
             fetchSettings();
@@ -19,11 +27,18 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
 
     const fetchSettings = async () => {
         setLoading(true);
+        // 1. Fetch Tenant Data
         const { data, error } = await supabase
             .from('tenants')
             .select('*')
             .eq('id', session.user.id)
             .maybeSingle();
+
+        // 2. Fetch Patient Count
+        const { count: pCount } = await supabase
+            .from('patients')
+            .select('*', { count: 'exact', head: true })
+            .eq('tenant_id', session.user.id);
 
         if (data && !error) {
             let phone = data.phone_number || '';
@@ -31,7 +46,6 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
             let localPart = phone;
 
             if (phone.startsWith('+')) {
-                // Si tiene formato +521234567890 o +52 1234567890
                 const commonCodes = ['+52', '+1', '+34', '+54', '+55', '+56', '+57', '+51', '+593', '+502'];
                 const matchedCode = commonCodes.find(c => phone.startsWith(c));
 
@@ -47,8 +61,41 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                 welcome_message: data.system_prompt || ''
             });
             setCountryCode(code);
+            setSubscription({
+                status: data.subscription_status || 'inactive',
+                plan: data.plan_type || 'none',
+                validUntil: data.access_until,
+                cancelling: false,
+                patientCount: pCount || 0
+            });
         }
         setLoading(false);
+    };
+
+    const handleCancelSubscription = async () => {
+        if (!confirm('¿Estás seguro de que deseas cancelar tu suscripción? Seguirás teniendo acceso hasta la fecha de vencimiento, pero no se realizarán más cargos automáticos.')) return;
+
+        setSubscription(prev => ({ ...prev, cancelling: true }));
+        try {
+            const response = await fetch('/api/cancel-subscription', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: session.user.id })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message);
+                fetchSettings(); // Recargar datos
+            } else {
+                alert('Error al cancelar: ' + (result.error || result.details));
+            }
+        } catch (error) {
+            alert('Error de conexión al intentar cancelar.');
+        } finally {
+            setSubscription(prev => ({ ...prev, cancelling: false }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -85,11 +132,12 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                     maxWidth: '700px',
                     width: '100%',
                     position: 'relative',
-                    padding: '4rem',
+                    padding: '3rem 4rem',
                     backgroundColor: 'rgba(255, 255, 255, 0.9)',
                     boxShadow: '0 40px 100px rgba(0,0,0,0.2)',
                     borderRadius: '3.5rem',
-                    overflow: 'hidden',
+                    maxHeight: '90vh',
+                    overflowY: 'auto',
                     margin: 'auto'
                 }}>
                     {/* Beauty Accent */}
@@ -99,20 +147,93 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                         <X size={24} />
                     </button>
 
-                    <div style={{ marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'var(--font-display)', fontWeight: '900', lineHeight: 1 }}>Configuración</h2>
+                    <div style={{ marginBottom: '2.5rem' }}>
+                        <h2 style={{ fontSize: '2.2rem', color: 'var(--solemia-plum)', marginBottom: '0.2rem', fontFamily: 'var(--font-display)', fontWeight: '900', lineHeight: 1 }}>Configuración</h2>
                         <div className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px' }}>
-                            Personalización del consultorio y asistente IA
+                            Cuenta, suscripción y asistente IA
                         </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        {/* 1. Información de la Cuenta y Suscripción */}
+                        <div style={{ padding: '1.5rem', borderRadius: '2rem', background: '#f8fafc', border: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                    < Landmark size={18} color="var(--solemia-pink)" />
+                                    <span style={{ fontSize: '11px', fontWeight: '900', color: 'var(--solemia-plum)', textTransform: 'uppercase', letterSpacing: '1px' }}>Suscripción Solemia</span>
+                                </div>
+                                <div style={{
+                                    padding: '4px 10px',
+                                    borderRadius: '6px',
+                                    fontSize: '9px',
+                                    fontWeight: '900',
+                                    backgroundColor: subscription.status === 'active' ? '#ecfdf5' : '#fff1f2',
+                                    color: subscription.status === 'active' ? '#059669' : '#e11d48'
+                                }}>
+                                    {subscription.status === 'active' ? '● ACTIVA' : '● ' + subscription.status.toUpperCase()}
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                                <div>
+                                    <div style={{ fontSize: '8px', color: '#94a3b8', fontWeight: '900', marginBottom: '4px' }}>PLAN ACTUAL</div>
+                                    <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--solemia-charcoal)' }}>
+                                        {subscription.plan === 'monthly' ? 'Mensual Nutriólogo' : subscription.plan === 'founder_semiannual' ? 'Semestral Emprendedor' : 'Sin Plan Activo'}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: '8px', color: '#94a3b8', fontWeight: '900', marginBottom: '4px' }}>PRÓXIMO VENCIMIENTO</div>
+                                    <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--solemia-charcoal)' }}>
+                                        {subscription.validUntil ? new Date(subscription.validUntil).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }) : 'N/A'}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Consumo de Pacientes */}
+                            <div style={{ marginTop: '0.5rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                                    <div style={{ fontSize: '8px', color: '#94a3b8', fontWeight: '900' }}>PACIENTES REGISTRADOS</div>
+                                    <div style={{ fontSize: '9px', fontWeight: '900', color: 'var(--solemia-plum)' }}>{subscription.patientCount} / 30</div>
+                                </div>
+                                <div style={{ height: '4px', background: '#e2e8f0', borderRadius: '2px', overflow: 'hidden' }}>
+                                    <div style={{
+                                        height: '100%',
+                                        width: `${Math.min((subscription.patientCount / 30) * 100, 100)}%`,
+                                        background: 'var(--solemia-gradient)',
+                                        borderRadius: '2px',
+                                        transition: 'width 0.5s ease'
+                                    }}></div>
+                                </div>
+                            </div>
+
+                            {subscription.status === 'active' && (
+                                <button
+                                    type="button"
+                                    onClick={handleCancelSubscription}
+                                    disabled={subscription.cancelling}
+                                    style={{
+                                        alignSelf: 'flex-start',
+                                        background: 'none',
+                                        border: 'none',
+                                        color: '#e11d48',
+                                        fontSize: '9px',
+                                        fontWeight: '900',
+                                        cursor: 'pointer',
+                                        padding: '4px 0',
+                                        textDecoration: 'underline'
+                                    }}
+                                >
+                                    {subscription.cancelling ? 'Procesando...' : 'Cancelar renovación automática'}
+                                </button>
+                            )}
+                        </div>
+
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Nombre del especialista</label>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Tu nombre profesional</label>
                                 <input
                                     className="input-field"
-                                    style={{ borderRadius: '1.5rem', padding: '1.25rem 2rem', fontWeight: '900' }}
+                                    style={{ borderRadius: '1.5rem', padding: '1rem 1.5rem', fontWeight: '700', fontSize: '12px' }}
                                     value={formData.name}
                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
                                     placeholder="Ej. Lic. Andrea Pérez"
@@ -120,13 +241,13 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                                 />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>WhatsApp de contacto</label>
+                                <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>WhatsApp (Pacientes)</label>
                                 <div style={{ display: 'flex', gap: '0.75rem' }}>
                                     <select
                                         value={countryCode}
                                         onChange={(e) => setCountryCode(e.target.value)}
                                         className="input-field"
-                                        style={{ width: '85px', padding: '0 0.5rem', borderRadius: '1.5rem', fontWeight: '900' }}
+                                        style={{ width: '80px', padding: '0 0.5rem', borderRadius: '1.25rem', fontWeight: '700', fontSize: '12px' }}
                                     >
                                         <option value="+52">🇲🇽 +52</option>
                                         <option value="+1">🇺🇸 +1</option>
@@ -137,11 +258,11 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                                         <option value="+57">🇨🇴 +57</option>
                                         <option value="+51">🇵🇪 +51</option>
                                         <option value="+593">🇪🇨 +593</option>
-                                        <option value="+502">🇬🇹 +502</option>
+                                        <option value="+502">🇬 +502</option>
                                     </select>
                                     <input
                                         className="input-field"
-                                        style={{ flex: 1, borderRadius: '1.5rem', padding: '1rem 2rem', fontWeight: '900' }}
+                                        style={{ flex: 1, borderRadius: '1.25rem', padding: '1rem 1.5rem', fontWeight: '700', fontSize: '12px' }}
                                         value={formData.whatsapp}
                                         onChange={e => {
                                             const value = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -154,18 +275,18 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Instrucciones para la IA</label>
+                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Instrucciones personalizadas para la IA</label>
                             <textarea
                                 className="input-field"
-                                style={{ minHeight: '120px', borderRadius: '1.5rem', padding: '1.5rem 2rem', fontWeight: '500', lineHeight: '1.6' }}
+                                style={{ minHeight: '100px', borderRadius: '1.5rem', padding: '1.25rem 1.75rem', fontWeight: '500', lineHeight: '1.6', fontSize: '12px' }}
                                 value={formData.welcome_message}
                                 onChange={e => setFormData({ ...formData, welcome_message: e.target.value })}
-                                placeholder="Define cómo debe comportarse el asistente..."
+                                placeholder="Define cómo debe comportarse el asistente al analizar a tus pacientes..."
                             />
                         </div>
 
-                        <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.5rem' }}>
-                            <button type="button" onClick={onClose} className="btn" style={{ flex: 1, color: '#aaa', fontSize: '9px', fontWeight: '900' }}>Descartar</button>
+                        <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
+                            <button type="button" onClick={onClose} className="btn" style={{ flex: 1, color: '#aaa', fontSize: '9px', fontWeight: '900' }}>Cancelar</button>
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -178,7 +299,7 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                                     boxShadow: '0 10px 30px rgba(77, 12, 48, 0.2)'
                                 }}
                             >
-                                {loading ? 'Guardando cambios...' : 'Actualizar configuración'}
+                                {loading ? 'Guardando...' : 'Guardar configuración'}
                             </button>
                         </div>
                     </form>

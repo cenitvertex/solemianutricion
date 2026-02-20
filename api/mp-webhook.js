@@ -60,6 +60,7 @@ export default async function handler(req, res) {
 
             if (subData.status === 'authorized') {
                 const userId = subData.external_reference;
+                const subscriptionId = subData.id; // El ID para cancelar después
                 const reason = subData.reason || '';
                 const isSemiannual = reason.toLowerCase().includes('semestral');
 
@@ -68,12 +69,13 @@ export default async function handler(req, res) {
                 const accessUntil = new Date();
                 accessUntil.setDate(accessUntil.getDate() + daysToAdd);
 
-                console.log(`Renovando suscripción (${isSemiannual ? 'Semestral' : 'Mensual'}) para usuario ${userId}...`);
+                console.log(`Renovando suscripción (${isSemiannual ? 'Semestral' : 'Mensual'}) para usuario ${userId} (ID: ${subscriptionId})...`);
 
                 const { error } = await supabaseAdmin
                     .from('tenants')
                     .update({
                         subscription_status: 'active',
+                        subscription_id: subscriptionId, // Guardamos el ID de MP
                         access_until: accessUntil.toISOString(),
                         plan_type: isSemiannual ? 'founder_semiannual' : 'monthly'
                     })
