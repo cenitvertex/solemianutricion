@@ -24,7 +24,8 @@ import {
     Power,
     Zap,
     History,
-    LifeBuoy
+    LifeBuoy,
+    CheckCircle2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ClientModal from '../components/ClientModal';
@@ -59,6 +60,7 @@ export default function Dashboard({ session }) {
     const [openDropdown, setOpenDropdown] = useState(null); // 'sort', 'time' or null
     const [tenantName, setTenantName] = useState('');
     const [legalConfig, setLegalConfig] = useState({ isOpen: false, title: '', content: null });
+    const [lastConsultationDates, setLastConsultationDates] = useState({});
 
     // Estados de Suscripción
     const [subscriptionStatus, setSubscriptionStatus] = useState('pending'); // 'active', 'pending', 'expired'
