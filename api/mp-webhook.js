@@ -53,27 +53,29 @@ export default async function handler(req, res) {
             }
         }
 
-        // 2. Manejo de SUSCRIPCIONES (PreApproval)
+        // 2. Manejo de SUSCRIPCIONES (PreApproval / Recurring)
         if (type === 'subscription_preapproval' || type === 'preapproval') {
             const preapproval = new PreApproval(client);
             const subData = await preapproval.get({ id: data.id });
 
             if (subData.status === 'authorized') {
                 const userId = subData.external_reference;
+                const reason = subData.reason || '';
+                const isSemiannual = reason.toLowerCase().includes('semestral');
 
-                // Para suscripciones mensuales, sumamos 30 días o renovamos
-                // Nota: Mercado Pago avisará cada mes.
+                // Calcular fecha de vencimiento con margen de gracia
+                const daysToAdd = isSemiannual ? 185 : 32;
                 const accessUntil = new Date();
-                accessUntil.setDate(accessUntil.getDate() + 32); // Margen de gracia de 2 días
+                accessUntil.setDate(accessUntil.getDate() + daysToAdd);
 
-                console.log(`Renovando suscripción para usuario ${userId}...`);
+                console.log(`Renovando suscripción (${isSemiannual ? 'Semestral' : 'Mensual'}) para usuario ${userId}...`);
 
                 const { error } = await supabaseAdmin
                     .from('tenants')
                     .update({
                         subscription_status: 'active',
                         access_until: accessUntil.toISOString(),
-                        plan_type: 'monthly'
+                        plan_type: isSemiannual ? 'founder_semiannual' : 'monthly'
                     })
                     .eq('id', userId);
 

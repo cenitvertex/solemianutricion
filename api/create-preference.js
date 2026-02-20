@@ -19,15 +19,18 @@ export default async function handler(req, res) {
         // En todas las preferencias inyectamos el userId como external_reference
         // Esto permite a Mercado Pago avisarnos qué usuario pagó.
 
-        // 1. SUSCRIPCIÓN MENSUAL (RECURRENTE)
-        if (type === 'monthly') {
+        // 1. SUSCRIPCIONES (RECURRENTE: Mensual o Semestral)
+        if (type === 'monthly' || type === 'founder_semiannual') {
+            const isSemiannual = type === 'founder_semiannual';
+            const frequency = isSemiannual ? 6 : 1;
+
             const preapproval = new PreApproval(client);
             const result = await preapproval.create({
                 body: {
-                    reason: title || 'Suscripción Mensual Solemia',
+                    reason: title || (isSemiannual ? 'Suscripción Semestral Solemia' : 'Suscripción Mensual Solemia'),
                     external_reference: userId, // Vínculo con el usuario
                     auto_recurring: {
-                        frequency: 1,
+                        frequency: frequency,
                         frequency_type: 'months',
                         transaction_amount: Number(unit_price),
                         currency_id: 'MXN'
