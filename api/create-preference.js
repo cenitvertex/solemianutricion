@@ -30,6 +30,7 @@ export default async function handler(req, res) {
                     },
                     back_url: `${baseUrl}/signup`,
                     status: 'pending',
+                    payer_email: 'cliente@ejemplo.com', // Obligatorio para la API de suscripciones
                     // En Sandbox de MP, el payer_email debe ser de un USUARIO DE PRUEBA 
                     // creado en el panel de desarrolladores.
                 }
