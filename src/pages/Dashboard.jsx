@@ -70,11 +70,13 @@ export default function Dashboard({ session }) {
 
     // Bloqueo de scroll cuando hay un modal abierto
     useEffect(() => {
-        const anyModalOpen = isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen || legalConfig.isOpen;
+        const anyModalOpen = isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen || legalConfig.isOpen || isPaywallOpen;
         if (anyModalOpen) {
             document.body.style.overflow = 'hidden';
+            document.body.style.height = '100vh';
         } else {
             document.body.style.overflow = 'unset';
+            document.body.style.height = 'auto';
         }
         return () => {
             document.body.style.overflow = 'unset';
@@ -1150,11 +1152,13 @@ export default function Dashboard({ session }) {
                         </button>
 
                         <div className="card glass animate-scale-in" style={{
-                            maxWidth: '850px',
+                            maxWidth: '780px',
                             width: '100%',
-                            padding: '2.5rem 2rem',
+                            padding: '3rem 2.5rem',
                             textAlign: 'center',
-                            margin: 'auto'
+                            margin: 'auto',
+                            boxShadow: '0 50px 100px -20px rgba(0,0,0,0.15)',
+                            border: '1px solid #f1f5f9'
                         }}>
                             <div style={{ marginBottom: '1.5rem' }}>
                                 <h1 style={{ fontSize: '1.8rem', color: 'var(--solemia-plum)', fontWeight: '900', marginBottom: '0.5rem', letterSpacing: '-1px', lineHeight: 1.1 }}>

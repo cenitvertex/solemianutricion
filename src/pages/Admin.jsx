@@ -312,9 +312,9 @@ export default function Admin({ session }) {
                         <thead>
                             <tr style={{ textAlign: 'left' }}>
                                 <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESPECIALISTA / EMAIL</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>PAGO (MERCADO PAGO)</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ACCESO MAESTRO</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>BLOQUEO TOTAL</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>PAGO (MP)</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>REGALAR ACCESO</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>BANEAR USUARIO</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -371,24 +371,31 @@ export default function Admin({ session }) {
                                                 gap: '0.5rem',
                                                 border: tenant.subscription_status === 'active' ? '1px solid #10b981' : '1px solid #e2e8f0'
                                             }}
+                                            title={tenant.subscription_status === 'active' ? 'Quitar acceso de cortesía' : 'Dar acceso libre ilimitado'}
                                         >
-                                            {tenant.subscription_status === 'active' ? <><Crown size={12} /> ACTIVADO</> : 'ACTIVAR MANUAL'}
+                                            {tenant.subscription_status === 'active' ? <><Crown size={12} /> VIP ACTIVO</> : 'REGALAR ACCESO'}
                                         </button>
                                     </td>
                                     <td style={{ padding: '1.25rem 1.5rem', borderRadius: '0 1.5rem 1.5rem 0' }}>
                                         <button
                                             onClick={() => toggleSuspension(tenant.id, tenant.is_active)}
                                             style={{
-                                                padding: '0.5rem',
-                                                borderRadius: '0.75rem',
+                                                padding: '0.5rem 1rem',
+                                                borderRadius: '1rem',
                                                 border: 'none',
-                                                background: tenant.is_active ? '#f8fafc' : '#fff1f2',
-                                                color: tenant.is_active ? '#94a3b8' : '#f43f5e',
-                                                cursor: 'pointer'
+                                                background: tenant.is_active ? '#f8fafc' : '#ed406a',
+                                                color: tenant.is_active ? '#94a3b8' : 'white',
+                                                fontWeight: '900',
+                                                fontSize: '0.65rem',
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0.5rem',
+                                                border: '1px solid currentColor'
                                             }}
-                                            title={tenant.is_active ? "Suspender acceso total" : "Quitar suspensión"}
+                                            title={tenant.is_active ? "Baneas al usuario (no podrá ni ver precios)" : "Quitar baneo"}
                                         >
-                                            <Power size={18} />
+                                            <Power size={14} /> {tenant.is_active ? 'BANEAR' : 'BANEADO'}
                                         </button>
                                     </td>
                                 </tr>
