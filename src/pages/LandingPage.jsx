@@ -144,7 +144,7 @@ export default function LandingPage() {
                     <button onClick={() => navigate(session ? '/app' : '/login')} className="btn-outline" style={{ background: 'transparent', fontWeight: '700' }}>
                         {session ? 'Ir a mi Dashboard' : 'Iniciar Sesión'}
                     </button>
-                    <button onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })} className="btn btn-primary">
+                    <button onClick={() => navigate('/signup')} className="btn btn-primary">
                         Empezar Ahora
                     </button>
                 </div>
@@ -166,12 +166,15 @@ export default function LandingPage() {
                         <h1 style={{ fontSize: '4.5rem', lineHeight: '1.1', marginBottom: '1.5rem', color: 'var(--solemia-plum)' }}>
                             Nutrición con <span style={{ color: 'var(--solemia-pink)' }}>Adherencia</span> sin Juicios.
                         </h1>
+                        <h1 style={{ fontSize: '4.5rem', lineHeight: '1.1', marginBottom: '1.5rem', color: 'var(--solemia-plum)' }}>
+                            Nutrición con <span style={{ color: 'var(--solemia-pink)' }}>Adherencia</span> sin Juicios.
+                        </h1>
                         <p style={{ fontSize: '1.25rem', color: 'var(--solemia-charcoal)', opacity: 0.8, marginBottom: '2.5rem', maxWidth: '600px' }}>
                             Solemia Nutri-Pal es el cómplice inteligente que guía a tus pacientes en sus momentos críticos, eliminando la culpa y elevando tus resultados clínicos.
                         </p>
                         <div style={{ display: 'flex', gap: '1rem' }}>
                             <button
-                                onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}
+                                onClick={() => navigate('/signup')}
                                 className="btn btn-primary"
                                 style={{ padding: '1.25rem 3rem', fontSize: '14px' }}
                             >
@@ -291,17 +294,17 @@ export default function LandingPage() {
                             period="MXN / mes"
                             features={featuresMonthly}
                             buttonText="Empezar Ahora"
-                            onAction={() => handleMP('monthly')}
+                            onAction={() => navigate('/signup')}
                         />
                         <PricingCard
-                            title="Fundador (Contado)"
+                            title="Fundador (Semestral)"
                             price="$5,000"
-                            period="MXN / semestre"
+                            period="MXN / 6 meses"
                             highlight="La Opción Más Rentable"
                             features={featuresFounderCash}
                             isPopular={true}
-                            buttonText="Obtener Promo Contado"
-                            onAction={() => handleMP('founder_cash')}
+                            buttonText="Obtener Promo Semestral"
+                            onAction={() => navigate('/signup')}
                         />
                     </div>
                 </div>

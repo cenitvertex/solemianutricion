@@ -41,7 +41,7 @@ export default function Signup() {
                     email: email,
                     phone_number: finalPhone,
                     system_prompt: 'Eres el asistente virtual personal de un nutriólogo profesional.',
-                    is_active: true,
+                    subscription_status: 'pending',
                     instance_id: `nutri_${user.id.slice(0, 8)}`
                 });
 

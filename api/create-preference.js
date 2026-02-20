@@ -5,7 +5,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { title, unit_price, quantity, type } = req.body;
+    const { title, unit_price, quantity, type, userId } = req.body;
     const accessToken = process.env.MP_ACCESS_TOKEN;
 
     if (!accessToken) {
@@ -16,23 +16,25 @@ export default async function handler(req, res) {
     const baseUrl = process.env.VITE_APP_URL || 'https://solemianutricion-m338.vercel.app';
 
     try {
+        // En todas las preferencias inyectamos el userId como external_reference
+        // Esto permite a Mercado Pago avisarnos qué usuario pagó.
+
         // 1. SUSCRIPCIÓN MENSUAL (RECURRENTE)
         if (type === 'monthly') {
             const preapproval = new PreApproval(client);
             const result = await preapproval.create({
                 body: {
                     reason: title || 'Suscripción Mensual Solemia',
+                    external_reference: userId, // Vínculo con el usuario
                     auto_recurring: {
                         frequency: 1,
                         frequency_type: 'months',
                         transaction_amount: Number(unit_price),
                         currency_id: 'MXN'
                     },
-                    back_url: `${baseUrl}/signup`,
+                    back_url: `${baseUrl}/app`, // Regresa al Dashboard
                     status: 'pending',
-                    payer_email: 'cliente@ejemplo.com', // Obligatorio para la API de suscripciones
-                    // En Sandbox de MP, el payer_email debe ser de un USUARIO DE PRUEBA 
-                    // creado en el panel de desarrolladores.
+                    payer_email: 'cliente@ejemplo.com',
                 }
             });
 
@@ -43,9 +45,10 @@ export default async function handler(req, res) {
             });
         }
 
-        // 2. PAGOS ÚNICOS (Contado y MSI)
+        // 2. PAGOS ÚNICOS (Semestral)
         const preference = new Preference(client);
         let preferenceBody = {
+            external_reference: userId, // Vínculo con el usuario
             items: [{
                 title: title || 'Plan Solemia',
                 unit_price: Number(unit_price),
@@ -53,11 +56,15 @@ export default async function handler(req, res) {
                 currency_id: 'MXN'
             }],
             back_urls: {
-                success: `${baseUrl}/signup`,
-                failure: `${baseUrl}/#pricing`,
-                pending: `${baseUrl}/#pricing`
+                success: `${baseUrl}/app`,
+                failure: `${baseUrl}/app`,
+                pending: `${baseUrl}/app`
             },
             auto_return: 'approved',
+            metadata: {
+                user_id: userId,
+                plan_type: type
+            }
         };
 
         const result = await preference.create({ body: preferenceBody });

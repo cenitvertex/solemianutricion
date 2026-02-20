@@ -60,6 +60,12 @@ export default function Dashboard({ session }) {
     const [tenantName, setTenantName] = useState('');
     const [legalConfig, setLegalConfig] = useState({ isOpen: false, title: '', content: null });
 
+    // Estados de Suscripción
+    const [subscriptionStatus, setSubscriptionStatus] = useState('pending'); // 'active', 'pending', 'expired'
+    const [accessUntil, setAccessUntil] = useState(null);
+    const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+    const [planType, setPlanType] = useState(null);
+
     // Bloqueo de scroll cuando hay un modal abierto
     useEffect(() => {
         const anyModalOpen = isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen || legalConfig.isOpen;
@@ -84,17 +90,32 @@ export default function Dashboard({ session }) {
     useEffect(() => {
         const checkIdentity = async () => {
             if (!session?.user) return;
-            fetchPatients();
 
-            // Fetch tenant name
+            // 1. Fetch tenant info (Name & Subscription)
             const { data, error } = await supabase
                 .from('tenants')
-                .select('name')
+                .select('name, subscription_status, access_until, plan_type')
                 .eq('id', session.user.id)
                 .maybeSingle();
 
             if (data && !error) {
                 setTenantName(data.name);
+                setSubscriptionStatus(data.subscription_status || 'pending');
+                setAccessUntil(data.access_until);
+                setPlanType(data.plan_type);
+
+                // Check access
+                const now = new Date();
+                const validUntil = data.access_until ? new Date(data.access_until) : null;
+
+                if (data.subscription_status !== 'active' || (validUntil && now > validUntil)) {
+                    setIsPaywallOpen(true);
+                } else {
+                    fetchPatients();
+                }
+            } else {
+                // Si no hay tenant (raro si ya se registró), mostramos paywall por seguridad
+                setIsPaywallOpen(true);
             }
         };
         checkIdentity();
@@ -249,6 +270,40 @@ export default function Dashboard({ session }) {
         { label: 'Activos', value: patients.filter(p => p.is_active).length, sub: 'Pacientes en alta', icon: <UserCheck size={20} />, color: 'var(--solemia-emerald)' },
         { label: 'Nuevos', value: patients.filter(p => new Date(p.created_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length, sub: 'Última semana', icon: <Star size={20} />, color: 'var(--solemia-pink)' }
     ];
+
+    const handleMP = async (plan) => {
+        const planDetails = {
+            monthly: { title: "Solemia Plan Mensual", price: 1349 },
+            founder_semiannual: { title: "Solemia Pase Fundador (Semestral)", price: 5000 }
+        };
+
+        const selectedPlan = planDetails[plan];
+        const mpKey = import.meta.env.VITE_MP_PUBLIC_KEY;
+
+        try {
+            const response = await fetch('/api/create-preference', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: selectedPlan.title,
+                    unit_price: selectedPlan.price,
+                    quantity: 1,
+                    type: plan,
+                    userId: session.user.id
+                })
+            });
+
+            if (!response.ok) throw new Error('Error al crear preferencia');
+            const data = await response.json();
+
+            if (data.init_point) {
+                window.location.href = data.init_point;
+            }
+        } catch (error) {
+            console.error("Error Mercado Pago:", error);
+            alert("No se pudo iniciar el proceso de pago.");
+        }
+    };
 
     return (
         <>
@@ -1052,6 +1107,79 @@ export default function Dashboard({ session }) {
                         </div>
                     </div>
                 </footer>
+
+                {/* Muro de Pago (Paywall) Overlay */}
+                {isPaywallOpen && (
+                    <div style={{
+                        position: 'fixed',
+                        inset: 0,
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        backdropFilter: 'blur(20px)',
+                        zIndex: 2000,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '2rem'
+                    }}>
+                        <div className="card glass animate-scale-in" style={{ maxWidth: '900px', width: '100%', padding: '4rem', textAlign: 'center' }}>
+                            <div style={{ marginBottom: '2rem' }}>
+                                <div style={{
+                                    width: '80px',
+                                    height: '80px',
+                                    backgroundColor: 'var(--solemia-pink)10',
+                                    borderRadius: '2rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    margin: '0 auto 2rem'
+                                }}>
+                                    <Zap size={40} color="var(--solemia-pink)" />
+                                </div>
+                                <h1 style={{ fontSize: '3rem', color: 'var(--solemia-plum)', fontWeight: '900', marginBottom: '1rem', letterSpacing: '-2px' }}>
+                                    Activa tu Consultorio Élite
+                                </h1>
+                                <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto 3rem' }}>
+                                    Para acceder a las herramientas de IA y al directorio de pacientes, elige el plan que mejor se adapte a tu crecimiento.
+                                </p>
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+                                {/* Tarjeta Mensual */}
+                                <div className="stat-card" style={{ padding: '2.5rem', textAlign: 'left', border: '1px solid #eee' }}>
+                                    <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Mensual</h3>
+                                    <div style={{ fontSize: '2.5rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '1.5rem' }}>
+                                        $1,349 <span style={{ fontSize: '1rem', opacity: 0.5 }}>MXN / mes</span>
+                                    </div>
+                                    <ul style={{ listStyle: 'none', padding: 0, marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}><CheckCircle2 size={16} color="var(--solemia-emerald)" /> Hasta 30 pacientes activos</li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}><CheckCircle2 size={16} color="var(--solemia-emerald)" /> Análisis de IA Ilimitado</li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}><CheckCircle2 size={16} color="var(--solemia-emerald)" /> Soporte Multiformato</li>
+                                    </ul>
+                                    <button onClick={() => handleMP('monthly')} className="btn btn-primary" style={{ width: '100%', padding: '1.25rem' }}>Elegir Plan Mensual</button>
+                                </div>
+
+                                {/* Tarjeta Semestral */}
+                                <div className="stat-card" style={{ padding: '2.5rem', textAlign: 'left', border: '2px solid var(--solemia-pink)', position: 'relative' }}>
+                                    <div style={{ position: 'absolute', top: '-15px', right: '20px', backgroundColor: 'var(--solemia-pink)', color: 'white', padding: '4px 12px', borderRadius: '12px', fontSize: '10px', fontWeight: '900' }}>RECOMENDADO</div>
+                                    <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Semestral (Pioneros)</h3>
+                                    <div style={{ fontSize: '2.5rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '1.5rem' }}>
+                                        $5,000 <span style={{ fontSize: '1rem', opacity: 0.5 }}>MXN / 6 meses</span>
+                                    </div>
+                                    <ul style={{ listStyle: 'none', padding: 0, marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}><CheckCircle2 size={16} color="var(--solemia-emerald)" /> <strong>Ahorro de $3,094</strong></li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}><CheckCircle2 size={16} color="var(--solemia-emerald)" /> Acceso Prioritario Beta</li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}><CheckCircle2 size={16} color="var(--solemia-emerald)" /> Directorio SEO Premium</li>
+                                    </ul>
+                                    <button onClick={() => handleMP('founder_semiannual')} className="btn btn-primary" style={{ width: '100%', padding: '1.25rem', background: 'var(--solemia-charcoal)' }}>Activar Pase Semestral</button>
+                                </div>
+                            </div>
+
+                            <div style={{ marginTop: '3rem', opacity: 0.5, fontSize: '0.8rem' }}>
+                                © {new Date().getFullYear()} Solemia Nutrición. Pagos procesados de forma segura por Mercado Pago.
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Modals outside the animated container for perfect fixed positioning */}
