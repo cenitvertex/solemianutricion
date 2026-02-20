@@ -32,7 +32,6 @@ export default async function handler(req, res) {
                     status: 'pending',
                     // En Sandbox de MP, el payer_email debe ser de un USUARIO DE PRUEBA 
                     // creado en el panel de desarrolladores.
-                    payer_email: 'test_user_123@testuser.com'
                 }
             });
 
