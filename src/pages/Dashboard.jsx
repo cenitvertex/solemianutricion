@@ -1150,66 +1150,52 @@ export default function Dashboard({ session }) {
                         </button>
 
                         <div className="card glass animate-scale-in" style={{
-                            maxWidth: '900px',
+                            maxWidth: '850px',
                             width: '100%',
-                            padding: '3rem 2rem',
+                            padding: '2.5rem 2rem',
                             textAlign: 'center',
                             margin: 'auto'
                         }}>
-                            <div style={{ marginBottom: '2rem' }}>
-                                <div style={{
-                                    width: '80px',
-                                    height: '80px',
-                                    backgroundColor: 'var(--solemia-pink)10',
-                                    borderRadius: '2rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    margin: '0 auto 2rem'
-                                }}>
-                                    <Zap size={40} color="var(--solemia-pink)" />
-                                </div>
-                                <h1 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', fontWeight: '900', marginBottom: '0.75rem', letterSpacing: '-1.5px', lineHeight: 1.1 }}>
+                            <div style={{ marginBottom: '1.5rem' }}>
+                                <h1 style={{ fontSize: '1.8rem', color: 'var(--solemia-plum)', fontWeight: '900', marginBottom: '0.5rem', letterSpacing: '-1px', lineHeight: 1.1 }}>
                                     Activa tu Consultorio Élite
                                 </h1>
-                                <p style={{ fontSize: '1rem', color: 'var(--text-muted)', maxWidth: '500px', margin: '0 auto 2.5rem' }}>
-                                    Para acceder a las herramientas de IA y al directorio de pacientes, elige el plan que mejor se adapte a tu crecimiento.
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', maxWidth: '500px', margin: '0 auto 1.5rem' }}>
+                                    Elige el plan que mejor se adapte a tu crecimiento para acceder a las herramientas de IA.
                                 </p>
                             </div>
 
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
                                 {/* Tarjeta Mensual */}
                                 <div className="stat-card" style={{ padding: '2.5rem', textAlign: 'left', border: '1px solid #eee' }}>
-                                    <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>Mensual</h3>
-                                    <div style={{ fontSize: '2rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '1rem' }}>
-                                        $1,349 <span style={{ fontSize: '0.8rem', opacity: 0.5 }}>MXN / mes</span>
+                                    <h3 style={{ fontSize: '1.15rem', marginBottom: '0.25rem' }}>Mensual</h3>
+                                    <div style={{ fontSize: '1.75rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '0.75rem' }}>
+                                        $1,349 <span style={{ fontSize: '0.7rem', opacity: 0.5 }}>MXN / mes</span>
                                     </div>
-                                    <ul style={{ listStyle: 'none', padding: 0, marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}><CheckCircle2 size={14} color="var(--solemia-emerald)" /> Hasta 30 pacientes activos</li>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}><CheckCircle2 size={14} color="var(--solemia-emerald)" /> Análisis de IA Ilimitado</li>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}><CheckCircle2 size={14} color="var(--solemia-emerald)" /> Soporte Multiformato</li>
+                                    <ul style={{ listStyle: 'none', padding: 0, marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem' }}><CheckCircle2 size={13} color="var(--solemia-emerald)" /> Hasta 30 pacientes</li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem' }}><CheckCircle2 size={13} color="var(--solemia-emerald)" /> IA Ilimitada</li>
                                     </ul>
-                                    <button onClick={() => handleMP('monthly')} className="btn btn-primary" style={{ width: '100%', padding: '1rem' }}>Elegir Plan Mensual</button>
+                                    <button onClick={() => handleMP('monthly')} className="btn btn-primary" style={{ width: '100%', padding: '0.9rem', fontSize: '0.85rem' }}>Elegir Plan Mensual</button>
                                 </div>
 
                                 {/* Tarjeta Semestral */}
                                 <div className="stat-card" style={{ padding: '2.5rem', textAlign: 'left', border: '2px solid var(--solemia-pink)', position: 'relative' }}>
                                     <div style={{ position: 'absolute', top: '-15px', right: '20px', backgroundColor: 'var(--solemia-pink)', color: 'white', padding: '4px 12px', borderRadius: '12px', fontSize: '10px', fontWeight: '900' }}>RECOMENDADO</div>
-                                    <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>Semestral (Pioneros)</h3>
-                                    <div style={{ fontSize: '2rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '1rem' }}>
-                                        $5,000 <span style={{ fontSize: '0.8rem', opacity: 0.5 }}>MXN / 6 meses</span>
+                                    <h3 style={{ fontSize: '1.15rem', marginBottom: '0.25rem' }}>Semestral (Pioneros)</h3>
+                                    <div style={{ fontSize: '1.75rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '0.75rem' }}>
+                                        $5,000 <span style={{ fontSize: '0.7rem', opacity: 0.5 }}>MXN / 6 meses</span>
                                     </div>
-                                    <ul style={{ listStyle: 'none', padding: 0, marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}><CheckCircle2 size={14} color="var(--solemia-emerald)" /> <strong>Ahorro de $3,094</strong></li>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}><CheckCircle2 size={14} color="var(--solemia-emerald)" /> Acceso Prioritario Beta</li>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}><CheckCircle2 size={14} color="var(--solemia-emerald)" /> Directorio SEO Premium</li>
+                                    <ul style={{ listStyle: 'none', padding: 0, marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem' }}><CheckCircle2 size={13} color="var(--solemia-emerald)" /> <strong>Ahorro de $3,094</strong></li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem' }}><CheckCircle2 size={13} color="var(--solemia-emerald)" /> Directorio SEO Premium</li>
                                     </ul>
-                                    <button onClick={() => handleMP('founder_semiannual')} className="btn btn-primary" style={{ width: '100%', padding: '1rem', background: 'var(--solemia-charcoal)' }}>Activar Pase Semestral</button>
+                                    <button onClick={() => handleMP('founder_semiannual')} className="btn btn-primary" style={{ width: '100%', padding: '0.9rem', fontSize: '0.85rem', background: 'var(--solemia-charcoal)' }}>Activar Pase Semestral</button>
                                 </div>
                             </div>
 
-                            <div style={{ marginTop: '3rem', opacity: 0.5, fontSize: '0.8rem' }}>
-                                © {new Date().getFullYear()} Solemia Nutrición. Pagos procesados de forma segura por Mercado Pago.
+                            <div style={{ marginTop: '2rem', opacity: 0.5, fontSize: '0.75rem' }}>
+                                © {new Date().getFullYear()} Solemia Nutrición. Pagos seguros vía Mercado Pago.
                             </div>
                         </div>
                     </div>

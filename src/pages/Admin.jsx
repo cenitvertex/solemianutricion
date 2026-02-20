@@ -107,45 +107,42 @@ export default function Admin({ session }) {
         }
     };
 
-    const manualActivate = async (tenantId, plan) => {
+    const toggleManualAccess = async (tenantId, currentStatus, currentPlan) => {
         try {
-            const days = plan === 'semestral' ? 180 : 30;
-            const accessUntil = new Date();
-            accessUntil.setDate(accessUntil.getDate() + days);
+            // Si estamos activando manualmente, damos acceso hasta 2099
+            // Si estamos desactivando, volvemos a 'pending' y fecha nula
+            const newStatus = currentStatus === 'active' ? 'pending' : 'active';
+            const newDate = newStatus === 'active' ? '2099-01-01T00:00:00Z' : null;
+            const newPlan = newStatus === 'active' ? 'admin_bypass' : null;
 
             const { error } = await supabase
                 .from('tenants')
                 .update({
-                    subscription_status: 'active',
-                    access_until: accessUntil.toISOString(),
-                    plan_type: plan === 'semestral' ? 'founder_semiannual' : 'monthly',
-                    is_active: true
+                    subscription_status: newStatus,
+                    access_until: newDate,
+                    plan_type: newPlan,
+                    is_active: true // Siempre activo a nivel sistema si el admin da paso
                 })
                 .eq('id', tenantId);
 
             if (error) throw error;
-
             fetchAdminData();
-            alert('Cuenta activada manualmente con éxito');
         } catch (err) {
-            alert('Error al activar: ' + err.message);
+            alert('Error al cambiar acceso: ' + err.message);
         }
     };
 
-    const toggleTenantStatus = async (tenantId, currentStatus) => {
+    const toggleSuspension = async (tenantId, currentSuspension) => {
         try {
             const { error } = await supabase
                 .from('tenants')
-                .update({ is_active: !currentStatus })
+                .update({ is_active: !currentSuspension })
                 .eq('id', tenantId);
 
             if (error) throw error;
-
-            setTenants(tenants.map(t =>
-                t.id === tenantId ? { ...t, is_active: !currentStatus } : t
-            ));
+            fetchAdminData();
         } catch (err) {
-            alert('Error al cambiar estatus: ' + err.message);
+            alert('Error al suspender: ' + err.message);
         }
     };
 
@@ -315,10 +312,9 @@ export default function Admin({ session }) {
                         <thead>
                             <tr style={{ textAlign: 'left' }}>
                                 <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESPECIALISTA / EMAIL</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>PLAN / VENCIMIENTO</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESTATUS PAGO</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESTADO CUENTA</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ACCIONES VIP</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>PAGO (MERCADO PAGO)</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ACCESO MAESTRO</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>BLOQUEO TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -345,81 +341,55 @@ export default function Admin({ session }) {
                                         </div>
                                     </td>
                                     <td style={{ padding: '1.25rem 1.5rem' }}>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                                <CreditCard size={12} color="#94a3b8" />
-                                                <span style={{ fontWeight: '800', color: '#0f172a', fontSize: '0.8rem' }}>
-                                                    {tenant.plan_type === 'founder_semiannual' ? 'Semestral' : tenant.plan_type === 'monthly' ? 'Mensual' : 'Sin Plan'}
-                                                </span>
-                                            </div>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', opacity: 0.6 }}>
-                                                <Calendar size={12} />
-                                                <span style={{ fontSize: '0.7rem', fontWeight: '600' }}>
-                                                    {tenant.access_until ? new Date(tenant.access_until).toLocaleDateString() : 'Vencido'}
-                                                </span>
-                                            </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                            {tenant.plan_type === 'admin_bypass' ? (
+                                                <span style={{ fontSize: '0.65rem', fontWeight: '900', color: 'var(--solemia-pink)' }}>✨ ACCESO CORTESÍA</span>
+                                            ) : (
+                                                <>
+                                                    <span style={{ fontSize: '0.75rem', fontWeight: '800', color: tenant.subscription_status === 'active' ? '#10b981' : '#ed406a' }}>
+                                                        {tenant.subscription_status === 'active' ? 'PAGADO' : 'PENDIENTE'}
+                                                    </span>
+                                                    <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>{tenant.plan_type || 'Sin plan'}</span>
+                                                </>
+                                            )}
                                         </div>
                                     </td>
                                     <td style={{ padding: '1.25rem 1.5rem' }}>
-                                        {tenant.subscription_status === 'active' ? (
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#10b981', background: '#ecfdf5', padding: '0.5rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.65rem', fontWeight: '900', border: '1px solid rgba(16, 185, 129, 0.1)' }}>
-                                                <CheckCircle2 size={12} /> AL CORRIENTE
-                                            </div>
-                                        ) : (
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#f43f5e', background: '#fff1f2', padding: '0.5rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.65rem', fontWeight: '900', border: '1px solid rgba(244, 63, 94, 0.1)' }}>
-                                                <XCircle size={12} /> EN MORA / PENDIENTE
-                                            </div>
-                                        )}
-                                    </td>
-                                    <td style={{ padding: '1.25rem 1.5rem' }}>
-                                        {tenant.is_active ? (
-                                            <div style={{ color: '#10b981', fontSize: '0.65rem', fontWeight: '900' }}>SISTEMA ON</div>
-                                        ) : (
-                                            <div style={{ color: '#f43f5e', fontSize: '0.65rem', fontWeight: '900' }}>SISTEMA OFF</div>
-                                        )}
+                                        <button
+                                            onClick={() => toggleManualAccess(tenant.id, tenant.subscription_status, tenant.plan_type)}
+                                            style={{
+                                                padding: '0.5rem 1rem',
+                                                borderRadius: '1rem',
+                                                border: 'none',
+                                                background: tenant.subscription_status === 'active' ? '#ecfdf5' : '#f8fafc',
+                                                color: tenant.subscription_status === 'active' ? '#10b981' : '#94a3b8',
+                                                fontWeight: '900',
+                                                fontSize: '0.65rem',
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0.5rem',
+                                                border: tenant.subscription_status === 'active' ? '1px solid #10b981' : '1px solid #e2e8f0'
+                                            }}
+                                        >
+                                            {tenant.subscription_status === 'active' ? <><Crown size={12} /> ACTIVADO</> : 'ACTIVAR MANUAL'}
+                                        </button>
                                     </td>
                                     <td style={{ padding: '1.25rem 1.5rem', borderRadius: '0 1.5rem 1.5rem 0' }}>
-                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                            <button
-                                                onClick={() => manualActivate(tenant.id, 'mensual')}
-                                                title="Dar 30 días VIP"
-                                                style={{
-                                                    padding: '0.5rem',
-                                                    borderRadius: '0.75rem',
-                                                    border: 'none',
-                                                    background: '#eee',
-                                                    cursor: 'pointer'
-                                                }}
-                                            >
-                                                <Crown size={14} color="var(--solemia-plum)" />
-                                            </button>
-                                            <button
-                                                onClick={() => manualActivate(tenant.id, 'semestral')}
-                                                title="Dar 6 meses VIP"
-                                                style={{
-                                                    padding: '0.5rem',
-                                                    borderRadius: '0.75rem',
-                                                    border: 'none',
-                                                    background: 'var(--solemia-charcoal)',
-                                                    cursor: 'pointer'
-                                                }}
-                                            >
-                                                <Crown size={14} color="gold" />
-                                            </button>
-                                            <button
-                                                onClick={() => toggleTenantStatus(tenant.id, tenant.is_active)}
-                                                style={{
-                                                    padding: '0.5rem',
-                                                    borderRadius: '0.75rem',
-                                                    border: 'none',
-                                                    background: tenant.is_active ? '#fff1f2' : '#ecfdf5',
-                                                    color: tenant.is_active ? '#f43f5e' : '#10b981',
-                                                    cursor: 'pointer'
-                                                }}
-                                            >
-                                                <Power size={14} />
-                                            </button>
-                                        </div>
+                                        <button
+                                            onClick={() => toggleSuspension(tenant.id, tenant.is_active)}
+                                            style={{
+                                                padding: '0.5rem',
+                                                borderRadius: '0.75rem',
+                                                border: 'none',
+                                                background: tenant.is_active ? '#f8fafc' : '#fff1f2',
+                                                color: tenant.is_active ? '#94a3b8' : '#f43f5e',
+                                                cursor: 'pointer'
+                                            }}
+                                            title={tenant.is_active ? "Suspender acceso total" : "Quitar suspensión"}
+                                        >
+                                            <Power size={18} />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
