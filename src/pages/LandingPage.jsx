@@ -51,21 +51,13 @@ export default function LandingPage() {
         "Soporte Concierge 24/7"
     ];
 
-    const featuresFounderMSI = [
-        ...featuresMonthly,
-        "Opción de 3 o 6 Meses Sin Intereses",
-        "Directorio SEO Solemia Premium",
-        "Garantía de Satisfacción Blindada",
-        "Soporte Prioritario"
-    ];
 
     const [preferenceId, setPreferenceId] = React.useState(null);
 
     const handleMP = async (plan) => {
         const planDetails = {
             monthly: { title: "Solemia Plan Mensual", price: 1349 },
-            founder_cash: { title: "Solemia Pase Fundador (Contado)", price: 5000 },
-            founder_msi: { title: "Solemia Pase Fundador (MSI)", price: 5500 }
+            founder_cash: { title: "Solemia Pase Fundador (Contado)", price: 5000 }
         };
 
         const selectedPlan = planDetails[plan];
@@ -310,14 +302,6 @@ export default function LandingPage() {
                             isPopular={true}
                             buttonText="Obtener Promo Contado"
                             onAction={() => handleMP('founder_cash')}
-                        />
-                        <PricingCard
-                            title="Fundador (MSI)"
-                            price="$5,500"
-                            period="MXN / semestre"
-                            features={featuresFounderMSI}
-                            buttonText="Pagar en Mensualidades"
-                            onAction={() => handleMP('founder_msi')}
                         />
                     </div>
                 </div>

@@ -60,14 +60,6 @@ export default async function handler(req, res) {
             auto_return: 'approved',
         };
 
-        // Configuración de MSI para México
-        if (type === 'founder_msi') {
-            preferenceBody.payment_methods = {
-                installments: 6,
-                default_installments: 6
-            };
-        }
-
         const result = await preference.create({ body: preferenceBody });
 
         res.status(200).json({
