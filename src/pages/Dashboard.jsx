@@ -1112,101 +1112,104 @@ export default function Dashboard({ session }) {
                     </div>
                 </footer>
 
-                {/* Muro de Pago (Paywall) Overlay */}
-                {isPaywallOpen && (
-                    <div style={{
-                        position: 'fixed',
-                        inset: 0,
-                        backgroundColor: 'white',
-                        zIndex: 2000,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        padding: '1rem',
-                        overflow: 'hidden'
-                    }}>
-                        {/* Logout button for Admins/Switching accounts */}
-                        <button
-                            onClick={() => supabase.auth.signOut()}
-                            style={{
-                                position: 'absolute',
-                                top: '2rem',
-                                right: '2rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem',
-                                padding: '0.75rem 1.25rem',
-                                borderRadius: '1rem',
-                                border: '1px solid #eee',
-                                background: 'white',
-                                color: '#64748b',
-                                fontWeight: '700',
-                                fontSize: '0.8rem',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s',
-                                zIndex: 2001
-                            }}
-                        >
-                            <LogOut size={16} />
-                            Cerrar Sesión
-                        </button>
-
-                        <div className="card glass animate-scale-in" style={{
-                            maxWidth: '720px',
-                            width: '100%',
-                            padding: '1.5rem 2rem',
-                            textAlign: 'center',
-                            boxShadow: '0 30px 60px -12px rgba(0,0,0,0.1)',
-                            border: '1px solid #f1f5f9',
-                            position: 'relative'
-                        }}>
-                            <div style={{ marginBottom: '1rem' }}>
-                                <h1 style={{ fontSize: '1.5rem', color: 'var(--solemia-plum)', fontWeight: '900', marginBottom: '0.25rem', letterSpacing: '-1px', lineHeight: 1.1 }}>
-                                    Activa tu Consultorio Élite
-                                </h1>
-                                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', maxWidth: '450px', margin: '0 auto 1rem' }}>
-                                    Elige el plan que mejor se adapte a tu crecimiento.
-                                </p>
-                            </div>
-
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-                                {/* Tarjeta Mensual */}
-                                <div className="stat-card" style={{ padding: '1.5rem', textAlign: 'left', border: '1px solid #eee' }}>
-                                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.15rem' }}>Mensual</h3>
-                                    <div style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '0.5rem' }}>
-                                        $1,349 <span style={{ fontSize: '0.7rem', opacity: 0.5 }}>MXN / mes</span>
-                                    </div>
-                                    <ul style={{ listStyle: 'none', padding: 0, marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem' }}><CheckCircle2 size={12} color="var(--solemia-emerald)" /> 30 pacientes</li>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem' }}><CheckCircle2 size={12} color="var(--solemia-emerald)" /> IA Ilimitada</li>
-                                    </ul>
-                                    <button onClick={() => handleMP('monthly')} className="btn btn-primary" style={{ width: '100%', padding: '0.75rem', fontSize: '0.8rem' }}>Elegir Mensual</button>
-                                </div>
-
-                                {/* Tarjeta Semestral */}
-                                <div className="stat-card" style={{ padding: '1.5rem', textAlign: 'left', border: '2px solid var(--solemia-pink)', position: 'relative' }}>
-                                    <div style={{ position: 'absolute', top: '-10px', right: '15px', backgroundColor: 'var(--solemia-pink)', color: 'white', padding: '3px 8px', borderRadius: '8px', fontSize: '8px', fontWeight: '900' }}>RECOMENDADO</div>
-                                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.15rem' }}>Semestral</h3>
-                                    <div style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '0.5rem' }}>
-                                        $5,000 <span style={{ fontSize: '0.7rem', opacity: 0.5 }}>MXN / 6 meses</span>
-                                    </div>
-                                    <ul style={{ listStyle: 'none', padding: 0, marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem' }}><CheckCircle2 size={12} color="var(--solemia-emerald)" /> <strong>Ahorro de $3,094</strong></li>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem' }}><CheckCircle2 size={12} color="var(--solemia-emerald)" /> SEO Premium</li>
-                                    </ul>
-                                    <button onClick={() => handleMP('founder_semiannual')} className="btn btn-primary" style={{ width: '100%', padding: '0.75rem', fontSize: '0.8rem', background: 'var(--solemia-charcoal)' }}>Activar Semestral</button>
-                                </div>
-                            </div>
-
-                            <div style={{ marginTop: '1.5rem', opacity: 0.5, fontSize: '0.65rem' }}>
-                                © {new Date().getFullYear()} Solemia Nutrición. Pagos vía Mercado Pago.
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
 
-            {/* Modals outside the animated container for perfect fixed positioning */}
+            {/* Muro de Pago (Paywall) Overlay - Fuera del contenedor animado */}
+            {isPaywallOpen && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundColor: 'white',
+                    zIndex: 99999,
+                    display: 'flex',
+                    alignItems: 'flex-start', // Forzamos que empiece arriba
+                    justifyContent: 'center',
+                    paddingTop: '8vh', // Centrado visual en el cuadrante superior
+                    overflow: 'hidden'
+                }}>
+                    {/* Logout button for Admins/Switching accounts */}
+                    <button
+                        onClick={() => supabase.auth.signOut()}
+                        style={{
+                            position: 'absolute',
+                            top: '1.5rem',
+                            right: '2rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '0.6rem 1.1rem',
+                            borderRadius: '1rem',
+                            border: '1px solid #eee',
+                            background: 'white',
+                            color: '#64748b',
+                            fontWeight: '700',
+                            fontSize: '0.75rem',
+                            cursor: 'pointer',
+                            zIndex: 100000
+                        }}
+                    >
+                        <LogOut size={14} />
+                        Cerrar Sesión
+                    </button>
+
+                    <div className="card glass animate-scale-in" style={{
+                        maxWidth: '720px',
+                        width: '100%',
+                        padding: '1.5rem 2rem',
+                        textAlign: 'center',
+                        boxShadow: '0 30px 60px -12px rgba(0,0,0,0.1)',
+                        border: '1px solid #f1f5f9',
+                        position: 'relative'
+                    }}>
+                        <div style={{ marginBottom: '1rem' }}>
+                            <h1 style={{ fontSize: '1.5rem', color: 'var(--solemia-plum)', fontWeight: '900', marginBottom: '0.25rem', letterSpacing: '-1px', lineHeight: 1.1 }}>
+                                Activa tu Consultorio Élite
+                            </h1>
+                            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', maxWidth: '450px', margin: '0 auto 1rem' }}>
+                                Elige el plan que mejor se adapte a tu crecimiento.
+                            </p>
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                            {/* Tarjeta Mensual */}
+                            <div className="stat-card" style={{ padding: '1.25rem', textAlign: 'left', border: '1px solid #eee' }}>
+                                <h3 style={{ fontSize: '1rem', marginBottom: '0.1rem' }}>Mensual</h3>
+                                <div style={{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '0.4rem' }}>
+                                    $1,349 <span style={{ fontSize: '0.65rem', opacity: 0.5 }}>MXN / mes</span>
+                                </div>
+                                <ul style={{ listStyle: 'none', padding: 0, marginBottom: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                    <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.7rem' }}><CheckCircle2 size={11} color="var(--solemia-emerald)" /> 30 pacientes</li>
+                                    <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.7rem' }}><CheckCircle2 size={11} color="var(--solemia-emerald)" /> IA Ilimitada</li>
+                                </ul>
+                                <button onClick={() => handleMP('monthly')} className="btn btn-primary" style={{ width: '100%', padding: '0.6rem', fontSize: '0.75rem' }}>Elegir Mensual</button>
+                            </div>
+
+                            {/* Tarjeta Semestral */}
+                            <div className="stat-card" style={{ padding: '1.25rem', textAlign: 'left', border: '2px solid var(--solemia-pink)', position: 'relative' }}>
+                                <div style={{ position: 'absolute', top: '-8px', right: '12px', backgroundColor: 'var(--solemia-pink)', color: 'white', padding: '2px 7px', borderRadius: '6px', fontSize: '7px', fontWeight: '900' }}>RECOMENDADO</div>
+                                <h3 style={{ fontSize: '1rem', marginBottom: '0.1rem' }}>Semestral</h3>
+                                <div style={{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--solemia-plum)', marginBottom: '0.4rem' }}>
+                                    $5,000 <span style={{ fontSize: '0.65rem', opacity: 0.5 }}>MXN / 6 meses</span>
+                                </div>
+                                <ul style={{ listStyle: 'none', padding: 0, marginBottom: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                    <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.7rem' }}><CheckCircle2 size={11} color="var(--solemia-emerald)" /> <strong>Ahorro de $3,094</strong></li>
+                                    <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.7rem' }}><CheckCircle2 size={11} color="var(--solemia-emerald)" /> SEO Premium</li>
+                                </ul>
+                                <button onClick={() => handleMP('founder_semiannual')} className="btn btn-primary" style={{ width: '100%', padding: '0.6rem', fontSize: '0.75rem', background: 'var(--solemia-charcoal)' }}>Activar Semestral</button>
+                            </div>
+                        </div>
+
+                        <div style={{ marginTop: '1rem', opacity: 0.5, fontSize: '0.6rem' }}>
+                            © {new Date().getFullYear()} Solemia Nutrición. Pagos vía Mercado Pago.
+                        </div>
+                    </div>
+                </div>
+            )
+            }
+
             {isModalOpen && (
                 <ClientModal
                     isOpen={isModalOpen}
