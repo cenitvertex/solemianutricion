@@ -8,6 +8,9 @@ import {
     Power,
     CheckCircle2,
     XCircle,
+    Calendar,
+    Crown,
+    CreditCard,
     ChevronRight,
     ArrowLeft,
     TrendingUp,
@@ -93,7 +96,7 @@ export default function Admin({ session }) {
             setTenants(enrichedTenants);
             setStats({
                 totalTenants: enrichedTenants.length,
-                activeTenants: enrichedTenants.filter(t => t.is_active).length,
+                activeTenants: enrichedTenants.filter(t => t.subscription_status === 'active').length,
                 totalPatients: patientsData.length
             });
 
@@ -101,6 +104,31 @@ export default function Admin({ session }) {
             console.error('Error fetching admin data:', err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const manualActivate = async (tenantId, plan) => {
+        try {
+            const days = plan === 'semestral' ? 180 : 30;
+            const accessUntil = new Date();
+            accessUntil.setDate(accessUntil.getDate() + days);
+
+            const { error } = await supabase
+                .from('tenants')
+                .update({
+                    subscription_status: 'active',
+                    access_until: accessUntil.toISOString(),
+                    plan_type: plan === 'semestral' ? 'founder_semiannual' : 'monthly',
+                    is_active: true
+                })
+                .eq('id', tenantId);
+
+            if (error) throw error;
+
+            fetchAdminData();
+            alert('Cuenta activada manualmente con éxito');
+        } catch (err) {
+            alert('Error al activar: ' + err.message);
         }
     };
 
@@ -113,7 +141,6 @@ export default function Admin({ session }) {
 
             if (error) throw error;
 
-            // Update local state
             setTenants(tenants.map(t =>
                 t.id === tenantId ? { ...t, is_active: !currentStatus } : t
             ));
@@ -251,7 +278,7 @@ export default function Admin({ session }) {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '3rem' }}>
                     {[
                         { label: 'Especialistas', value: stats.totalTenants, icon: Users, color: '#3b82f6', bg: '#eff6ff' },
-                        { label: 'Cuentas Activas', value: stats.activeTenants, icon: Activity, color: '#10b981', bg: '#ecfdf5' },
+                        { label: 'Suscripciones Activas', value: stats.activeTenants, icon: Activity, color: '#10b981', bg: '#ecfdf5' },
                         { label: 'Pacientes Totales', value: stats.totalPatients, icon: TrendingUp, color: '#f43f5e', bg: '#fff1f2' }
                     ].map((item, idx) => (
                         <div key={idx} className="card glass" style={{
@@ -288,9 +315,10 @@ export default function Admin({ session }) {
                         <thead>
                             <tr style={{ textAlign: 'left' }}>
                                 <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESPECIALISTA / EMAIL</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>MÉTRICAS</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESTATUS</th>
-                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ACCIONES</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>PLAN / VENCIMIENTO</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESTATUS PAGO</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ESTADO CUENTA</th>
+                                <th className="text-detail" style={{ fontSize: '0.65rem', fontWeight: '900', padding: '0 1.5rem 1rem 1.5rem', color: '#94a3b8', letterSpacing: '2px' }}>ACCIONES VIP</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -317,47 +345,81 @@ export default function Admin({ session }) {
                                         </div>
                                     </td>
                                     <td style={{ padding: '1.25rem 1.5rem' }}>
-                                        <div style={{ display: 'flex', gap: '1.5rem' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                                <Users size={14} color="#94a3b8" />
-                                                <span style={{ fontWeight: '900', color: '#0f172a', fontSize: '0.85rem' }}>{tenant.patientCount}</span>
-                                                <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: '700', letterSpacing: '0.5px' }}>PACIENTES</span>
+                                                <CreditCard size={12} color="#94a3b8" />
+                                                <span style={{ fontWeight: '800', color: '#0f172a', fontSize: '0.8rem' }}>
+                                                    {tenant.plan_type === 'founder_semiannual' ? 'Semestral' : tenant.plan_type === 'monthly' ? 'Mensual' : 'Sin Plan'}
+                                                </span>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', opacity: 0.6 }}>
+                                                <Calendar size={12} />
+                                                <span style={{ fontSize: '0.7rem', fontWeight: '600' }}>
+                                                    {tenant.access_until ? new Date(tenant.access_until).toLocaleDateString() : 'Vencido'}
+                                                </span>
                                             </div>
                                         </div>
                                     </td>
                                     <td style={{ padding: '1.25rem 1.5rem' }}>
-                                        {tenant.is_active ? (
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#10b981', background: '#ecfdf5', padding: '0.5rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.7rem', fontWeight: '900', border: '1px solid rgba(16, 185, 129, 0.1)' }}>
-                                                <CheckCircle2 size={12} /> ACTIVO
+                                        {tenant.subscription_status === 'active' ? (
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#10b981', background: '#ecfdf5', padding: '0.5rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.65rem', fontWeight: '900', border: '1px solid rgba(16, 185, 129, 0.1)' }}>
+                                                <CheckCircle2 size={12} /> AL CORRIENTE
                                             </div>
                                         ) : (
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#f43f5e', background: '#fff1f2', padding: '0.5rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.7rem', fontWeight: '900', border: '1px solid rgba(244, 63, 94, 0.1)' }}>
-                                                <XCircle size={12} /> SUSPENDIDO
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#f43f5e', background: '#fff1f2', padding: '0.5rem 1rem', borderRadius: '1rem', width: 'fit-content', fontSize: '0.65rem', fontWeight: '900', border: '1px solid rgba(244, 63, 94, 0.1)' }}>
+                                                <XCircle size={12} /> EN MORA / PENDIENTE
                                             </div>
                                         )}
                                     </td>
+                                    <td style={{ padding: '1.25rem 1.5rem' }}>
+                                        {tenant.is_active ? (
+                                            <div style={{ color: '#10b981', fontSize: '0.65rem', fontWeight: '900' }}>SISTEMA ON</div>
+                                        ) : (
+                                            <div style={{ color: '#f43f5e', fontSize: '0.65rem', fontWeight: '900' }}>SISTEMA OFF</div>
+                                        )}
+                                    </td>
                                     <td style={{ padding: '1.25rem 1.5rem', borderRadius: '0 1.5rem 1.5rem 0' }}>
-                                        <button
-                                            onClick={() => toggleTenantStatus(tenant.id, tenant.is_active)}
-                                            style={{
-                                                padding: '0.6rem 1.25rem',
-                                                borderRadius: '1rem',
-                                                border: 'none',
-                                                background: tenant.is_active ? '#fff1f2' : '#ecfdf5',
-                                                color: tenant.is_active ? '#f43f5e' : '#10b981',
-                                                fontWeight: '900',
-                                                fontSize: '0.7rem',
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '0.5rem',
-                                                transition: 'all 0.2s',
-                                                letterSpacing: '0.5px'
-                                            }}
-                                        >
-                                            <Power size={14} />
-                                            {tenant.is_active ? 'Suspender' : 'Activar'}
-                                        </button>
+                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                            <button
+                                                onClick={() => manualActivate(tenant.id, 'mensual')}
+                                                title="Dar 30 días VIP"
+                                                style={{
+                                                    padding: '0.5rem',
+                                                    borderRadius: '0.75rem',
+                                                    border: 'none',
+                                                    background: '#eee',
+                                                    cursor: 'pointer'
+                                                }}
+                                            >
+                                                <Crown size={14} color="var(--solemia-plum)" />
+                                            </button>
+                                            <button
+                                                onClick={() => manualActivate(tenant.id, 'semestral')}
+                                                title="Dar 6 meses VIP"
+                                                style={{
+                                                    padding: '0.5rem',
+                                                    borderRadius: '0.75rem',
+                                                    border: 'none',
+                                                    background: 'var(--solemia-charcoal)',
+                                                    cursor: 'pointer'
+                                                }}
+                                            >
+                                                <Crown size={14} color="gold" />
+                                            </button>
+                                            <button
+                                                onClick={() => toggleTenantStatus(tenant.id, tenant.is_active)}
+                                                style={{
+                                                    padding: '0.5rem',
+                                                    borderRadius: '0.75rem',
+                                                    border: 'none',
+                                                    background: tenant.is_active ? '#fff1f2' : '#ecfdf5',
+                                                    color: tenant.is_active ? '#f43f5e' : '#10b981',
+                                                    cursor: 'pointer'
+                                                }}
+                                            >
+                                                <Power size={14} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
