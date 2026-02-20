@@ -35,6 +35,7 @@ import PreviewModal from '../components/PreviewModal';
 import SettingsModal from '../components/SettingsModal';
 import LegalModal from '../components/LegalModal';
 import logo from '../assets/logo.png';
+import WelcomeTour from '../components/WelcomeTour';
 
 export default function Dashboard({ session }) {
     const [patients, setPatients] = useState([]);
@@ -67,10 +68,11 @@ export default function Dashboard({ session }) {
     const [accessUntil, setAccessUntil] = useState(null);
     const [isPaywallOpen, setIsPaywallOpen] = useState(false);
     const [planType, setPlanType] = useState(null);
+    const [isTourOpen, setIsTourOpen] = useState(false);
 
     // Bloqueo de scroll cuando hay un modal abierto
     useEffect(() => {
-        const anyModalOpen = isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen || legalConfig.isOpen || isPaywallOpen;
+        const anyModalOpen = isTourOpen || isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen || legalConfig.isOpen || isPaywallOpen;
         if (anyModalOpen) {
             document.body.style.overflow = 'hidden';
             document.body.style.height = '100vh';
@@ -95,10 +97,10 @@ export default function Dashboard({ session }) {
         const checkIdentity = async () => {
             if (!session?.user) return;
 
-            // 1. Fetch tenant info (Name & Subscription)
+            // 1. Fetch tenant info (Name & Subscription & Tour)
             const { data, error } = await supabase
                 .from('tenants')
-                .select('name, subscription_status, access_until, plan_type')
+                .select('name, subscription_status, access_until, plan_type, has_seen_tour')
                 .eq('id', session.user.id)
                 .maybeSingle();
 
@@ -116,6 +118,10 @@ export default function Dashboard({ session }) {
                     setIsPaywallOpen(true);
                 } else {
                     fetchPatients();
+                    // Si no ha visto el tour, lo abrimos
+                    if (!data.has_seen_tour) {
+                        setIsTourOpen(true);
+                    }
                 }
             } else {
                 // Si no hay tenant (raro si ya se registró), mostramos paywall por seguridad
@@ -143,6 +149,19 @@ export default function Dashboard({ session }) {
             showToast('Error al actualizar el estado', 'error');
         } else {
             showToast('Estado IA actualizado con éxito');
+        }
+    };
+
+    const handleTourComplete = async () => {
+        setIsTourOpen(false);
+        // Marcamos como visto en la DB
+        const { error } = await supabase
+            .from('tenants')
+            .update({ has_seen_tour: true })
+            .eq('id', session.user.id);
+
+        if (error) {
+            console.error('Error al guardar progreso del tour:', error);
         }
     };
 
@@ -1282,6 +1301,11 @@ export default function Dashboard({ session }) {
                     content={legalConfig.content}
                 />
             )}
+
+            <WelcomeTour
+                isOpen={isTourOpen}
+                onComplete={handleTourComplete}
+            />
         </>
     );
 }
