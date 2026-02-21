@@ -56,19 +56,22 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         }
     ];
 
-    // Efecto Typewriter V6 (Fluidez total)
+    // Efecto Typewriter V5 (Ajustado para no saltar el primer carácter)
     useEffect(() => {
         setDisplayText('');
         let i = 0;
         const text = steps[step].description;
+
         const type = () => {
             if (i < text.length) {
-                setDisplayText(prev => prev + text.charAt(i));
+                const Char = text.charAt(i);
+                setDisplayText(prev => prev + Char);
                 i++;
-                typingTimeoutRef.current = setTimeout(type, 12);
+                typingTimeoutRef.current = setTimeout(type, 10);
             }
         };
-        const initialTimeout = setTimeout(type, 30);
+
+        const initialTimeout = setTimeout(type, 50); // Pequeño delay para visualización
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
@@ -85,36 +88,19 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 const rect = el.getBoundingClientRect();
                 setTargetRect(rect);
 
-                const isTopHalf = rect.top < window.innerHeight * 0.4;
+                const isTop = rect.top > window.innerHeight / 2;
+                const top = isTop ? rect.top - 340 : rect.bottom + 40;
 
-                // Lógica de evitación V6: Colocar el asistente lejos del elemento central
-                let top, left;
-                let arrowClass = '';
-
-                if (isTopHalf) {
-                    // Si el elemento está arriba, el asistente va abajo
-                    top = rect.bottom + 45;
-                    arrowClass = 'v4-arrow-top';
-                } else {
-                    // Si el elemento está abajo, el asistente va arriba
-                    top = rect.top - 240;
-                    arrowClass = 'v4-arrow-bottom';
-                }
-
-                // Centrado lateral inteligente (380px de ancho)
-                left = rect.left + (rect.width / 2) - 190;
-
-                // Límites de pantalla
+                // Centrado dinámico para ancho de 400px con márgenes seguros
+                let left = rect.left + (rect.width / 2) - 200;
                 if (left < 20) left = 20;
-                if (left + 400 > window.innerWidth) left = window.innerWidth - 400;
-                if (top < 20) top = 20;
-                if (top + 320 > window.innerHeight) top = window.innerHeight - 320;
+                if (left + 420 > window.innerWidth) left = window.innerWidth - 420;
 
                 setContainerPos({
                     top: `${top}px`,
                     left: `${left}px`,
                     transform: 'none',
-                    arrowClass
+                    arrowClass: isTop ? 'v4-arrow-bottom' : 'v4-arrow-top'
                 });
             }
         } else {
@@ -152,19 +138,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div className="solemia-guide-v4-overlay" style={{ pointerEvents: 'all' }}>
-            {/* ANILLO DE PULSO V6 - EL FOCO PROTAGONISTA */}
-            {targetRect && (
-                <div className="tour-pulse-ring-v6" style={{
-                    top: targetRect.top - 10,
-                    left: targetRect.left - 10,
-                    width: targetRect.width + 20,
-                    height: targetRect.height + 20,
-                    borderRadius: '1.5rem',
-                    transition: 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)'
-                }} />
-            )}
-
-            {/* SVG Mask Nitro-Focus V6 */}
+            {/* SVG Mask Suave v4 - SIN BLUR EN ELspotlight-mask-final-v4 */}
             <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
                 <defs>
                     <mask id="spotlight-mask-final-v4">
@@ -175,41 +149,42 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                                 y={targetRect.top - 20}
                                 width={targetRect.width + 40}
                                 height={targetRect.height + 40}
-                                rx="30"
+                                rx="40"
                                 fill="black"
                                 style={{ transition: 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)' }}
                             />
                         )}
                     </mask>
                 </defs>
-                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.82)" mask="url(#spotlight-mask-final-v4)" />
+                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.6)" mask="url(#spotlight-mask-final-v4)" />
             </svg>
 
-            {/* ASISTENTE NUTRI-PAL V6 (NITRO) */}
+            {/* ASISTENTE NUTRI-PAL V4 (FINAL INTEGRADO V5) */}
             <div className="nutripal-v4-container" style={{
                 top: containerPos.top,
                 left: containerPos.left,
                 transform: containerPos.transform
             }}>
                 <div className={`nutripal-v4-speech ${containerPos.arrowClass}`}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    {/* ENCABEZADO CON ORBE INTEGRADO V4 */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
                         <div className="nutripal-v4-orb">
                             {steps[step].icon}
                         </div>
                         <div>
-                            <h4 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
+                            <h4 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 900, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
                                 {steps[step].title}
                             </h4>
-                            <div style={{ fontSize: '0.65rem', fontWeight: '800', opacity: 0.35, letterSpacing: '0.05em' }}>NUTRI-PAL POWER v6.0</div>
+                            <div style={{ fontSize: '0.7rem', fontWeight: '800', opacity: 0.35, letterSpacing: '0.05em' }}>NUTRI-PAL v5.0</div>
                         </div>
                     </div>
 
-                    <p style={{ fontSize: '0.95rem', color: '#475569', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>
+                    <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.6, margin: 0, minHeight: '6rem' }}>
                         {displayText}
                     </p>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.25rem' }}>
-                        <div style={{ display: 'flex', gap: '6px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '1rem' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
@@ -217,21 +192,21 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
                             {step > 0 && (
-                                <button onClick={handleBack} className="btn-outline" style={{ padding: '0.6rem 1.2rem', fontSize: '0.75rem', borderRadius: '1rem' }}>
+                                <button onClick={handleBack} className="btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.25rem', fontSize: '0.8rem', borderRadius: '1.25rem' }}>
                                     Atrás
                                 </button>
                             )}
-                            <button onClick={handleNext} className="tour-btn-next">
-                                {step === steps.length - 1 ? '¡Listo!' : 'Siguiente'}
+                            <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.85rem 1.75rem', fontSize: '0.85rem' }}>
+                                {step === steps.length - 1 ? '¡Listo!' : 'Siguiente'} <ChevronRight size={18} />
                             </button>
                         </div>
                     </div>
 
                     <button
                         onClick={onComplete}
-                        style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
+                        style={{ position: 'absolute', top: '2rem', right: '2rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
                     >
-                        <Sparkles size={16} />
+                        <Sparkles size={18} />
                     </button>
                 </div>
             </div>
