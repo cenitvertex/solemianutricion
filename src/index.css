@@ -431,3 +431,68 @@ input:checked+.slider-ia:before {
 .footer-link:hover .text-detail {
   color: var(--solemia-pink);
 }
+
+/* Driver.js Custom Spotlight Styles */
+.driver-popover.solemia-tour-popover {
+  background-color: white;
+  color: var(--solemia-charcoal);
+  border-radius: 2rem;
+  padding: 1.5rem;
+  box-shadow: 0 20px 50px rgba(77, 12, 48, 0.15);
+  border: 1px solid rgba(77, 12, 48, 0.05);
+  max-width: 320px;
+  font-family: var(--font-inter);
+}
+
+.driver-popover.solemia-tour-popover .driver-popover-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--solemia-plum);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+.driver-popover.solemia-tour-popover .driver-popover-description {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #64748b;
+  margin-bottom: 1.25rem;
+}
+
+.driver-popover.solemia-tour-popover .driver-popover-footer button {
+  background: #f1f5f9;
+  color: #64748b;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  text-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.driver-popover.solemia-tour-popover .driver-popover-next-btn {
+  background: var(--solemia-gradient) !important;
+  color: white !important;
+}
+
+.driver-popover.solemia-tour-popover .driver-popover-prev-btn:hover {
+  background: #e2e8f0 !important;
+}
+
+.driver-popover.solemia-tour-popover .driver-popover-close-btn {
+  color: #cbd5e1;
+}
+
+.driver-popover.solemia-tour-popover .driver-popover-progress-text {
+  color: #94a3b8;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* Spotlight Element Glow */
+.driver-active-element {
+  box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.2), 0 0 20px rgba(77, 12, 48, 0.1) !important;
+  border-radius: 1.5rem !important;
+}

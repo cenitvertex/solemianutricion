@@ -458,6 +458,7 @@ export default function Dashboard({ session }) {
                                 <button
                                     onClick={() => setIsSettingsOpen(true)}
                                     title="Configuración"
+                                    className="tour-settings"
                                     style={{
                                         width: '44px',
                                         height: '44px',
@@ -569,7 +570,7 @@ export default function Dashboard({ session }) {
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
                                     <button
                                         onClick={() => { setEditingPatient(null); setIsModalOpen(true); }}
-                                        className="btn btn-primary"
+                                        className="btn btn-primary tour-add-patient"
                                         style={{ padding: '1.4rem 4rem', fontSize: '13px', boxShadow: '0 10px 30px rgba(225, 29, 72, 0.4)', borderRadius: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
                                     >
                                         <Plus size={20} /> Nuevo paciente
@@ -582,7 +583,7 @@ export default function Dashboard({ session }) {
                                     <div style={{ position: 'relative' }}>
                                         <div
                                             onClick={() => setOpenDropdown(openDropdown === 'sort' ? null : 'sort')}
-                                            className="select-premium"
+                                            className="select-premium tour-sort-by"
                                             style={{
                                                 height: '44px',
                                                 padding: '0 2.5rem 0 1.25rem',
@@ -657,7 +658,7 @@ export default function Dashboard({ session }) {
                                     <div style={{ position: 'relative' }}>
                                         <div
                                             onClick={() => setOpenDropdown(openDropdown === 'time' ? null : 'time')}
-                                            className="select-premium"
+                                            className="select-premium tour-time-filter"
                                             style={{
                                                 height: '44px',
                                                 padding: '0 2.5rem 0 1.25rem',
@@ -732,7 +733,7 @@ export default function Dashboard({ session }) {
                                             else if (filterStatus === 'active') setFilterStatus('inactive');
                                             else setFilterStatus('all');
                                         }}
-                                        className="btn-filter-premium"
+                                        className="btn-filter-premium tour-status-filter"
                                         style={{
                                             height: '44px',
                                             padding: '0 1.5rem',
@@ -760,7 +761,7 @@ export default function Dashboard({ session }) {
                                     <div className="text-detail" style={{ fontSize: '0.65rem' }}>
                                         {filteredPatients.length} coincidencias
                                     </div>
-                                    <div style={{ position: 'relative', width: '100%', maxWidth: '380px' }}>
+                                    <div style={{ position: 'relative', width: '100%', maxWidth: '380px' }} className="tour-search">
                                         <Search size={18} style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', color: 'var(--solemia-plum)', opacity: 0.5 }} />
                                         <input
                                             type="text"
