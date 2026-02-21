@@ -89,12 +89,13 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 setTargetRect(rect);
 
                 const isTop = rect.top > window.innerHeight / 2;
-                const top = isTop ? rect.top - 340 : rect.bottom + 40;
+                // V6: Mayor separación para que el elemento respire
+                const top = isTop ? rect.top - 220 : rect.bottom + 60;
 
-                // Centrado dinámico para ancho de 400px con márgenes seguros
-                let left = rect.left + (rect.width / 2) - 200;
+                // Centrado dinámico para ancho de 320px
+                let left = rect.left + (rect.width / 2) - 160;
                 if (left < 20) left = 20;
-                if (left + 420 > window.innerWidth) left = window.innerWidth - 420;
+                if (left + 340 > window.innerWidth) left = window.innerWidth - 340;
 
                 setContainerPos({
                     top: `${top}px`,
@@ -138,75 +139,72 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div className="solemia-guide-v4-overlay" style={{ pointerEvents: 'all' }}>
-            {/* SVG Mask Suave v4 - SIN BLUR EN ELspotlight-mask-final-v4 */}
+            {/* V6: Foco cristalino con mayor radio de respiro */}
             <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
                 <defs>
                     <mask id="spotlight-mask-final-v4">
                         <rect x="0" y="0" width="100%" height="100%" fill="white" />
                         {targetRect && (
                             <rect
-                                x={targetRect.left - 20}
-                                y={targetRect.top - 20}
-                                width={targetRect.width + 40}
-                                height={targetRect.height + 40}
-                                rx="40"
+                                x={targetRect.left - 25}
+                                y={targetRect.top - 25}
+                                width={targetRect.width + 50}
+                                height={targetRect.height + 50}
+                                rx="1.5rem"
                                 fill="black"
                                 style={{ transition: 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)' }}
                             />
                         )}
                     </mask>
                 </defs>
-                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.6)" mask="url(#spotlight-mask-final-v4)" />
+                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.7)" mask="url(#spotlight-mask-final-v4)" />
             </svg>
 
-            {/* ASISTENTE NUTRI-PAL V4 (FINAL INTEGRADO V5) */}
+            {/* ASISTENTE NUTRI-PAL V6 (SYSTEM-FIRST) */}
             <div className="nutripal-v4-container" style={{
                 top: containerPos.top,
                 left: containerPos.left,
                 transform: containerPos.transform
             }}>
                 <div className={`nutripal-v4-speech ${containerPos.arrowClass}`}>
-                    {/* ENCABEZADO CON ORBE INTEGRADO V4 */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                        <div className="nutripal-v4-orb">
+                    {/* V6: Encabezado minimalista tipo etiqueta */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div className="nutripal-v4-orb" style={{ fontSize: '0.9rem' }}>
                             {steps[step].icon}
                         </div>
-                        <div>
-                            <h4 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 900, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
-                                {steps[step].title}
-                            </h4>
-                            <div style={{ fontSize: '0.7rem', fontWeight: '800', opacity: 0.35, letterSpacing: '0.05em' }}>NUTRI-PAL v5.0</div>
-                        </div>
+                        <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 800, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)' }}>
+                            {steps[step].title}
+                        </h4>
                     </div>
 
-                    <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.6, margin: 0, minHeight: '6rem' }}>
+                    <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.5, margin: 0, minHeight: '4.5rem' }}>
                         {displayText}
                     </p>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '1rem' }}>
-                        <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
+                        <div style={{ display: 'flex', gap: '6px' }}>
                             {steps.map((_, i) => (
-                                <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
+                                <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} style={{ width: i === step ? '16px' : '6px', height: '6px' }} />
                             ))}
                         </div>
 
-                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <div style={{ display: 'flex', gap: '0.4rem' }}>
                             {step > 0 && (
-                                <button onClick={handleBack} className="btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.25rem', fontSize: '0.8rem', borderRadius: '1.25rem' }}>
+                                <button onClick={handleBack} className="btn-outline" style={{ padding: '0.5rem 0.8rem', fontSize: '0.7rem', borderRadius: '0.75rem', border: '1px solid #e2e8f0' }}>
                                     Atrás
                                 </button>
                             )}
-                            <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.85rem 1.75rem', fontSize: '0.85rem' }}>
-                                {step === steps.length - 1 ? '¡Listo!' : 'Siguiente'} <ChevronRight size={18} />
+                            <button onClick={handleNext} className="tour-btn-next" style={{ padding: '0.5rem 1rem', fontSize: '0.75rem', borderRadius: '0.75rem' }}>
+                                {step === steps.length - 1 ? 'Finalizar' : 'Continuar'}
                             </button>
                         </div>
                     </div>
 
                     <button
                         onClick={onComplete}
-                        style={{ position: 'absolute', top: '2rem', right: '2rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
+                        style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.3 }}
                     >
-                        <Sparkles size={18} />
+                        <Sparkles size={14} />
                     </button>
                 </div>
             </div>

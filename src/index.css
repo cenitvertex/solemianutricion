@@ -432,7 +432,7 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL ASSISTANT (V5 - CRISTAL) === */
+/* === GUÍA SOLEMIA: NUTRI-PAL V6 (SYSTEM-FIRST) === */
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
@@ -441,10 +441,9 @@ input:checked+.slider-ia:before {
   height: 100vh;
   z-index: 11000;
   pointer-events: none;
-  background-color: rgba(26, 26, 26, 0.45) !important;
-  /* Más oscuro para contraste, sin blur */
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  /* Oscuridad neutra sin tinte */
   backdrop-filter: none !important;
-  /* ELIMINADO PARA NITIDEZ TOTAL */
 }
 
 .nutripal-v4-container {
@@ -452,51 +451,48 @@ input:checked+.slider-ia:before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
   pointer-events: all;
   z-index: 11001;
-  width: 400px;
-  /* ANCHO FIJO MAESTRO */
+  width: 320px;
+  /* Reducido para no dominar */
 }
 
 .nutripal-v4-orb {
-  width: 45px;
-  height: 45px;
+  width: 32px;
+  height: 32px;
   background: var(--solemia-gradient);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(225, 29, 72, 0.4);
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
   color: white;
-  border: 3px solid white;
-  position: relative;
-  overflow: hidden;
+  border: 2px solid white;
   flex-shrink: 0;
 }
 
 .nutripal-v4-speech {
   background: white;
-  padding: 2.5rem;
-  border-radius: 3rem;
-  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.4);
+  padding: 1.5rem;
+  /* Compacto */
+  border-radius: 2rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
   width: 100%;
-  /* Ocupa el contenedor de 400px */
   box-sizing: border-box;
-  /* Crucial para evitar desbordes */
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   position: relative;
   animation: bubble-pop-v4 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 @keyframes bubble-pop-v4 {
   from {
     opacity: 0;
-    transform: scale(0.9) translateY(30px);
+    transform: scale(0.95) translateY(10px);
   }
 
   to {
@@ -508,26 +504,25 @@ input:checked+.slider-ia:before {
 .nutripal-v4-speech::after {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   background: white;
   transform: rotate(45deg);
   z-index: -1;
   left: 50%;
-  margin-left: -10px;
+  margin-left: -8px;
 }
 
-/* Indicadores de dirección para la flecha v4 */
 .v4-arrow-top::after {
-  top: -10px;
+  top: -8px;
 }
 
 .v4-arrow-bottom::after {
-  bottom: -10px;
+  bottom: -8px;
 }
 
 .spotlight-mask-v4-pro {
-  fill: rgba(0, 0, 0, 0.6) !important;
+  fill: rgba(0, 0, 0, 0.7) !important;
   transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
