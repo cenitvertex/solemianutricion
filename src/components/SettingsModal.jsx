@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Save, User, Building, Landmark, Phone, MessageSquare } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-const SettingsModal = ({ isOpen, onClose, session }) => {
+const SettingsModal = ({ isOpen, onClose, session, onRestartTour }) => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -162,15 +162,33 @@ const SettingsModal = ({ isOpen, onClose, session }) => {
                                     < Landmark size={18} color="var(--solemia-pink)" />
                                     <span style={{ fontSize: '11px', fontWeight: '900', color: 'var(--solemia-plum)', textTransform: 'uppercase', letterSpacing: '1px' }}>Suscripción Solemia</span>
                                 </div>
-                                <div style={{
-                                    padding: '4px 10px',
-                                    borderRadius: '6px',
-                                    fontSize: '9px',
-                                    fontWeight: '900',
-                                    backgroundColor: subscription.status === 'active' ? '#ecfdf5' : '#fff1f2',
-                                    color: subscription.status === 'active' ? '#059669' : '#e11d48'
-                                }}>
-                                    {subscription.status === 'active' ? '● ACTIVA' : '● ' + subscription.status.toUpperCase()}
+                                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                    <button
+                                        type="button"
+                                        onClick={onRestartTour}
+                                        style={{
+                                            padding: '4px 10px',
+                                            borderRadius: '6px',
+                                            fontSize: '8px',
+                                            fontWeight: '900',
+                                            backgroundColor: '#f1f5f9',
+                                            color: '#64748b',
+                                            border: 'none',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        VER TUTORIAL
+                                    </button>
+                                    <div style={{
+                                        padding: '4px 10px',
+                                        borderRadius: '6px',
+                                        fontSize: '9px',
+                                        fontWeight: '900',
+                                        backgroundColor: subscription.status === 'active' ? '#ecfdf5' : '#fff1f2',
+                                        color: subscription.status === 'active' ? '#059669' : '#e11d48'
+                                    }}>
+                                        {subscription.status === 'active' ? '● ACTIVA' : '● ' + subscription.status.toUpperCase()}
+                                    </div>
                                 </div>
                             </div>
 

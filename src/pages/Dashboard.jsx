@@ -165,6 +165,17 @@ export default function Dashboard({ session }) {
         }
     };
 
+    const handleResetTour = async () => {
+        setIsTourOpen(true);
+        setIsSettingsOpen(false); // Cerramos config para que vea el tour
+        // Opcional: Podríamos dejar el flag en true en la DB y solo abrir el tour localmente
+        // pero es mejor resetearlo por si recarga en medio del tour.
+        await supabase
+            .from('tenants')
+            .update({ has_seen_tour: false })
+            .eq('id', session.user.id);
+    };
+
     const fetchPatients = async () => {
         setLoading(true);
         const { data, error } = await supabase
@@ -1290,6 +1301,11 @@ export default function Dashboard({ session }) {
                     isOpen={isSettingsOpen}
                     onClose={() => setIsSettingsOpen(false)}
                     session={session}
+                    onResetTour={handleResetTour}
+                    onRestartTour={() => {
+                        setIsSettingsOpen(false);
+                        setIsTourOpen(true);
+                    }}
                 />
             )}
 
