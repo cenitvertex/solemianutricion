@@ -100,7 +100,7 @@ export default function Dashboard({ session }) {
             // 1. Fetch tenant info (Name & Subscription & Tour)
             const { data, error } = await supabase
                 .from('tenants')
-                .select('name, subscription_status, access_until, plan_type, has_seen_tour')
+                .select('name, subscription_status, access_until, plan_type, has_seen_tour, is_active')
                 .eq('id', session.user.id)
                 .maybeSingle();
 
@@ -113,10 +113,15 @@ export default function Dashboard({ session }) {
                 // Check access
                 const now = new Date();
                 const validUntil = data.access_until ? new Date(data.access_until) : null;
+                const isExpired = validUntil && now > validUntil;
 
-                if (data.subscription_status !== 'active' || (validUntil && now > validUntil)) {
+                // Si tiene bypass de admin o suscripción activa y no vencida, tiene acceso
+                const hasAccess = data.plan_type === 'admin_bypass' || (data.subscription_status === 'active' && !isExpired);
+
+                if (!hasAccess || data.is_active === false) {
                     setIsPaywallOpen(true);
                 } else {
+                    setIsPaywallOpen(false); // Aseguramos que se cierre
                     fetchPatients();
                     // Si no ha visto el tour, lo abrimos
                     if (!data.has_seen_tour) {
