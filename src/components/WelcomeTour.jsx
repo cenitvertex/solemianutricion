@@ -9,6 +9,12 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     const [displayText, setDisplayText] = useState('');
     const typingTimeoutRef = useRef();
 
+    useEffect(() => {
+        if (isOpen) {
+            console.log("🚀 NUTRI-PAL V4 FINAL LOADED - CACHE-BUSTED");
+        }
+    }, [isOpen]);
+
     const steps = [
         {
             title: "¡Hola! Soy Nutri-Pal",
@@ -58,7 +64,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (i < text.length) {
                 setDisplayText(prev => prev + text.charAt(i));
                 i++;
-                typingTimeoutRef.current = setTimeout(type, 12); // Ligeramente más rápido
+                typingTimeoutRef.current = setTimeout(type, 10);
             }
         };
 
@@ -77,17 +83,17 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 setTargetRect(rect);
 
                 const isTop = rect.top > window.innerHeight / 2;
-                const top = isTop ? rect.top - 320 : rect.bottom + 40;
-                let left = rect.left + (rect.width / 2) - 190;
+                const top = isTop ? rect.top - 340 : rect.bottom + 40;
+                let left = rect.left + (rect.width / 2) - 200;
 
                 if (left < 20) left = 20;
-                if (left + 380 > window.innerWidth) left = window.innerWidth - 400;
+                if (left + 400 > window.innerWidth) left = window.innerWidth - 420;
 
                 setContainerPos({
                     top: `${top}px`,
                     left: `${left}px`,
                     transform: 'none',
-                    arrowClass: isTop ? 'arrow-bottom' : 'arrow-top'
+                    arrowClass: isTop ? 'v4-arrow-bottom' : 'v4-arrow-top'
                 });
             }
         } else {
@@ -120,69 +126,69 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     };
 
     return (
-        <div className="solemia-guide-overlay" style={{ pointerEvents: 'all' }}>
-            {/* SVG Mask Suave */}
+        <div className="solemia-guide-v4-overlay" style={{ pointerEvents: 'all' }}>
+            {/* SVG Mask Suave v4 */}
             <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
                 <defs>
-                    <mask id="spotlight-mask-v4">
+                    <mask id="spotlight-mask-final-v4">
                         <rect x="0" y="0" width="100%" height="100%" fill="white" />
                         {targetRect && (
                             <rect
-                                x={targetRect.left - 15}
-                                y={targetRect.top - 15}
-                                width={targetRect.width + 30}
-                                height={targetRect.height + 30}
-                                rx="30"
+                                x={targetRect.left - 20}
+                                y={targetRect.top - 20}
+                                width={targetRect.width + 40}
+                                height={targetRect.height + 40}
+                                rx="40"
                                 fill="black"
                                 style={{ transition: 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)' }}
                             />
                         )}
                     </mask>
                 </defs>
-                <rect x="0" y="0" width="100%" height="100%" fill="rgba(26, 26, 26, 0.6)" mask="url(#spotlight-mask-v4)" />
+                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.55)" mask="url(#spotlight-mask-final-v4)" />
             </svg>
 
-            {/* ASISTENTE NUTRI-PAL V4 (ORBE INTEGRADO) */}
-            <div className="nutripal-container" style={{
+            {/* ASISTENTE NUTRI-PAL V4 (FINAL INTEGRADO) */}
+            <div className="nutripal-v4-container" style={{
                 top: containerPos.top,
                 left: containerPos.left,
                 transform: containerPos.transform
             }}>
-                <div className={`nutripal-speech-v4 ${containerPos.arrowClass}`}>
-                    {/* ENCABEZADO CON ORBE INTEGRADO */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                        <div className="nutripal-orb-v4">
+                <div className={`nutripal-v4-speech ${containerPos.arrowClass}`}>
+                    {/* ENCABEZADO CON ORBE INTEGRADO V4 */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                        <div className="nutripal-v4-orb">
                             {steps[step].icon}
                         </div>
                         <div>
-                            <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 900, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
+                            <h4 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 900, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
                                 {steps[step].title}
                             </h4>
-                            <div style={{ fontSize: '0.65rem', fontWeight: '800', opacity: 0.4, letterSpacing: '0.05em' }}>GUÍA SOLEMIA</div>
+                            <div style={{ fontSize: '0.7rem', fontWeight: '800', opacity: 0.35, letterSpacing: '0.05em' }}>NUTRI-PAL v4.0</div>
                         </div>
                     </div>
 
-                    <p style={{ fontSize: '0.95rem', color: '#64748b', lineHeight: 1.6, margin: 0, minHeight: '4.5rem' }}>
+                    <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.65, margin: 0, minHeight: '5rem' }}>
                         {displayText}
                     </p>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '0.5rem' }}>
-                        <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem' }}>
+                        <div style={{ display: 'flex', gap: '10px' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
                         </div>
 
-                        <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.85rem 1.75rem', fontSize: '0.85rem' }}>
+                        <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '1rem 2rem', fontSize: '0.9rem' }}>
                             {step === steps.length - 1 ? '¡Listo!' : 'Siguiente'} <ChevronRight size={18} />
                         </button>
                     </div>
 
                     <button
                         onClick={onComplete}
-                        style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
+                        style={{ position: 'absolute', top: '2rem', right: '2rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
                     >
-                        <Sparkles size={18} />
+                        <Sparkles size={20} />
                     </button>
                 </div>
             </div>
