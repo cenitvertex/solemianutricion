@@ -9,9 +9,11 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     const [displayText, setDisplayText] = useState('');
     const typingTimeoutRef = useRef();
 
+    // Forzar el inicio desde el paso 0 cada vez que se abre
     useEffect(() => {
         if (isOpen) {
-            console.log("🚀 NUTRI-PAL V4 FINAL LOADED - CACHE-BUSTED");
+            setStep(0);
+            console.log("🚀 NUTRI-PAL V4 FINAL LOADED - CACHE-BUSTED & RESET");
         }
     }, [isOpen]);
 
@@ -125,6 +127,10 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         }
     };
 
+    const handleBack = () => {
+        if (step > 0) setStep(step - 1);
+    };
+
     return (
         <div className="solemia-guide-v4-overlay" style={{ pointerEvents: 'all' }}>
             {/* SVG Mask Suave v4 */}
@@ -179,16 +185,23 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                             ))}
                         </div>
 
-                        <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '1rem 2rem', fontSize: '0.9rem' }}>
-                            {step === steps.length - 1 ? '¡Listo!' : 'Siguiente'} <ChevronRight size={18} />
-                        </button>
+                        <div style={{ display: 'flex', gap: '0.75rem' }}>
+                            {step > 0 && (
+                                <button onClick={handleBack} className="btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.85rem 1.25rem', fontSize: '0.85rem', borderRadius: '1.25rem' }}>
+                                    Atrás
+                                </button>
+                            )}
+                            <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '1rem 2rem', fontSize: '0.9rem' }}>
+                                {step === steps.length - 1 ? '¡Listo!' : 'Siguiente'} <ChevronRight size={18} />
+                            </button>
+                        </div>
                     </div>
 
                     <button
                         onClick={onComplete}
                         style={{ position: 'absolute', top: '2rem', right: '2rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
                     >
-                        <Sparkles size={20} />
+                        <Sparkles size={18} />
                     </button>
                 </div>
             </div>
