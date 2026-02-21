@@ -58,7 +58,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (i < text.length) {
                 setDisplayText(prev => prev + text.charAt(i));
                 i++;
-                typingTimeoutRef.current = setTimeout(type, 15);
+                typingTimeoutRef.current = setTimeout(type, 12); // Ligeramente más rápido
             }
         };
 
@@ -76,20 +76,18 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 const rect = el.getBoundingClientRect();
                 setTargetRect(rect);
 
-                // Posicionar el contenedor completo (orbe + burbuja)
                 const isTop = rect.top > window.innerHeight / 2;
-                const top = isTop ? rect.top - 280 : rect.bottom + 40;
-                let left = rect.left + (rect.width / 2) - 170;
+                const top = isTop ? rect.top - 320 : rect.bottom + 40;
+                let left = rect.left + (rect.width / 2) - 190;
 
-                // Límites de pantalla
                 if (left < 20) left = 20;
-                if (left + 340 > window.innerWidth) left = window.innerWidth - 360;
+                if (left + 380 > window.innerWidth) left = window.innerWidth - 400;
 
                 setContainerPos({
                     top: `${top}px`,
                     left: `${left}px`,
                     transform: 'none',
-                    flexDirection: isTop ? 'column' : 'column-reverse'
+                    arrowClass: isTop ? 'arrow-bottom' : 'arrow-top'
                 });
             }
         } else {
@@ -98,7 +96,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                flexDirection: 'column'
+                arrowClass: ''
             });
         }
         requestRef.current = requestAnimationFrame(updatePosition);
@@ -123,10 +121,10 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div className="solemia-guide-overlay" style={{ pointerEvents: 'all' }}>
-            {/* SVG Mask para el Spotlight Pro */}
+            {/* SVG Mask Suave */}
             <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
                 <defs>
-                    <mask id="spotlight-mask-v3">
+                    <mask id="spotlight-mask-v4">
                         <rect x="0" y="0" width="100%" height="100%" fill="white" />
                         {targetRect && (
                             <rect
@@ -141,64 +139,52 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                         )}
                     </mask>
                 </defs>
-                <rect x="0" y="0" width="100%" height="100%" fill="rgba(26, 26, 26, 0.85)" mask="url(#spotlight-mask-v3)" />
+                <rect x="0" y="0" width="100%" height="100%" fill="rgba(26, 26, 26, 0.6)" mask="url(#spotlight-mask-v4)" />
             </svg>
 
-            {/* PULSE RING V3 */}
-            {targetRect && (
-                <div className="tour-pulse-ring" style={{
-                    top: targetRect.top - 15,
-                    left: targetRect.left - 15,
-                    width: targetRect.width + 30,
-                    height: targetRect.height + 30,
-                    borderRadius: '30px',
-                    transition: 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)'
-                }} />
-            )}
-
-            {/* ASISTENTE NUTRI-PAL V3 */}
-            <div className="nutripal-container" style={containerPos}>
-
-                {/* Burbuja de Diálogo */}
-                <div className="nutripal-speech-v3">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                        <div style={{ background: 'rgba(77, 12, 48, 0.05)', padding: '0.5rem', borderRadius: '12px' }}>
+            {/* ASISTENTE NUTRI-PAL V4 (ORBE INTEGRADO) */}
+            <div className="nutripal-container" style={{
+                top: containerPos.top,
+                left: containerPos.left,
+                transform: containerPos.transform
+            }}>
+                <div className={`nutripal-speech-v4 ${containerPos.arrowClass}`}>
+                    {/* ENCABEZADO CON ORBE INTEGRADO */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+                        <div className="nutripal-orb-v4">
                             {steps[step].icon}
                         </div>
-                        <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 900, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)' }}>
-                            {steps[step].title}
-                        </h4>
+                        <div>
+                            <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 900, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
+                                {steps[step].title}
+                            </h4>
+                            <div style={{ fontSize: '0.65rem', fontWeight: '800', opacity: 0.4, letterSpacing: '0.05em' }}>GUÍA SOLEMIA</div>
+                        </div>
                     </div>
 
-                    <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6, margin: '0 0 1.5rem 0', minHeight: '4.5rem' }}>
+                    <p style={{ fontSize: '0.95rem', color: '#64748b', lineHeight: 1.6, margin: 0, minHeight: '4.5rem' }}>
                         {displayText}
                     </p>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', gap: '6px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '0.5rem' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
                         </div>
 
-                        <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem' }}>
-                            {step === steps.length - 1 ? '¡Vamos!' : 'Siguiente'} <ChevronRight size={16} />
+                        <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.85rem 1.75rem', fontSize: '0.85rem' }}>
+                            {step === steps.length - 1 ? '¡Listo!' : 'Siguiente'} <ChevronRight size={18} />
                         </button>
                     </div>
 
                     <button
                         onClick={onComplete}
-                        style={{ position: 'absolute', top: '1.25rem', right: '1.25rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
+                        style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
                     >
-                        <Sparkles size={16} />
+                        <Sparkles size={18} />
                     </button>
                 </div>
-
-                {/* El Orbe Maestro */}
-                <div className="nutripal-orb-v3">
-                    <Wand2 size={24} color="white" />
-                </div>
-
             </div>
         </div>
     );
