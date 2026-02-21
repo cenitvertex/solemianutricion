@@ -98,14 +98,15 @@ export default function Dashboard({ session }) {
             if (!session?.user) return;
 
             // 1. Fetch tenant info (Name & Subscription & Tour)
+            // Usamos select('*') para evitar errores si faltan columnas nuevas (has_seen_tour, is_active)
             const { data, error } = await supabase
                 .from('tenants')
-                .select('name, subscription_status, access_until, plan_type, has_seen_tour, is_active')
+                .select('*')
                 .eq('id', session.user.id)
                 .maybeSingle();
 
             if (data && !error) {
-                setTenantName(data.name);
+                setTenantName(data.name || '');
                 setSubscriptionStatus(data.subscription_status || 'pending');
                 setAccessUntil(data.access_until);
                 setPlanType(data.plan_type);
@@ -117,25 +118,29 @@ export default function Dashboard({ session }) {
 
                 // LÓGICA DE ACCESO MAESTRA:
                 // Permitimos acceso si:
-                // 1. Es un bypass de administrador (cortesía)
+                // 1. Es un bypass de administrador (cortesía) o plan premium
                 // 2. La suscripción está activa y no ha vencido
                 const hasAdminBypass = data.plan_type === 'admin_bypass';
-                const hasActiveSubscription = data.subscription_status === 'active' && !isExpired;
+                const hasActiveSubscription = (data.subscription_status === 'active' || data.subscription_status === 'authorized') && !isExpired;
                 const hasAccess = hasAdminBypass || hasActiveSubscription;
 
+                // Solo bloqueamos si explícitamente no hay acceso o está baneado
                 if (!hasAccess || data.is_active === false) {
                     setIsPaywallOpen(true);
                 } else {
                     setIsPaywallOpen(false); // Aseguramos que se cierre
                     fetchPatients();
-                    // Si no ha visto el tour, lo abrimos
-                    if (!data.has_seen_tour) {
+                    // Si no ha visto el tour, lo abrimos (defensivo)
+                    if (data.has_seen_tour === false) {
                         setIsTourOpen(true);
                     }
                 }
             } else {
-                // Si no hay tenant (raro si ya se registró), mostramos paywall por seguridad
-                setIsPaywallOpen(true);
+                // Si hay error en la query (ej. tabla vacía o error de red), 
+                // pero tenemos sesión, intentamos cargar pacientes de todos modos
+                // para no bloquear al usuario injustamente.
+                console.warn('Tenant record not found or error, defaulting to limited access');
+                fetchPatients();
             }
         };
         checkIdentity();

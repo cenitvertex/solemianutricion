@@ -33,7 +33,7 @@ function App() {
         if (!adminStatus) {
           const { data: tenantRecord } = await supabase
             .from('tenants')
-            .select('is_active')
+            .select('*')
             .eq('id', currentSession.user.id)
             .maybeSingle();
 
