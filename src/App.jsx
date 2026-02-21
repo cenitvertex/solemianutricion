@@ -37,8 +37,8 @@ function App() {
             .eq('id', currentSession.user.id)
             .maybeSingle();
 
-          // Si no existe el registro o is_active es false, suspendemos
-          setIsSuspended(tenantRecord ? !tenantRecord.is_active : true);
+          // Solo suspendemos si is_active es explícitamente false
+          setIsSuspended(tenantRecord?.is_active === false);
         } else {
           setIsSuspended(false);
         }

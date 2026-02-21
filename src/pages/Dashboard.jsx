@@ -115,8 +115,13 @@ export default function Dashboard({ session }) {
                 const validUntil = data.access_until ? new Date(data.access_until) : null;
                 const isExpired = validUntil && now > validUntil;
 
-                // Si tiene bypass de admin o suscripción activa y no vencida, tiene acceso
-                const hasAccess = data.plan_type === 'admin_bypass' || (data.subscription_status === 'active' && !isExpired);
+                // LÓGICA DE ACCESO MAESTRA:
+                // Permitimos acceso si:
+                // 1. Es un bypass de administrador (cortesía)
+                // 2. La suscripción está activa y no ha vencido
+                const hasAdminBypass = data.plan_type === 'admin_bypass';
+                const hasActiveSubscription = data.subscription_status === 'active' && !isExpired;
+                const hasAccess = hasAdminBypass || hasActiveSubscription;
 
                 if (!hasAccess || data.is_active === false) {
                     setIsPaywallOpen(true);
