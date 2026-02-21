@@ -1,50 +1,70 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, Users, Brain, Settings, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react';
+import { Star, Users, Brain, Settings, ChevronRight, Sparkles, Wand2 } from 'lucide-react';
 
 const WelcomeTour = ({ isOpen, onComplete }) => {
     const [step, setStep] = useState(0);
     const [targetRect, setTargetRect] = useState(null);
-    const [bubblePos, setBubblePos] = useState({ top: 0, left: 0, arrow: 'bubble-top' });
+    const [containerPos, setContainerPos] = useState({ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' });
     const requestRef = useRef();
+    const [displayText, setDisplayText] = useState('');
+    const typingTimeoutRef = useRef();
 
     const steps = [
         {
-            title: "¡Bienvenida a Solemia!",
-            description: "Soy Nutri-Pal, tu asistente de inteligencia clínica. No soy una ventana de ayuda, soy parte de tu equipo. Permíteme mostrarte cómo domino tu consultorio.",
-            icon: <Sparkles size={24} />,
-            element: null // Centrado inicial
+            title: "¡Hola! Soy Nutri-Pal",
+            description: "No soy una ventana de ayuda. Soy tu asistente de inteligencia clínica. Permíteme mostrarte cómo dominamos tu consultorio juntos.",
+            icon: <Wand2 size={24} />,
+            element: null
         },
         {
-            title: "El Pulso de tu Clínica",
-            description: "Aquí monitoreamos la salud de tu negocio. Pacientes agendados, ventas y crecimiento. Si estos números suben, tu impacto sube.",
+            title: "Métricas de Élite",
+            description: "Aquí monitoreamos el pulso de tu éxito. Tus pacientes agendados y tu crecimiento, siempre a la vista.",
             icon: <Users size={24} />,
             element: ".tour-metrics"
         },
         {
-            title: "Tu Biblioteca de Pacientes",
-            description: "Encuentra cualquier expediente en milisegundos. La potencia de Solemia está en la organización impecable.",
+            title: "Búsqueda Instantánea",
+            description: "Encuentra cualquier expediente en milisegundos. La potencia de Solemia está en la organización impecable de tus datos.",
             icon: <Sparkles size={24} />,
             element: ".tour-search"
         },
         {
-            title: "Asistente de IA Clínica",
-            description: "Este es el corazón tecnológico. Aquí es donde agregas pacientes y donde yo analizo sus datos para darte recomendaciones de élite.",
+            title: "El Cerebro Clínico",
+            description: "Aquí es donde ocurre la magia. Agrega pacientes y deja que mi IA analice sus datos para darte recomendaciones de alta precisión.",
             icon: <Brain size={24} />,
             element: ".tour-add-patient"
         },
         {
-            title: "Tu Centro de Mando",
-            description: "Personaliza tu experiencia, gestiona tu suscripción y ajusta tus preferencias aquí. Tú tienes el control total.",
+            title: "Tu Centro de Control",
+            description: "Personaliza tu experiencia y ajusta tus preferencias. Aquí tú tienes las riendas de tu plataforma.",
             icon: <Settings size={24} />,
             element: ".tour-settings"
         },
         {
-            title: "¡Lista para Despegar!",
-            description: "Ya conoces los puntos vitales. Recuerda que siempre estaré aquí para ayudarte a escalar tu consulta al siguiente nivel.",
+            title: "¡Manos a la obra!",
+            description: "Ya conoces los puntos vitales. Estoy listo para ayudarte a escalar tu consulta al siguiente nivel. ¡A brillar!",
             icon: <Star size={24} />,
             element: null
         }
     ];
+
+    // Efecto Typewriter
+    useEffect(() => {
+        setDisplayText('');
+        let i = 0;
+        const text = steps[step].description;
+
+        const type = () => {
+            if (i < text.length) {
+                setDisplayText(prev => prev + text.charAt(i));
+                i++;
+                typingTimeoutRef.current = setTimeout(type, 15);
+            }
+        };
+
+        type();
+        return () => clearTimeout(typingTimeoutRef.current);
+    }, [step]);
 
     const updatePosition = () => {
         if (!isOpen) return;
@@ -56,33 +76,29 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 const rect = el.getBoundingClientRect();
                 setTargetRect(rect);
 
-                // Calcular posición de la burbuja
-                const padding = 20;
-                let top = rect.bottom + padding;
-                let left = rect.left;
-                let arrow = 'bubble-top';
+                // Posicionar el contenedor completo (orbe + burbuja)
+                const isTop = rect.top > window.innerHeight / 2;
+                const top = isTop ? rect.top - 280 : rect.bottom + 40;
+                let left = rect.left + (rect.width / 2) - 170;
 
-                // Ajuste si se sale por abajo
-                if (top + 250 > window.innerHeight) {
-                    top = rect.top - 250 - padding;
-                    arrow = 'bubble-bottom';
-                }
-
-                // Ajuste horizontal
-                if (left + 320 > window.innerWidth) {
-                    left = window.innerWidth - 340;
-                }
+                // Límites de pantalla
                 if (left < 20) left = 20;
+                if (left + 340 > window.innerWidth) left = window.innerWidth - 360;
 
-                setBubblePos({ top, left, arrow });
+                setContainerPos({
+                    top: `${top}px`,
+                    left: `${left}px`,
+                    transform: 'none',
+                    flexDirection: isTop ? 'column' : 'column-reverse'
+                });
             }
         } else {
             setTargetRect(null);
-            // Centrado en pantalla
-            setBubblePos({
-                top: window.innerHeight / 2 - 125,
-                left: window.innerWidth / 2 - 160,
-                arrow: 'none'
+            setContainerPos({
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                flexDirection: 'column'
             });
         }
         requestRef.current = requestAnimationFrame(updatePosition);
@@ -105,99 +121,84 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         }
     };
 
-    const handleBack = () => {
-        if (step > 0) setStep(step - 1);
-    };
-
     return (
         <div className="solemia-guide-overlay" style={{ pointerEvents: 'all' }}>
-            {/* SVG Mask for Spotlight */}
+            {/* SVG Mask para el Spotlight Pro */}
             <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
                 <defs>
-                    <mask id="spotlight-mask">
+                    <mask id="spotlight-mask-v3">
                         <rect x="0" y="0" width="100%" height="100%" fill="white" />
                         {targetRect && (
                             <rect
-                                x={targetRect.left - 10}
-                                y={targetRect.top - 10}
-                                width={targetRect.width + 20}
-                                height={targetRect.height + 20}
-                                rx="20"
+                                x={targetRect.left - 15}
+                                y={targetRect.top - 15}
+                                width={targetRect.width + 30}
+                                height={targetRect.height + 30}
+                                rx="30"
                                 fill="black"
-                                style={{ transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                                style={{ transition: 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)' }}
                             />
                         )}
                     </mask>
                 </defs>
-                <rect x="0" y="0" width="100%" height="100%" fill="rgba(77, 12, 48, 0.65)" mask="url(#spotlight-mask)" />
+                <rect x="0" y="0" width="100%" height="100%" fill="rgba(26, 26, 26, 0.85)" mask="url(#spotlight-mask-v3)" />
             </svg>
 
-            {/* Pulse Ring */}
+            {/* PULSE RING V3 */}
             {targetRect && (
                 <div className="tour-pulse-ring" style={{
-                    top: targetRect.top - 10,
-                    left: targetRect.left - 10,
-                    width: targetRect.width + 20,
-                    height: targetRect.height + 20,
-                    transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+                    top: targetRect.top - 15,
+                    left: targetRect.left - 15,
+                    width: targetRect.width + 30,
+                    height: targetRect.height + 30,
+                    borderRadius: '30px',
+                    transition: 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)'
                 }} />
             )}
 
-            {/* Nutri-Pal Speech Bubble */}
-            <div
-                className={`nutripal-speech-bubble ${bubblePos.arrow}`}
-                style={{
-                    top: bubblePos.top,
-                    left: bubblePos.left,
-                    opacity: 1,
-                    transform: 'scale(1)',
-                    zIndex: 10002
-                }}
-            >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                    <div className="nutripal-orb">
-                        {steps[step].icon}
-                    </div>
-                    <div>
-                        <h4 style={{ margin: 0, fontSize: '1rem', color: 'var(--solemia-plum)' }}>{steps[step].title}</h4>
-                        <div style={{ fontSize: '0.65rem', fontWeight: '800', opacity: 0.5 }}>GUÍA SOLEMIA</div>
-                    </div>
-                </div>
+            {/* ASISTENTE NUTRI-PAL V3 */}
+            <div className="nutripal-container" style={containerPos}>
 
-                <p style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 1.5rem 0' }}>
-                    {steps[step].description}
-                </p>
-
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ fontSize: '0.7rem', fontWeight: '800', color: '#94a3b8' }}>
-                        Paso {step + 1} de {steps.length}
+                {/* Burbuja de Diálogo */}
+                <div className="nutripal-speech-v3">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                        <div style={{ background: 'rgba(77, 12, 48, 0.05)', padding: '0.5rem', borderRadius: '12px' }}>
+                            {steps[step].icon}
+                        </div>
+                        <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 900, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)' }}>
+                            {steps[step].title}
+                        </h4>
                     </div>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        {step > 0 && (
-                            <button onClick={handleBack} className="btn-outline" style={{ padding: '0.5rem', borderRadius: '0.75rem', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <ChevronLeft size={16} />
-                            </button>
-                        )}
-                        <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            {step === steps.length - 1 ? '¡Listo!' : 'Siguiente'} <ChevronRight size={14} />
+
+                    <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6, margin: '0 0 1.5rem 0', minHeight: '4.5rem' }}>
+                        {displayText}
+                    </p>
+
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                            {steps.map((_, i) => (
+                                <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
+                            ))}
+                        </div>
+
+                        <button onClick={handleNext} className="tour-btn-next" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem' }}>
+                            {step === steps.length - 1 ? '¡Vamos!' : 'Siguiente'} <ChevronRight size={16} />
                         </button>
                     </div>
+
+                    <button
+                        onClick={onComplete}
+                        style={{ position: 'absolute', top: '1.25rem', right: '1.25rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.5 }}
+                    >
+                        <Sparkles size={16} />
+                    </button>
                 </div>
 
-                <button
-                    onClick={onComplete}
-                    style={{
-                        position: 'absolute',
-                        top: '1rem',
-                        right: '1rem',
-                        background: 'none',
-                        border: 'none',
-                        color: '#cbd5e1',
-                        cursor: 'pointer'
-                    }}
-                >
-                    <Sparkles size={14} />
-                </button>
+                {/* El Orbe Maestro */}
+                <div className="nutripal-orb-v3">
+                    <Wand2 size={24} color="white" />
+                </div>
+
             </div>
         </div>
     );
