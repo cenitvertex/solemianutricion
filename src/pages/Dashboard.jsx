@@ -130,6 +130,7 @@ export default function Dashboard({ session }) {
                 } else {
                     setIsPaywallOpen(false); // Aseguramos que se cierre
                     fetchPatients();
+
                     // Si no ha visto el tour, lo abrimos (defensivo)
                     if (data.has_seen_tour === false) {
                         setIsTourOpen(true);
@@ -166,6 +167,51 @@ export default function Dashboard({ session }) {
             showToast('Estado IA actualizado con éxito');
         }
     };
+
+    // === REALTIME SYNC EFFECT ===
+    useEffect(() => {
+        if (!session?.user?.id) return;
+
+        console.log('� Iniciando Suscripción Realtime para:', session.user.id);
+
+        const channel = supabase
+            .channel(`patients_sync_${session.user.id}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'patients',
+                    filter: `tenant_id=eq.${session.user.id}`
+                },
+                (payload) => {
+                    console.log('⚡ Realtime Update Received:', payload);
+                    const updatedPatient = payload.new;
+
+                    // 1. Actualizar lista global
+                    setPatients(current =>
+                        current.map(p => p.id === updatedPatient.id ? { ...p, ...updatedPatient } : p)
+                    );
+
+                    // 2. Si el perfil está abierto y es el mismo paciente, actualizarlo "en vivo"
+                    setEditingPatient(current => {
+                        if (current && current.id === updatedPatient.id) {
+                            console.log('🔄 Sincronizando Perfil Abierto para:', updatedPatient.name);
+                            return { ...current, ...updatedPatient };
+                        }
+                        return current;
+                    });
+                }
+            )
+            .subscribe((status) => {
+                console.log('📡 Realtime Status:', status);
+            });
+
+        return () => {
+            console.log('📴 Limpiando Suscripción Realtime');
+            supabase.removeChannel(channel);
+        };
+    }, [session?.user?.id]);
 
     const handleTourComplete = async () => {
         setIsTourOpen(false);
