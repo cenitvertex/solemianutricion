@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, ArrowRight, ChevronLeft, Crown, Target, Brain, Users, Settings, Search } from 'lucide-react';
+import { Sparkles, ArrowRight, ChevronLeft, Crown, Brain, Users, Settings, Search } from 'lucide-react';
 
 const WelcomeTour = ({ isOpen, onComplete }) => {
     const [step, setStep] = useState(0);
@@ -11,39 +11,39 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA GLASS EDITION V16 - IDENTIDAD TOTAL");
+            console.log("🦁 SOLEMIA LUMINOUS GLASS V17 - LA REDENCIÓN TOTAL");
         }
     }, [isOpen]);
 
     const steps = [
         {
-            title: "Solemia Glass",
-            description: "Bienvenido a tu nueva era profesional. Un sistema rediseñado para que tu talento sea el único protagonista.",
-            icon: <Crown size={28} />,
+            title: "Solemia Luminous Glass",
+            description: "Bienvenido a tu universo clínico. He rediseñado el sistema para que cada paso sea una experiencia de maestría y claridad absoluta.",
+            icon: <Crown size={30} />,
             element: null
         },
         {
-            title: "Métricas de Maestría",
-            description: "Visualiza el pulso de tu éxito. Tus datos ahora se presentan con la claridad que tu nivel de experto requiere.",
-            icon: <Users size={28} />,
+            title: "Métricas de Impacto",
+            description: "Visualiza el pulso de tu éxito. Tus datos ahora se presentan con la jerarquía que un profesional de tu nivel merece.",
+            icon: <Users size={30} />,
             element: ".tour-metrics"
         },
         {
-            title: "Buscador de Legados",
-            description: "Accede al instante a todo tu historial clínico. La velocidad del pensamiento aplicada a tu gestión de pacientes.",
-            icon: <Search size={28} />,
+            title: "Búsqueda Maestra",
+            description: "Accede al instante a todo tu historial. La velocidad del pensamiento aplicada a tu gestión de pacientes diaria.",
+            icon: <Search size={30} />,
             element: ".tour-search"
         },
         {
-            title: "Nueva Arquitectura",
-            description: "Crea expedientes digitales que reflejen la vanguardia de tu práctica clínica diaria.",
-            icon: <Brain size={28} />,
+            title: "Nuevo Legado",
+            description: "Crea expedientes digitales que reflejen la vanguardia de tu práctica clínica y el inicio de grandes resultados.",
+            icon: <Brain size={30} />,
             element: ".tour-add-patient"
         },
         {
             title: "Ajustes de Universo",
-            description: "Personaliza cada rincón de Solemia. El software debe ser, siempre, una extensión de tu voluntad.",
-            icon: <Settings size={28} />,
+            description: "Personaliza Solemia a tu voluntad profesional. Porque el software debe ser siempre una extensión de tu maestría.",
+            icon: <Settings size={30} />,
             element: ".tour-settings"
         }
     ];
@@ -61,14 +61,14 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             }
         };
 
-        const initialTimeout = setTimeout(type, 300);
+        const initialTimeout = setTimeout(type, 400);
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
         };
     }, [step]);
 
-    // PRECISION ANCHORING V16
+    // PRECISION ANCHORING V17 - NARRATIVE HIERARCHY
     useEffect(() => {
         if (!isOpen) return;
 
@@ -80,14 +80,14 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     const rect = el.getBoundingClientRect();
                     setTargetRect(rect);
 
-                    // Lógica de Posicionamiento con Prioridad de Lectura
+                    // Lógica de Posicionamiento Narrative-First (Vertical Prioritario)
                     const screenH = window.innerHeight;
                     const screenW = window.innerWidth;
 
-                    let finalTop = rect.top - 240; // Espacio para la nueva caja vertical
-                    if (finalTop < 40) finalTop = rect.bottom + 40;
+                    let finalTop = rect.top - 280; // Caja más alta para jerarquía de texto
+                    if (finalTop < 50) finalTop = rect.bottom + 60;
 
-                    finalTop = Math.min(Math.max(finalTop, 40), screenH - 260);
+                    finalTop = Math.min(Math.max(finalTop, 50), screenH - 320);
                     let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 300), screenW - 300);
 
                     setAssistantPos({
@@ -109,52 +109,75 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     if (!isOpen) return null;
 
     return (
-        <div id="solemia-glass-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
+        <div id="solemia-luminous-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
             <div className="solemia-guide-v4-overlay" />
 
             <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all' }}>
                 {targetRect && (
                     <div className="ghost-spotlight-glow" style={{
-                        top: targetRect.top - 8,
-                        left: targetRect.left - 8,
-                        width: targetRect.width + 16,
-                        height: targetRect.height + 16,
+                        top: targetRect.top,
+                        left: targetRect.left,
+                        width: targetRect.width,
+                        height: targetRect.height,
                         position: 'fixed'
                     }} />
                 )}
 
                 <div className="nutripal-v4-speech">
+                    {/* Sello de Marca (Top Left) */}
                     <div className="nutripal-v4-orb">
                         {steps[step].icon}
                     </div>
 
-                    {/* ZONA DE TEXTO PRIORITARIA (80% del impacto visual) */}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1.5rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 950, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '4px' }}>
+                    {/* JERARQUÍA NARRATIVA (PROTAGONISMO TOTAL DEL TEXTO) */}
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.25rem' }}>
+                        <h4 style={{
+                            margin: 0,
+                            fontSize: '1rem',
+                            fontWeight: 950,
+                            color: '#fb7185', // Rosa Solemia Vibrante para el título
+                            textTransform: 'uppercase',
+                            letterSpacing: '5px'
+                        }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: '1.25rem', color: 'white', lineHeight: 1.6, margin: 0, fontWeight: 600, letterSpacing: '-0.3px' }}>
+                        <p style={{
+                            fontSize: '1.3rem',
+                            color: 'white',
+                            lineHeight: 1.6,
+                            margin: 0,
+                            fontWeight: 600,
+                            letterSpacing: '-0.3px',
+                            minHeight: '6rem'
+                        }}>
                             {displayText}
                         </p>
                     </div>
 
-                    {/* ZONA DE CONTROL COMPACTA (La base refinada) */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1.5px solid rgba(255,255,255,0.15)', paddingTop: '1.25rem', marginTop: '0.5rem' }}>
-                        <div style={{ display: 'flex', gap: '10px' }}>
+                    {/* BARRA DE CONTROL MINIMALISTA (Base) */}
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        borderTop: '1px solid rgba(255,255,255,0.2)',
+                        paddingTop: '1.5rem',
+                        marginTop: '0.5rem'
+                    }}>
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
                         </div>
 
-                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
                             {step > 0 && (
                                 <button onClick={() => setStep(step - 1)} className="tour-btn-back">
-                                    <ChevronLeft size={22} />
+                                    <ChevronLeft size={24} />
                                 </button>
                             )}
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
                                 <span>{step === steps.length - 1 ? 'REINAR' : 'SIGUIENTE'}</span>
-                                <ArrowRight size={20} style={{ marginLeft: '10px' }} />
+                                <ArrowRight size={22} style={{ marginLeft: '12px' }} />
                             </button>
                         </div>
                     </div>
