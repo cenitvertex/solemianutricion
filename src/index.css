@@ -432,7 +432,7 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL V8 (ESENCIA - MINIMALISMO ABSOLUTO) === */
+/* === GUÍA SOLEMIA: NUTRI-PAL V9 (HEADER GLASS - CLARIDAD ABSOLUTA) === */
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
@@ -441,74 +441,64 @@ input:checked+.slider-ia:before {
   height: 100vh;
   z-index: 11000;
   pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.35) !important;
-  /* Capa ultra-fina para máxima visibilidad */
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  /* Blanco ultra-claro, nada de gris "triste" */
+  backdrop-filter: saturate(120%) brightness(1.05);
+  /* Realza los colores del sistema */
 }
 
-/* Nutri-Pal V8: Franja de Cristal Inferior (System-First Absolute) */
+/* Nutri-Pal V9: Franja Header de Cristal (Transparencia Total) */
 .nutripal-v4-container {
   position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  /* Centrado Dock-style */
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 2rem;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  justify-content: center;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: all;
   z-index: 11001;
-  width: auto;
-  min-width: 580px;
 }
 
 .nutripal-v4-orb {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   background: var(--solemia-gradient);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 15px rgba(225, 29, 72, 0.2);
+  box-shadow: 0 10px 20px rgba(225, 29, 72, 0.1);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   flex-shrink: 0;
-  animation: float-v8 3s ease-in-out infinite;
-}
-
-@keyframes float-v8 {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-4px);
-  }
 }
 
 .nutripal-v4-speech {
-  background: rgba(255, 255, 255, 0.7);
-  /* Cristal puro */
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  padding: 1rem 1.75rem;
-  border-radius: 1.75rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-  width: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  /* Glassmorphism Puro - "Transparente" al fondo */
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
+  padding: 0.75rem 2.25rem;
+  border-radius: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  width: auto;
+  min-width: 650px;
+  max-width: 95vw;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  animation: essence-slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: header-slide-down 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes essence-slide-up {
+@keyframes header-slide-down {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-20px);
   }
 
   to {
@@ -522,21 +512,22 @@ input:checked+.slider-ia:before {
 }
 
 .spotlight-mask-v4-pro {
-  fill: rgba(0, 0, 0, 0.5) !important;
+  fill: rgba(0, 0, 0, 0.35) !important;
+  /* Capa mínima de foco para evitar tono grisáceo */
   transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .tour-indicator-dot {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
 }
 
 .tour-indicator-dot.active {
   background: var(--solemia-pink);
-  width: 15px;
+  width: 12px;
   border-radius: 10px;
 }
 
@@ -544,10 +535,10 @@ input:checked+.slider-ia:before {
   background: var(--solemia-gradient);
   color: white;
   border: none;
-  padding: 0.65rem 1.5rem;
+  padding: 0.5rem 1.75rem;
   border-radius: 1rem;
   font-weight: 900;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -555,5 +546,5 @@ input:checked+.slider-ia:before {
 
 .tour-btn-next:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(225, 29, 72, 0.3);
+  box-shadow: 0 8px 20px rgba(225, 29, 72, 0.25);
 }

@@ -134,10 +134,10 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                         )}
                     </mask>
                 </defs>
-                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.5)" mask="url(#spotlight-mask-final-v4)" />
+                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.35)" mask="url(#spotlight-mask-final-v4)" />
             </svg>
 
-            {/* ASISTENTE NUTRI-PAL V8 (ESENCIA) - BARRA HORIZONTAL DE CRISTAL */}
+            {/* ASISTENTE NUTRI-PAL V9 (HEADER GLASS) - FRANJA SUPERIOR CRISTALINA */}
             <div className="nutripal-v4-container">
                 <div className="nutripal-v4-orb">
                     {steps[step].icon}
