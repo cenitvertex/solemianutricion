@@ -148,11 +148,19 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 if (finalError) throw finalError;
 
                 // Disparar workflow de ingesta para procesar documentos con IA
-                fetch('https://marioenriqueztest4.app.n8n.cloud/webhook/nutribot-ingesta', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ patientId: clientId })
-                }).catch(err => console.warn('Webhook ingesta:', err));
+                console.log('🤖 Disparando Webhook de Ingesta IA para paciente:', clientId);
+
+                try {
+                    await fetch('https://marioenriqueztest4.app.n8n.cloud/webhook/nutribot-ingesta', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ patientId: clientId }),
+                        keepalive: true // Asegura que la petición termine si el componente se desmonta
+                    });
+                    console.log('✅ Webhook de Ingesta IA enviado con éxito');
+                } catch (fetchErr) {
+                    console.warn('⚠️ Error enviando Webhook n8n:', fetchErr);
+                }
             }
 
             setShowConfirm(false);
