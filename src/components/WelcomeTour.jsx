@@ -11,39 +11,39 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA SIGNATURE V14 - ALTA COSTURA ACTIVADA");
+            console.log("🦁 SOLEMIA ZENITH REBORN V15 ACTIVADO");
         }
     }, [isOpen]);
 
     const steps = [
         {
-            title: "Solemia Signature",
-            description: "Bienvenido a la cima de la ingeniería clínica. Tu sistema no solo es potente; es una obra de arte diseñada para potenciar tu marca profesional.",
-            icon: <Crown size={28} />,
+            title: "Zenith Reborn",
+            description: "Bienvenido a Solemia. He recuperado la claridad para que tu sistema brille con propósito profesional.",
+            icon: <Crown size={24} />,
             element: null
         },
         {
-            title: "Métricas de Impacto",
-            description: "Toma el control absoluto de tus resultados. Tus éxitos ahora se visualizan con elegancia, claridad y precisión absoluta.",
-            icon: <Users size={28} />,
+            title: "Métricas Vitales",
+            description: "Visualiza tus resultados con precisión quirúrgica. Todo el poder de tus datos en un solo lugar.",
+            icon: <Users size={24} />,
             element: ".tour-metrics"
         },
         {
-            title: "Búsqueda Maestra",
-            description: "Tu base de conocimientos, accesible en microsegundos. La velocidad del sistema responde a tu agilidad profesional.",
-            icon: <Search size={28} />,
+            title: "Buscador Maestro",
+            description: "Encuentra pacientes y expedientes al instante. Tu historial está siempre a tu voluntad.",
+            icon: <Search size={24} />,
             element: ".tour-search"
         },
         {
-            title: "Arquitectura de Legados",
-            description: "Inicia nuevos expedientes con el respaldo de nuestra inteligencia. Cada paciente es el pilar de un gran resultado clínico.",
-            icon: <Brain size={28} />,
+            title: "Nuevo Legado",
+            description: "Crea expedientes digitales con la vanguardia de nuestra arquitectura funcional.",
+            icon: <Brain size={24} />,
             element: ".tour-add-patient"
         },
         {
-            title: "Configuración Soberana",
-            description: "Moldea tu universo de trabajo. Solemia se pliega a tus necesidades profesionales, nunca al revés.",
-            icon: <Settings size={28} />,
+            title: "Configuración Zen",
+            description: "Ajusta tu entorno de trabajo. El software se adapta a la forma de tu maestría clínica.",
+            icon: <Settings size={24} />,
             element: ".tour-settings"
         }
     ];
@@ -57,18 +57,18 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (i < text.length) {
                 setDisplayText(text.substring(0, i + 1));
                 i++;
-                typingTimeoutRef.current = setTimeout(type, 20);
+                typingTimeoutRef.current = setTimeout(type, 15);
             }
         };
 
-        const initialTimeout = setTimeout(type, 400);
+        const initialTimeout = setTimeout(type, 200);
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
         };
     }, [step]);
 
-    // SIGNATURE ANCHORING: Inteligencia de Posicionamiento Editorial
+    // ZENITH SAFE ZONE ANCHORING
     useEffect(() => {
         if (!isOpen) return;
 
@@ -80,10 +80,16 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     const rect = el.getBoundingClientRect();
                     setTargetRect(rect);
 
-                    // Posicionamiento de "Respeto" (Evitar colisiones visuales)
-                    const isTooHigh = rect.top < 350;
-                    const finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 300), window.innerWidth - 300);
-                    const finalTop = isTooHigh ? rect.bottom + 120 : rect.top - 280;
+                    // Lógica de Posicionamiento Horizontal Ultra-Compacta
+                    const screenH = window.innerHeight;
+                    const screenW = window.innerWidth;
+
+                    let finalTop = rect.top - 140; // Por defecto arriba
+                    if (finalTop < 20) finalTop = rect.bottom + 40; // Si no hay espacio arriba, abajo
+
+                    // Asegurar que no se salga de los bordes
+                    finalTop = Math.min(Math.max(finalTop, 20), screenH - 180);
+                    let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 350), screenW - 350);
 
                     setAssistantPos({
                         top: `${finalTop}px`,
@@ -104,75 +110,50 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="solemia-signature-container" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
+        <div className="solemia-zenith-reborn" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
             <div className="solemia-guide-v4-overlay" />
 
             <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all' }}>
                 {targetRect && (
-                    <div className="signature-spotlight-aura" style={{
-                        top: targetRect.top - 20,
-                        left: targetRect.left - 20,
-                        width: targetRect.width + 40,
-                        height: targetRect.height + 40,
+                    <div className="ghost-spotlight-glow" style={{
+                        top: targetRect.top - 15,
+                        left: targetRect.left - 15,
+                        width: targetRect.width + 30,
+                        height: targetRect.height + 30,
                         position: 'fixed'
                     }} />
                 )}
 
                 <div className="nutripal-v4-speech">
-                    {/* Icono Sello de Cera (Signature Style) */}
                     <div className="nutripal-v4-orb">
                         {steps[step].icon}
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1.5rem' }}>
-                        <h4 style={{
-                            margin: 0,
-                            fontSize: '1.15rem',
-                            fontWeight: 950,
-                            color: 'var(--solemia-plum)',
-                            textTransform: 'uppercase',
-                            letterSpacing: '5px',
-                            textAlign: 'center'
-                        }}>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                        <h4 style={{ margin: 0, fontSize: '0.85rem', fontWeight: 950, color: '#fca5a5', textTransform: 'uppercase', letterSpacing: '2px' }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{
-                            fontSize: '1.05rem',
-                            color: '#1e293b',
-                            lineHeight: 1.8,
-                            margin: 0,
-                            fontWeight: 600,
-                            textAlign: 'center',
-                            minHeight: '5rem',
-                            letterSpacing: '-0.3px'
-                        }}>
+                        <p style={{ fontSize: '0.95rem', color: '#f1f5f9', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
                             {displayText}
                         </p>
                     </div>
 
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '2.5rem',
-                        borderTop: '1px solid rgba(225,29,72,0.1)',
-                        paddingTop: '1.5rem',
-                        marginTop: '0.5rem'
-                    }}>
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: '1.5rem' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            {steps.map((_, i) => (
+                                <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
+                            ))}
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                             {step > 0 && (
                                 <button onClick={() => setStep(step - 1)} className="tour-btn-back">
-                                    <ChevronLeft size={24} />
+                                    <ChevronLeft size={20} />
                                 </button>
                             )}
-                            <div style={{ display: 'flex', gap: '12px', margin: '0 1.5rem' }}>
-                                {steps.map((_, i) => (
-                                    <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
-                                ))}
-                            </div>
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
                                 <span>{step === steps.length - 1 ? 'REINAR' : 'SIGUIENTE'}</span>
-                                <ArrowRight size={20} style={{ marginLeft: '12px' }} />
+                                <ArrowRight size={18} style={{ marginLeft: '8px' }} />
                             </button>
                         </div>
                     </div>

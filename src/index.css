@@ -432,7 +432,7 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL V14 (SOLEMIA SIGNATURE - ALTA COSTURA) === */
+/* === GUÍA SOLEMIA: NUTRI-PAL V15 (ZENITH REBORN - ELEGANCIA FUNCIONAL) === */
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
@@ -440,173 +440,131 @@ input:checked+.slider-ia:before {
   width: 100vw;
   height: 100vh;
   z-index: 11000;
-  background: rgba(255, 255, 255, 0.01) !important;
+  background: rgba(0, 0, 0, 0.05) !important;
   pointer-events: none;
 }
 
-/* Nutri-Pal V14: Signature Tooltip (Frosted Aurora) */
+/* Nutri-Pal V15: Zenith Tooltip (Deep Onyx) */
 .nutripal-v4-container {
   position: fixed;
   z-index: 11001;
   pointer-events: all;
-  transition: all 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .nutripal-v4-speech {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(253, 226, 233, 0.4));
-  backdrop-filter: blur(50px) saturate(180%);
-  -webkit-backdrop-filter: blur(50px) saturate(180%);
-  padding: 1.5rem 2.25rem;
-  border-radius: 2.5rem;
-  /* Curvatura orgánica */
+  background: rgba(15, 23, 42, 0.85);
+  /* Deep Onyx Slate */
+  backdrop-filter: blur(60px) saturate(200%);
+  -webkit-backdrop-filter: blur(60px) saturate(200%);
+  padding: 1rem 2rem;
+  border-radius: 2rem;
   box-shadow:
-    0 50px 100px -30px rgba(0, 0, 0, 0.1),
-    0 30px 60px -15px rgba(225, 29, 72, 0.05),
-    inset 0 0 0 1.5px rgba(255, 255, 255, 0.9);
+    0 40px 100px -20px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  border: none;
-  max-width: 500px;
+  align-items: center;
+  /* Layout Horizontal */
+  gap: 1.5rem;
+  border: 1px solid rgba(225, 29, 72, 0.15);
+  max-width: 650px;
+  /* Más ancho, menos alto */
   position: relative;
-  animation: signature-entrance 1s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: visible;
+  animation: zenith-entrance 0.7s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-@keyframes signature-entrance {
+@keyframes zenith-entrance {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.96);
-    filter: blur(10px);
+    transform: translateY(15px) scale(0.98);
   }
 
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-    filter: blur(0);
   }
 }
 
-/* Conector Visual (Visual Bridge) */
-.solemia-signature-bridge {
-  position: absolute;
-  width: 2px;
-  background: linear-gradient(to bottom, rgba(225, 29, 72, 0.5), transparent);
-  pointer-events: none;
-  z-index: -1;
-  transition: all 0.9s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
 .nutripal-v4-orb {
-  position: absolute;
-  top: -15px;
-  left: -15px;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   background: var(--solemia-gradient);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 15px 30px rgba(225, 29, 72, 0.3);
-  transform: rotate(-10deg);
-  z-index: 10;
+  flex-shrink: 0;
+  box-shadow: 0 10px 20px rgba(225, 29, 72, 0.3);
 }
 
 .tour-btn-next {
-  background: var(--solemia-plum);
-  color: white;
+  background: white;
+  color: var(--solemia-plum);
   border: none;
-  padding: 0.85rem 2rem;
-  border-radius: 1.25rem;
-  font-weight: 950;
-  font-size: 0.85rem;
+  padding: 0.7rem 1.75rem;
+  border-radius: 1rem;
+  font-weight: 900;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  letter-spacing: 1.5px;
-  box-shadow: 0 10px 20px rgba(30, 0, 15, 0.1);
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .tour-btn-next:hover {
-  background: #3a0824;
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 15px 30px rgba(30, 0, 15, 0.2);
+  background: #f8fafc;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .tour-btn-back {
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(255, 255, 255, 0.05);
   border: none;
-  color: #475569;
-  width: 44px;
-  height: 44px;
-  border-radius: 1.25rem;
+  color: rgba(255, 255, 255, 0.6);
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .tour-btn-back:hover {
-  background: rgba(0, 0, 0, 0.08);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .tour-indicator-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.1);
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.4s ease;
 }
 
 .tour-indicator-dot.active {
-  background: var(--solemia-plum);
-  width: 24px;
+  background: white;
+  width: 18px;
   border-radius: 10px;
 }
 
-/* Aura de Escaneo (Aura Focus) */
-.signature-spotlight-aura {
+/* Zenith Glow (Luz estática y profesional) */
+.ghost-spotlight-glow {
   position: fixed;
   z-index: 10999;
-  border-radius: 1.75rem;
+  border-radius: 1.5rem;
   pointer-events: none;
-  transition: all 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
   box-shadow:
-    0 0 0 1px rgba(225, 29, 72, 0.4),
-    0 0 80px rgba(225, 29, 72, 0.15),
-    inset 0 0 30px rgba(255, 255, 255, 0.2);
-  background: radial-gradient(circle, rgba(225, 29, 72, 0.03) 0%, transparent 70%);
-}
-
-.signature-spotlight-aura::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 1.75rem;
-  border: 2px solid transparent;
-  background: linear-gradient(135deg, var(--solemia-plum), transparent, var(--solemia-pink)) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: signature-border-spin 4s linear infinite;
-}
-
-@keyframes signature-border-spin {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-
-  100% {
-    filter: hue-rotate(360deg);
-  }
+    0 0 0 2px rgba(255, 255, 255, 0.4),
+    0 0 60px rgba(225, 29, 72, 0.2);
+  background: radial-gradient(circle, rgba(225, 29, 72, 0.05) 0%, transparent 80%);
 }
