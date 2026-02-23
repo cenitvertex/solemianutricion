@@ -552,7 +552,7 @@ export default function Dashboard({ session }) {
 
                     {activeView === 'directory' ? (
                         <div className="animate-premium">
-                            <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '3.5rem', flexWrap: 'wrap' }}>
+                            <div className="tour-metrics" style={{ display: 'flex', gap: '1.5rem', marginBottom: '3.5rem', flexWrap: 'wrap' }}>
                                 {stats.map((stat, i) => (
                                     <div key={i} className="stat-card" style={{ padding: '1.5rem', height: '100%', minWidth: '220px' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>

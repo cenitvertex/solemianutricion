@@ -432,7 +432,7 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL V7 (INVERSIONISTA - SYSTEM FIRST) === */
+/* === GUÍA SOLEMIA: NUTRI-PAL V8 (ESENCIA - MINIMALISMO ABSOLUTO) === */
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
@@ -441,131 +441,119 @@ input:checked+.slider-ia:before {
   height: 100vh;
   z-index: 11000;
   pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.4) !important;
-  /* Más claro para no "enterrar" el sistema */
-  backdrop-filter: none !important;
+  background-color: rgba(0, 0, 0, 0.35) !important;
+  /* Capa ultra-fina para máxima visibilidad */
 }
 
-/* Nutri-Pal V7: Consola Lateral Fija (Tablero de Mandos) */
+/* Nutri-Pal V8: Franja de Cristal Inferior (System-First Absolute) */
 .nutripal-v4-container {
   position: fixed;
-  /* Fijo en pantalla, no sigue al elemento */
-  bottom: 40px;
-  right: 40px;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  /* Centrado Dock-style */
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1.5rem;
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  align-items: center;
+  gap: 1.25rem;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: all;
   z-index: 11001;
-  width: 380px;
-  /* Consola sólida y profesional */
+  width: auto;
+  min-width: 580px;
 }
 
 .nutripal-v4-orb {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   background: var(--solemia-gradient);
-  border-radius: 18px;
-  /* Forma de app icono */
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 25px rgba(225, 29, 72, 0.3);
+  box-shadow: 0 8px 15px rgba(225, 29, 72, 0.2);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   flex-shrink: 0;
-  margin-bottom: -0.75rem;
-  z-index: 1;
+  animation: float-v8 3s ease-in-out infinite;
+}
+
+@keyframes float-v8 {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 .nutripal-v4-speech {
-  background: white;
-  padding: 2rem;
-  border-radius: 2.5rem;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.7);
+  /* Cristal puro */
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  padding: 1rem 1.75rem;
+  border-radius: 1.75rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  animation: console-slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  align-items: center;
+  gap: 1.5rem;
+  animation: essence-slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes console-slide-in {
+@keyframes essence-slide-up {
   from {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateY(20px);
   }
 
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
-/* Eliminar flechas en V7 - No flota sobre el sistema */
 .nutripal-v4-speech::after {
-  display: none;
+  display: none !important;
 }
 
 .spotlight-mask-v4-pro {
-  fill: rgba(0, 0, 0, 0.6) !important;
-  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  fill: rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .tour-indicator-dot {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: #e2e8f0;
+  background: rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 .tour-indicator-dot.active {
   background: var(--solemia-pink);
-  width: 24px;
+  width: 15px;
   border-radius: 10px;
 }
 
-.tour-pulse-ring {
-  position: absolute;
-  border: 3px solid var(--solemia-pink);
-  border-radius: 1.5rem;
-  pointer-events: none;
-  animation: tour-pulse 1.5s infinite;
-  z-index: 9999;
-}
-
-@keyframes tour-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: scale(1.15);
-    opacity: 0;
-  }
-}
-
-/* Ajustes de botones para el tour */
 .tour-btn-next {
   background: var(--solemia-gradient);
   color: white;
   border: none;
-  padding: 0.6rem 1.2rem;
+  padding: 0.65rem 1.5rem;
   border-radius: 1rem;
-  font-weight: 800;
-  font-size: 0.75rem;
+  font-weight: 900;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .tour-btn-next:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(225, 29, 72, 0.3);
 }
