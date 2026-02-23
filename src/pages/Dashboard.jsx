@@ -1334,11 +1334,6 @@ export default function Dashboard({ session }) {
                 />
             )}
 
-            <GuideModal
-                isOpen={isGuideOpen}
-                onClose={() => setIsGuideOpen(false)}
-            />
-
             <WelcomeTour
                 isOpen={isTourOpen}
                 onComplete={handleTourComplete}
