@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, Users, Brain, Settings, Sparkles, Wand2, ArrowRight, ChevronLeft } from 'lucide-react';
+import { Sparkles, ArrowRight, ChevronLeft } from 'lucide-react';
 
 const WelcomeTour = ({ isOpen, onComplete }) => {
     const [step, setStep] = useState(0);
@@ -11,50 +11,39 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("⛩️ SOLEMIA ZENITH V11 - PERFECCIÓN ABSOLUTA");
+            console.log("🏛️ SOLEMIA GHOST V12 - SISTEMA PROTAGONISTA");
         }
     }, [isOpen]);
 
     const steps = [
         {
-            title: "Zenith: Tu Nuevo Comando",
-            description: "No solo estás usando software; estás comandando una clínica de alto rendimiento. Permíteme mostrarte el poder de Solemia.",
-            icon: <Wand2 size={24} />,
+            title: "Toma el Mando",
+            description: "Tu sistema está listo. Haré que cada clic cuente. Solo observa los resplandores.",
             element: null
         },
         {
-            title: "El Pulso de tus Resultados",
-            description: "Toca el corazón de tu consultorio. Aquí es donde los números se convierten en historias de éxito reales.",
-            icon: <Users size={24} />,
+            title: "Métricas de Éxito",
+            description: "Tu rendimiento en una mirada. La salud de tu consultorio brilla aquí.",
             element: ".tour-metrics"
         },
         {
-            title: "Búsqueda Ultra-Rápida",
-            description: "Encuentra cualquier expediente en microsegundos. Tu agilidad mental ahora tiene un motor de búsqueda a su altura.",
-            icon: <Sparkles size={24} />,
+            title: "Mente Digital",
+            description: "Busca y encuentra. Tu historial está siempre a una palabra de distancia.",
             element: ".tour-search"
         },
         {
-            title: "Ingeniería de Pacientes",
-            description: "Añade nuevos legados clínicos. Mi IA analizará cada dato para que siempre tomes la decisión más brillante.",
-            icon: <Brain size={24} />,
+            title: "Nuevos Legados",
+            description: "Crea expedientes con inteligencia. Empieza aquí.",
             element: ".tour-add-patient"
         },
         {
-            title: "Ajuste de Precisión",
-            description: "Diseña tu entorno de trabajo. El software debe responder a tu ritmo, nunca al revés.",
-            icon: <Settings size={24} />,
+            title: "Configuración ZEN",
+            description: "Ajusta tu entorno. Solemia se adapta a ti.",
             element: ".tour-settings"
-        },
-        {
-            title: "Empieza tu Legado",
-            description: "La teoría ha terminado. El consultorio del futuro te pertenece. Hazlo brillar.",
-            icon: <Star size={24} />,
-            element: null
         }
     ];
 
-    // Zenith Typewriter: Ritmo maestro
+    // Ghost Typewriter: Minimalista y rápido
     useEffect(() => {
         setDisplayText('');
         let i = 0;
@@ -62,22 +51,20 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
         const type = () => {
             if (i < text.length) {
-                const Char = text.charAt(i);
-                setDisplayText(prev => prev + Char);
+                setDisplayText(text.substring(0, i + 1));
                 i++;
-                const speed = Char === '.' || Char === ',' ? 180 : 15;
-                typingTimeoutRef.current = setTimeout(type, speed);
+                typingTimeoutRef.current = setTimeout(type, 15);
             }
         };
 
-        const initialTimeout = setTimeout(type, 200);
+        const initialTimeout = setTimeout(type, 100);
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
         };
     }, [step]);
 
-    // ZENITH: Posicionamiento Contextual "Flying"
+    // GHOST: Anclaje de Precisión
     useEffect(() => {
         if (!isOpen) return;
 
@@ -87,20 +74,13 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 const el = document.querySelector(currentStep.element);
                 if (el) {
                     const rect = el.getBoundingClientRect();
-                    setTargetRect({
-                        top: rect.top,
-                        left: rect.left,
-                        width: rect.width,
-                        height: rect.height
-                    });
+                    setTargetRect(rect);
 
-                    // Lógica de posicionamiento inteligente (Dynamic Positioning)
-                    const isTooHigh = rect.top < 300;
-                    const isTooRight = rect.left > window.innerWidth - 400;
-
+                    // Posicionamiento de Tooltip (siempre cerca del elemento)
+                    const isTooHigh = rect.top < 250;
                     setAssistantPos({
-                        top: isTooHigh ? `${rect.bottom + 40}px` : `${rect.top - 220}px`,
-                        left: isTooRight ? `${rect.right - 200}px` : `${rect.left + rect.width / 2}px`,
+                        top: isTooHigh ? `${rect.bottom + 20}px` : `${rect.top - 160}px`,
+                        left: `${rect.left + rect.width / 2}px`,
                         transform: 'translateX(-50%)'
                     });
                 }
@@ -113,81 +93,54 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         return () => clearInterval(timer);
     }, [isOpen, step]);
 
-    // ZENITH: Clip-Path Dinámico para nitidez 1:1 (Literalmente recorta el overlay)
-    const getClipPath = () => {
-        if (!targetRect) return 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
-        const { left, top, width, height } = targetRect;
-        const p = 15; // Padding
-        const l = left - p;
-        const t = top - p;
-        const w = width + p * 2;
-        const h = height + p * 2;
-
-        // Inversión de máscara con clip-path: crea una caja transparente
-        return `polygon(
-            0% 0%, 0% 100%, 100% 100%, 100% 0%, 0% 0%, 
-            ${l}px ${t}px, ${l + w}px ${t}px, ${l + w}px ${t + h}px, ${l}px ${t + h}px, ${l}px ${t}px
-        )`;
-    };
-
     if (!isOpen) return null;
 
     return (
-        <>
-            <div
-                className="solemia-guide-v4-overlay"
-                style={{
-                    pointerEvents: 'none',
-                    clipPath: getClipPath(),
-                    WebkitClipPath: getClipPath()
-                }}
-            />
+        <div className="solemia-ghost-container" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
+            {/* El overlay es transparente en el CSS */}
+            <div className="solemia-guide-v4-overlay" />
 
-            <div className="nutripal-v4-container" style={assistantPos}>
-                {targetRect && <div className="zenith-spotlight-focus" style={{
-                    top: targetRect.top - 15,
-                    left: targetRect.left - 15,
-                    width: targetRect.width + 30,
-                    height: targetRect.height + 30,
+            <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all' }}>
+                {targetRect && <div className="ghost-spotlight-glow" style={{
+                    top: targetRect.top - 10,
+                    left: targetRect.left - 10,
+                    width: targetRect.width + 20,
+                    height: targetRect.height + 20,
                     position: 'fixed'
                 }} />}
 
                 <div className="nutripal-v4-speech">
-                    <div className="nutripal-v4-orb">
-                        {steps[step].icon}
-                    </div>
-
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 900, color: 'var(--solemia-plum)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                        <h4 style={{ margin: 0, fontSize: '0.8rem', fontWeight: 900, color: 'var(--solemia-plum)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: '0.92rem', color: '#1e293b', lineHeight: 1.6, margin: 0, fontWeight: 500, minHeight: '3rem' }}>
+                        <p style={{ fontSize: '0.85rem', color: '#334155', lineHeight: 1.4, margin: 0, fontWeight: 500 }}>
                             {displayText}
                         </p>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: '2.5rem' }}>
-                        <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '1px solid rgba(0,0,0,0.05)', paddingLeft: '1rem' }}>
+                        <div style={{ display: 'flex', gap: '4px' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
                         </div>
 
-                        <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                             {step > 0 && (
                                 <button onClick={() => setStep(step - 1)} className="tour-btn-back">
-                                    <ChevronLeft size={18} />
+                                    <ChevronLeft size={14} />
                                 </button>
                             )}
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
-                                <span>{step === steps.length - 1 ? 'EMPEZAR' : 'SIGUIENTE'}</span>
-                                <ArrowRight size={18} />
+                                <span>{step === steps.length - 1 ? 'LISTO' : 'SIGUIENTE'}</span>
+                                <ArrowRight size={12} style={{ marginLeft: '4px' }} />
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
