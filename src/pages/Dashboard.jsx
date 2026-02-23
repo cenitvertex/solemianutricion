@@ -220,6 +220,40 @@ export default function Dashboard({ session }) {
         };
     }, [session?.user?.id]);
 
+    // === SMART POLLING FALLBACK ===
+    // Si hay pacientes en estado "Analizando...", refrescamos cada 5s como respaldo a Realtime
+    useEffect(() => {
+        const hasPatientsAnalyzing = patients.some(p => p.objective_and_params?.startsWith('⏳'));
+
+        if (hasPatientsAnalyzing) {
+            console.log('🚜 [Smart Polling] Detectados pacientes en análisis, activando refresco de respaldo...');
+            const interval = setInterval(() => {
+                // Refresco silencioso (sin setLoading)
+                supabase
+                    .from('patients')
+                    .select('*')
+                    .eq('tenant_id', session.user.id)
+                    .then(({ data }) => {
+                        if (data) {
+                            setPatients(data);
+                            // Sincronizar también el modal si está abierto
+                            setEditingPatient(current => {
+                                if (current) {
+                                    const updated = data.find(p => p.id === current.id);
+                                    if (updated && updated.objective_and_params !== current.objective_and_params) {
+                                        return { ...current, ...updated };
+                                    }
+                                }
+                                return current;
+                            });
+                        }
+                    });
+            }, 5000);
+
+            return () => clearInterval(interval);
+        }
+    }, [patients, session?.user?.id]);
+
     const handleTourComplete = async () => {
         setIsTourOpen(false);
         // Marcamos como visto en la DB
