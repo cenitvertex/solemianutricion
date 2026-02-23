@@ -432,7 +432,7 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL V6 (SYSTEM-FIRST) === */
+/* === GUÍA SOLEMIA: NUTRI-PAL V7 (INVERSIONISTA - SYSTEM FIRST) === */
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
@@ -441,89 +441,80 @@ input:checked+.slider-ia:before {
   height: 100vh;
   z-index: 11000;
   pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.45) !important;
-  /* Oscuridad neutra sin tinte */
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  /* Más claro para no "enterrar" el sistema */
   backdrop-filter: none !important;
 }
 
+/* Nutri-Pal V7: Consola Lateral Fija (Tablero de Mandos) */
 .nutripal-v4-container {
-  position: absolute;
+  position: fixed;
+  /* Fijo en pantalla, no sigue al elemento */
+  bottom: 40px;
+  right: 40px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  align-items: flex-end;
+  gap: 1.5rem;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   pointer-events: all;
   z-index: 11001;
-  width: 320px;
-  /* Reducido para no dominar */
+  width: 380px;
+  /* Consola sólida y profesional */
 }
 
 .nutripal-v4-orb {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   background: var(--solemia-gradient);
-  border-radius: 50%;
+  border-radius: 18px;
+  /* Forma de app icono */
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+  box-shadow: 0 10px 25px rgba(225, 29, 72, 0.3);
   color: white;
-  border: 2px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   flex-shrink: 0;
+  margin-bottom: -0.75rem;
+  z-index: 1;
 }
 
 .nutripal-v4-speech {
   background: white;
-  padding: 1.5rem;
-  /* Compacto */
-  border-radius: 2rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  border-radius: 2.5rem;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
   position: relative;
-  animation: bubble-pop-v4 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+  animation: console-slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes bubble-pop-v4 {
+@keyframes console-slide-in {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(10px);
+    transform: translateX(30px);
   }
 
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: translateX(0);
   }
 }
 
+/* Eliminar flechas en V7 - No flota sobre el sistema */
 .nutripal-v4-speech::after {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background: white;
-  transform: rotate(45deg);
-  z-index: -1;
-  left: 50%;
-  margin-left: -8px;
-}
-
-.v4-arrow-top::after {
-  top: -8px;
-}
-
-.v4-arrow-bottom::after {
-  bottom: -8px;
+  display: none;
 }
 
 .spotlight-mask-v4-pro {
-  fill: rgba(0, 0, 0, 0.7) !important;
-  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  fill: rgba(0, 0, 0, 0.6) !important;
+  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .tour-indicator-dot {

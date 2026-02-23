@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, Users, Brain, Settings, ChevronRight, Sparkles, Wand2 } from 'lucide-react';
+import { Star, Users, Brain, Settings, Sparkles, Wand2 } from 'lucide-react';
 
 const WelcomeTour = ({ isOpen, onComplete }) => {
     const [step, setStep] = useState(0);
     const [targetRect, setTargetRect] = useState(null);
-    const [containerPos, setContainerPos] = useState({ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' });
     const requestRef = useRef();
     const [displayText, setDisplayText] = useState('');
     const typingTimeoutRef = useRef();
@@ -13,7 +12,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🚀 NUTRI-PAL V4 FINAL LOADED - CACHE-BUSTED & RESET");
+            console.log("🚀 NUTRI-PAL V7 INVERSIONISTA LOADED - SYSTEM FIRST ABSOLUTE");
         }
     }, [isOpen]);
 
@@ -56,7 +55,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         }
     ];
 
-    // Efecto Typewriter V5 (Ajustado para no saltar el primer carácter)
+    // Efecto Typewriter V7
     useEffect(() => {
         setDisplayText('');
         let i = 0;
@@ -71,7 +70,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             }
         };
 
-        const initialTimeout = setTimeout(type, 50); // Pequeño delay para visualización
+        const initialTimeout = setTimeout(type, 50);
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
@@ -87,31 +86,9 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (el) {
                 const rect = el.getBoundingClientRect();
                 setTargetRect(rect);
-
-                const isTop = rect.top > window.innerHeight / 2;
-                // V6: Mayor separación para que el elemento respire
-                const top = isTop ? rect.top - 220 : rect.bottom + 60;
-
-                // Centrado dinámico para ancho de 320px
-                let left = rect.left + (rect.width / 2) - 160;
-                if (left < 20) left = 20;
-                if (left + 340 > window.innerWidth) left = window.innerWidth - 340;
-
-                setContainerPos({
-                    top: `${top}px`,
-                    left: `${left}px`,
-                    transform: 'none',
-                    arrowClass: isTop ? 'v4-arrow-bottom' : 'v4-arrow-top'
-                });
             }
         } else {
             setTargetRect(null);
-            setContainerPos({
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                arrowClass: ''
-            });
         }
         requestRef.current = requestAnimationFrame(updatePosition);
     };
@@ -139,7 +116,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div className="solemia-guide-v4-overlay" style={{ pointerEvents: 'all' }}>
-            {/* V6: Foco cristalino con mayor radio de respiro */}
+            {/* V7: Foco absoluto sobre el sistema - CERO interferencia visual */}
             <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
                 <defs>
                     <mask id="spotlight-mask-final-v4">
@@ -157,54 +134,52 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                         )}
                     </mask>
                 </defs>
-                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.7)" mask="url(#spotlight-mask-final-v4)" />
+                <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 0.6)" mask="url(#spotlight-mask-final-v4)" />
             </svg>
 
-            {/* ASISTENTE NUTRI-PAL V6 (SYSTEM-FIRST) */}
-            <div className="nutripal-v4-container" style={{
-                top: containerPos.top,
-                left: containerPos.left,
-                transform: containerPos.transform
-            }}>
-                <div className={`nutripal-v4-speech ${containerPos.arrowClass}`}>
-                    {/* V6: Encabezado minimalista tipo etiqueta */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div className="nutripal-v4-orb" style={{ fontSize: '0.9rem' }}>
-                            {steps[step].icon}
-                        </div>
-                        <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 800, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)' }}>
+            {/* ASISTENTE NUTRI-PAL V7 (INVERSIONISTA) - CONSOLA FIJA */}
+            <div className="nutripal-v4-container">
+                <div className="nutripal-v4-orb">
+                    {steps[step].icon}
+                </div>
+
+                <div className="nutripal-v4-speech">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 800, color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)' }}>
                             {steps[step].title}
                         </h4>
-                    </div>
-
-                    <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.5, margin: 0, minHeight: '4.5rem' }}>
-                        {displayText}
-                    </p>
-
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
                         <div style={{ display: 'flex', gap: '6px' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} style={{ width: i === step ? '16px' : '6px', height: '6px' }} />
                             ))}
                         </div>
+                    </div>
 
-                        <div style={{ display: 'flex', gap: '0.4rem' }}>
+                    <p style={{ fontSize: '0.95rem', color: '#64748b', lineHeight: 1.6, margin: 0, minHeight: '5rem' }}>
+                        {displayText}
+                    </p>
+
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
+                        <div>
                             {step > 0 && (
-                                <button onClick={handleBack} className="btn-outline" style={{ padding: '0.5rem 0.8rem', fontSize: '0.7rem', borderRadius: '0.75rem', border: '1px solid #e2e8f0' }}>
+                                <button onClick={handleBack} className="btn-outline" style={{ padding: '0.6rem 1rem', fontSize: '0.75rem', borderRadius: '1rem', border: '1px solid #e2e8f0' }}>
                                     Atrás
                                 </button>
                             )}
-                            <button onClick={handleNext} className="tour-btn-next" style={{ padding: '0.5rem 1rem', fontSize: '0.75rem', borderRadius: '0.75rem' }}>
-                                {step === steps.length - 1 ? 'Finalizar' : 'Continuar'}
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <button onClick={handleNext} className="tour-btn-next" style={{ padding: '0.7rem 1.5rem', fontSize: '0.8rem', borderRadius: '1.25rem' }}>
+                                {step === steps.length - 1 ? '¡Vamos a ello!' : 'Siguiente'}
                             </button>
                         </div>
                     </div>
 
                     <button
                         onClick={onComplete}
-                        style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.3 }}
+                        style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', opacity: 0.3 }}
                     >
-                        <Sparkles size={14} />
+                        <Sparkles size={16} />
                     </button>
                 </div>
             </div>
