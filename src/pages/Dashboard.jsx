@@ -36,6 +36,7 @@ import SettingsModal from '../components/SettingsModal';
 import LegalModal from '../components/LegalModal';
 import logo from '../assets/logo.png';
 import WelcomeTour from '../components/WelcomeTour';
+import GuideModal from '../components/GuideModal';
 
 export default function Dashboard({ session }) {
     const [patients, setPatients] = useState([]);
@@ -50,6 +51,7 @@ export default function Dashboard({ session }) {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [previewData, setPreviewData] = useState({ url: '', title: '' });
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isGuideOpen, setIsGuideOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [sortOrder, setSortOrder] = useState('name-asc'); // 'name-asc', 'name-desc', 'recent', 'count-desc', 'count-asc'
     const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', 'inactive'
@@ -474,6 +476,25 @@ export default function Dashboard({ session }) {
                                     }}
                                 >
                                     <Settings size={20} />
+                                </button>
+                                <button
+                                    onClick={() => setIsGuideOpen(true)}
+                                    title="Guía de Rentabilidad"
+                                    style={{
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '14px',
+                                        border: '1px solid rgba(255,255,255,0.2)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        color: 'white',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)'
+                                    }}
+                                >
+                                    <TrendingUp size={20} />
                                 </button>
                                 <button
                                     onClick={() => window.open('https://wa.me/message/YOUR_WHATSAPP_LINK', '_blank')}
@@ -1333,6 +1354,11 @@ export default function Dashboard({ session }) {
                     content={legalConfig.content}
                 />
             )}
+
+            <GuideModal
+                isOpen={isGuideOpen}
+                onClose={() => setIsGuideOpen(false)}
+            />
 
             <WelcomeTour
                 isOpen={isTourOpen}
