@@ -146,31 +146,13 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
             if (Object.keys(updates).length > 0) {
                 const { error: finalError } = await supabase.from('patients').update(updates).eq('id', clientId);
                 if (finalError) throw finalError;
-            }
 
-            // ⚡️ DISPARAR LA IA (n8n Webhook)
-            if (isExpedienteProcessed || isPlanProcessed) {
-                try {
-                    console.log('⚡️ Disparando IA para análisis...');
-                    // Intentamos obtener la URL de las variables de entorno de Vite o usamos la proporcionada por Mario por defecto
-                    const WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://n8n.tu-dominio.com/webhook/nutribot-ingesta';
-
-                    fetch(WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            patientId: clientId,
-                            nutriologistId: user.id,
-                            expedienteUrl: updates.expediente_url || null,
-                            planUrl: updates.plan_url || null,
-                            timestamp: new Date().toISOString(),
-                            source: 'Solemia Dashboard'
-                        })
-                    }).then(() => console.log('✅ IA Notificada con éxito'))
-                        .catch(err => console.error('⚠️ Error avisando a la IA:', err));
-                } catch (webhookError) {
-                    console.error('⚠️ Error en la petición a la IA:', webhookError);
-                }
+                // Disparar workflow de ingesta para procesar documentos con IA
+                fetch('https://marioenriqueztest4.app.n8n.cloud/webhook/nutribot-ingesta', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ patientId: clientId })
+                }).catch(err => console.warn('Webhook ingesta:', err));
             }
 
             setShowConfirm(false);
