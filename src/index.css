@@ -432,7 +432,15 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL V9 (HEADER GLASS - CLARIDAD ABSOLUTA) === */
+/* === GUÍA SOLEMIA: NUTRI-PAL V10 (LUX - ESTÁNDAR REVOLUT) === */
+:root {
+  --lux-glass: rgba(255, 255, 255, 0.45);
+  --lux-border: rgba(255, 255, 255, 0.6);
+  --lux-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+  --lux-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Curva de inercia Spring */
+}
+
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
@@ -441,69 +449,92 @@ input:checked+.slider-ia:before {
   height: 100vh;
   z-index: 11000;
   pointer-events: none;
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  /* Blanco ultra-claro, nada de gris "triste" */
-  backdrop-filter: saturate(120%) brightness(1.05);
-  /* Realza los colores del sistema */
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: saturate(140%) brightness(1.02) blur(2px);
+  transition: all 0.8s ease;
 }
 
-/* Nutri-Pal V9: Franja Header de Cristal (Transparencia Total) */
+/* Nutri-Pal V10: Arquitectura "Dynamic Island" Header */
 .nutripal-v4-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 1rem 2rem;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  max-width: 90vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.8s var(--lux-spring);
   pointer-events: all;
   z-index: 11001;
 }
 
 .nutripal-v4-orb {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   background: var(--solemia-gradient);
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 20px rgba(225, 29, 72, 0.1);
+  box-shadow: 0 12px 24px rgba(225, 29, 72, 0.15);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.4);
   flex-shrink: 0;
+  margin-right: -12px;
+  z-index: 2;
+  transition: all 0.5s var(--lux-spring);
 }
 
 .nutripal-v4-speech {
-  background: rgba(255, 255, 255, 0.4);
-  /* Glassmorphism Puro - "Transparente" al fondo */
-  backdrop-filter: blur(25px) saturate(160%);
-  -webkit-backdrop-filter: blur(25px) saturate(160%);
-  padding: 0.75rem 2.25rem;
-  border-radius: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-  width: auto;
-  min-width: 650px;
-  max-width: 95vw;
-  box-sizing: border-box;
+  background: var(--lux-glass);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  padding: 0.85rem 2.25rem 0.85rem 3rem;
+  border-radius: 2.5rem;
+  box-shadow: var(--lux-shadow), inset 0 0 0 1px var(--lux-border);
   display: flex;
   align-items: center;
-  gap: 1.75rem;
+  gap: 2.5rem;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  animation: header-slide-down 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: lux-spring-entry 0.9s var(--lux-spring) forwards;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes header-slide-down {
+.nutripal-v4-speech::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.3) 50%, transparent 60%);
+  background-size: 200% 100%;
+  animation: shine-sweep 4s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes lux-spring-entry {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: scale(0.95) translateY(-20px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes shine-sweep {
+  0% {
+    background-position: -100% 0;
+  }
+
+  100% {
+    background-position: 100% 0;
   }
 }
 
@@ -512,22 +543,22 @@ input:checked+.slider-ia:before {
 }
 
 .spotlight-mask-v4-pro {
-  fill: rgba(0, 0, 0, 0.35) !important;
-  /* Capa mínima de foco para evitar tono grisáceo */
-  transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  fill: rgba(0, 0, 0, 0.15) !important;
+  /* Penumbra mínima, máxima claridad */
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .tour-indicator-dot {
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.08);
+  transition: all 0.4s var(--lux-spring);
 }
 
 .tour-indicator-dot.active {
-  background: var(--solemia-pink);
-  width: 12px;
+  background: var(--solemia-gradient);
+  width: 18px;
   border-radius: 10px;
 }
 
@@ -535,16 +566,34 @@ input:checked+.slider-ia:before {
   background: var(--solemia-gradient);
   color: white;
   border: none;
-  padding: 0.5rem 1.75rem;
-  border-radius: 1rem;
+  padding: 0.75rem 2rem;
+  border-radius: 1.25rem;
   font-weight: 900;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s var(--lux-spring);
   white-space: nowrap;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 20px rgba(225, 29, 72, 0.15);
 }
 
 .tour-btn-next:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(225, 29, 72, 0.25);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 28px rgba(225, 29, 72, 0.25);
+}
+
+.tour-btn-back {
+  background: transparent;
+  border: none;
+  color: #4d0c30;
+  font-weight: 700;
+  font-size: 0.8rem;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tour-btn-back:hover {
+  opacity: 1;
+  transform: translateX(-2px);
 }
