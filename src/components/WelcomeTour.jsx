@@ -1,49 +1,53 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, ArrowRight, ChevronLeft, Crown, Target } from 'lucide-react';
+import { Sparkles, ArrowRight, ChevronLeft, Crown, Target, Brain, Users, Settings, Search } from 'lucide-react';
 
 const WelcomeTour = ({ isOpen, onComplete }) => {
     const [step, setStep] = useState(0);
     const [targetRect, setTargetRect] = useState(null);
     const [displayText, setDisplayText] = useState('');
-    const [assistantPos, setAssistantPos] = useState({ top: '2rem', left: '50%', transform: 'translateX(-50%)' });
+    const [assistantPos, setAssistantPos] = useState({ top: '30%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 0 });
     const typingTimeoutRef = useRef();
 
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA ROYAL GHOST V13 - EL SISTEMA CORONADO");
+            console.log("🦁 SOLEMIA SIGNATURE V14 - ALTA COSTURA ACTIVADA");
         }
     }, [isOpen]);
 
     const steps = [
         {
-            title: "Royal Command",
-            description: "Bienvenido a la cima. Tu Dashboard ha sido coronado. Déjame guiarte por tu nuevo imperio digital.",
+            title: "Solemia Signature",
+            description: "Bienvenido a la cima de la ingeniería clínica. Tu sistema no solo es potente; es una obra de arte diseñada para potenciar tu marca profesional.",
+            icon: <Crown size={28} />,
             element: null
         },
         {
-            title: "Pulso Estratégico",
-            description: "Tus métricas clave. Diseñadas para que veas el éxito antes de que ocurra. Precisión absoluta.",
+            title: "Métricas de Impacto",
+            description: "Toma el control absoluto de tus resultados. Tus éxitos ahora se visualizan con elegancia, claridad y precisión absoluta.",
+            icon: <Users size={28} />,
             element: ".tour-metrics"
         },
         {
-            title: "Inteligencia Fluida",
-            description: "Tu buscador maestro. Encuentra legados y pacientes con la velocidad del pensamiento.",
+            title: "Búsqueda Maestra",
+            description: "Tu base de conocimientos, accesible en microsegundos. La velocidad del sistema responde a tu agilidad profesional.",
+            icon: <Search size={28} />,
             element: ".tour-search"
         },
         {
-            title: "Arquitectura de Pacientes",
-            description: "Crea nuevos expedientes con la ayuda de mi IA. Cada dato es un pilar de tu legado.",
+            title: "Arquitectura de Legados",
+            description: "Inicia nuevos expedientes con el respaldo de nuestra inteligencia. Cada paciente es el pilar de un gran resultado clínico.",
+            icon: <Brain size={28} />,
             element: ".tour-add-patient"
         },
         {
-            title: "Núcleo Zen",
-            description: "Ajusta tu universo. Solemia se pliega a tu voluntad profesional.",
+            title: "Configuración Soberana",
+            description: "Moldea tu universo de trabajo. Solemia se pliega a tus necesidades profesionales, nunca al revés.",
+            icon: <Settings size={28} />,
             element: ".tour-settings"
         }
     ];
 
-    // Royal Typewriter: Elegante y con presencia
     useEffect(() => {
         setDisplayText('');
         let i = 0;
@@ -53,18 +57,18 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (i < text.length) {
                 setDisplayText(text.substring(0, i + 1));
                 i++;
-                typingTimeoutRef.current = setTimeout(type, 18);
+                typingTimeoutRef.current = setTimeout(type, 20);
             }
         };
 
-        const initialTimeout = setTimeout(type, 300);
+        const initialTimeout = setTimeout(type, 400);
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
         };
     }, [step]);
 
-    // ROYAL ANCHORING: Inteligencia de Posicionamiento (Smart Avoidance)
+    // SIGNATURE ANCHORING: Inteligencia de Posicionamiento Editorial
     useEffect(() => {
         if (!isOpen) return;
 
@@ -76,17 +80,10 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     const rect = el.getBoundingClientRect();
                     setTargetRect(rect);
 
-                    // Lógica de Anclaje de Lujo: Evitar solapamientos y buscar estética
-                    const isTooHigh = rect.top < 300;
-                    const isTooLeft = rect.left < 400;
-                    const isTooRight = rect.left > window.innerWidth - 600;
-
-                    let finalLeft = rect.left + rect.width / 2;
-                    let finalTop = isTooHigh ? rect.bottom + 60 : rect.top - 200;
-
-                    // Ajustes laterales para evitar salirse de pantalla
-                    if (isTooLeft) finalLeft = Math.max(280, finalLeft);
-                    if (isTooRight) finalLeft = Math.min(window.innerWidth - 280, finalLeft);
+                    // Posicionamiento de "Respeto" (Evitar colisiones visuales)
+                    const isTooHigh = rect.top < 350;
+                    const finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 300), window.innerWidth - 300);
+                    const finalTop = isTooHigh ? rect.bottom + 120 : rect.top - 280;
 
                     setAssistantPos({
                         top: `${finalTop}px`,
@@ -97,7 +94,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 }
             } else {
                 setTargetRect(null);
-                setAssistantPos({ top: '30%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 1 });
+                setAssistantPos({ top: '40%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 1 });
             }
         }, 100);
 
@@ -107,48 +104,75 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="solemia-ghost-container" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
+        <div className="solemia-signature-container" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
             <div className="solemia-guide-v4-overlay" />
 
             <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all' }}>
-                {targetRect && <div className="ghost-spotlight-glow" style={{
-                    top: targetRect.top - 15,
-                    left: targetRect.left - 15,
-                    width: targetRect.width + 30,
-                    height: targetRect.height + 30,
-                    position: 'fixed'
-                }} />}
+                {targetRect && (
+                    <div className="signature-spotlight-aura" style={{
+                        top: targetRect.top - 20,
+                        left: targetRect.left - 20,
+                        width: targetRect.width + 40,
+                        height: targetRect.height + 40,
+                        position: 'fixed'
+                    }} />
+                )}
 
                 <div className="nutripal-v4-speech">
+                    {/* Icono Sello de Cera (Signature Style) */}
                     <div className="nutripal-v4-orb">
-                        {step === 0 ? <Crown size={20} /> : <Target size={20} />}
+                        {steps[step].icon}
                     </div>
 
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 900, color: 'var(--solemia-plum)', textTransform: 'uppercase', letterSpacing: '2px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1.5rem' }}>
+                        <h4 style={{
+                            margin: 0,
+                            fontSize: '1.15rem',
+                            fontWeight: 950,
+                            color: 'var(--solemia-plum)',
+                            textTransform: 'uppercase',
+                            letterSpacing: '5px',
+                            textAlign: 'center'
+                        }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: '0.95rem', color: '#1e293b', lineHeight: 1.6, margin: 0, fontWeight: 600, letterSpacing: '-0.2px' }}>
+                        <p style={{
+                            fontSize: '1.05rem',
+                            color: '#1e293b',
+                            lineHeight: 1.8,
+                            margin: 0,
+                            fontWeight: 600,
+                            textAlign: 'center',
+                            minHeight: '5rem',
+                            letterSpacing: '-0.3px'
+                        }}>
                             {displayText}
                         </p>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', borderLeft: '1px solid rgba(225,29,72,0.1)', paddingLeft: '2rem' }}>
-                        <div style={{ display: 'flex', gap: '6px' }}>
-                            {steps.map((_, i) => (
-                                <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
-                            ))}
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: '2.5rem',
+                        borderTop: '1px solid rgba(225,29,72,0.1)',
+                        paddingTop: '1.5rem',
+                        marginTop: '0.5rem'
+                    }}>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                             {step > 0 && (
                                 <button onClick={() => setStep(step - 1)} className="tour-btn-back">
-                                    <ChevronLeft size={18} />
+                                    <ChevronLeft size={24} />
                                 </button>
                             )}
+                            <div style={{ display: 'flex', gap: '12px', margin: '0 1.5rem' }}>
+                                {steps.map((_, i) => (
+                                    <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
+                                ))}
+                            </div>
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
                                 <span>{step === steps.length - 1 ? 'REINAR' : 'SIGUIENTE'}</span>
-                                <ArrowRight size={16} style={{ marginLeft: '8px' }} />
+                                <ArrowRight size={20} style={{ marginLeft: '12px' }} />
                             </button>
                         </div>
                     </div>
