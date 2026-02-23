@@ -162,7 +162,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                                         <Brain size={18} style={{ color: 'var(--solemia-plum)' }} />
-                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Análisis y objetivos</h3>
+                                        <h3 style={{ fontSize: '1rem', fontWeight: '900', fontFamily: 'var(--font-display)', color: 'var(--solemia-charcoal)', margin: 0, letterSpacing: '0.5px' }}>Análisis y resumen</h3>
                                     </div>
                                     {!isEditingAnalysis ? (
                                         <button
@@ -170,7 +170,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                             style={{ backgroundColor: 'transparent', border: 'none', color: 'var(--solemia-plum)', cursor: 'pointer', opacity: 0.6, borderRadius: '8px', padding: '4px' }}
                                             onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
                                             onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.6'; }}
-                                            title="Editar análisis"
+                                            title="Editar análisis y resumen"
                                         >
                                             <Edit size={16} />
                                         </button>
