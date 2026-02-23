@@ -432,7 +432,7 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL V17 (SOLEMIA LUMINOUS GLASS - LA REDENCIÓN) === */
+/* === GUÍA SOLEMIA: NUTRI-PAL V18 (MINIMALISMO DE PRECISIÓN - LA GUÍA INVISIBLE) === */
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
@@ -440,48 +440,46 @@ input:checked+.slider-ia:before {
   width: 100vw;
   height: 100vh;
   z-index: 11000;
-  background: rgba(0, 0, 0, 0.12) !important;
-  /* Más profundidad para resaltar el cristal */
+  background: rgba(0, 0, 0, 0.4) !important;
+  /* Dimming más dramático para que el foco resalte */
   pointer-events: none;
 }
 
-/* Nutri-Pal V17: Luminous Tooltip (Solemia Crystal) */
+/* Nutri-Pal V18: Precision Tooltip (Glass Ethereal) */
 .nutripal-v4-container {
   position: fixed;
   z-index: 11001;
   pointer-events: all;
-  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .nutripal-v4-speech {
-  /* MATERIALIDAD SOLEMIA VIBRANTE */
-  background: linear-gradient(135deg, rgba(84, 1, 35, 0.92), rgba(190, 24, 93, 0.88));
-  backdrop-filter: blur(50px) saturate(210%);
-  -webkit-backdrop-filter: blur(50px) saturate(210%);
-  padding: 1.75rem 2.5rem;
-  border-radius: 2.5rem;
+  /* MATERIALIDAD CRISTAL REAL (REDUCCIÓN DE OPACIDAD AL 40%) */
+  background: rgba(84, 1, 35, 0.4);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  padding: 1.25rem 1.75rem;
+  border-radius: 1.75rem;
   box-shadow:
-    0 40px 100px -20px rgba(0, 0, 0, 0.4),
-    inset 0 0 0 1.5px rgba(255, 255, 255, 0.25),
-    inset 0 0 40px rgba(255, 255, 255, 0.1);
+    0 20px 50px -10px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
-  /* Estructura narrativa vertical */
-  gap: 1.75rem;
+  gap: 1.25rem;
   border: none;
-  max-width: 550px;
+  max-width: 380px;
+  /* DRÁSTICA REDUCCIÓN DE ESCALA */
   position: relative;
   overflow: visible;
-  animation: luminous-entrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: precision-entrance 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-@keyframes luminous-entrance {
+@keyframes precision-entrance {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.92);
+    transform: translateY(10px) scale(0.98);
   }
 
   to {
@@ -491,89 +489,83 @@ input:checked+.slider-ia:before {
 }
 
 .nutripal-v4-orb {
-  width: 56px;
-  height: 56px;
+  width: 44px;
+  height: 44px;
   background: white;
-  border-radius: 1.4rem;
+  border-radius: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #be185d;
   flex-shrink: 0;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   position: absolute;
-  top: -28px;
-  left: 2.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  top: -22px;
+  left: 1.5rem;
 }
 
 .tour-btn-next {
   background: white;
   color: #540123;
   border: none;
-  padding: 0.9rem 2.5rem;
-  border-radius: 1.25rem;
-  font-weight: 950;
-  font-size: 0.85rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 1rem;
+  font-weight: 900;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .tour-btn-next:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  background: #fffafa;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .tour-btn-back {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   border: none;
   color: white;
-  width: 48px;
-  height: 48px;
-  border-radius: 1.2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .tour-btn-back:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .tour-indicator-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.4s ease;
 }
 
 .tour-indicator-dot.active {
   background: white;
-  width: 32px;
+  width: 20px;
   border-radius: 10px;
 }
 
-/* Precision Outline Spotlight V17 (Encuadrado Perfecto) */
+/* Precision Hole Spotlight V18 (Foco Absoluto) */
 .ghost-spotlight-glow {
   position: fixed;
   z-index: 10999;
-  border-radius: 1.25rem;
+  border-radius: 1.1rem;
   pointer-events: none;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  outline: 4px solid white;
-  /* Outline pura para máxima nitidez */
-  outline-offset: 10px;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  /* FOCO LIMPIO: SIN BORDES GRUESOS QUE CORTEN NADA */
   box-shadow:
-    0 0 0 9999px rgba(0, 0, 0, 0.45),
-    /* Dimming total del dashboard */
-    0 0 80px rgba(190, 24, 93, 0.5);
-  /* Glow sutil color marca */
+    0 0 0 9999px rgba(0, 0, 0, 0.6),
+    /* El sistema se oscurece */
+    inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+  /* Solo un borde de luz interna para marcar el agujero */
 }
