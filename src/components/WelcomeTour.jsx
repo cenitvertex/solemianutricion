@@ -11,39 +11,39 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA ZENITH REBORN V15 ACTIVADO");
+            console.log("🦁 SOLEMIA GLASS EDITION V16 - IDENTIDAD TOTAL");
         }
     }, [isOpen]);
 
     const steps = [
         {
-            title: "Zenith Reborn",
-            description: "Bienvenido a Solemia. He recuperado la claridad para que tu sistema brille con propósito profesional.",
-            icon: <Crown size={24} />,
+            title: "Solemia Glass",
+            description: "Bienvenido a tu nueva era profesional. Un sistema rediseñado para que tu talento sea el único protagonista.",
+            icon: <Crown size={28} />,
             element: null
         },
         {
-            title: "Métricas Vitales",
-            description: "Visualiza tus resultados con precisión quirúrgica. Todo el poder de tus datos en un solo lugar.",
-            icon: <Users size={24} />,
+            title: "Métricas de Maestría",
+            description: "Visualiza el pulso de tu éxito. Tus datos ahora se presentan con la claridad que tu nivel de experto requiere.",
+            icon: <Users size={28} />,
             element: ".tour-metrics"
         },
         {
-            title: "Buscador Maestro",
-            description: "Encuentra pacientes y expedientes al instante. Tu historial está siempre a tu voluntad.",
-            icon: <Search size={24} />,
+            title: "Buscador de Legados",
+            description: "Accede al instante a todo tu historial clínico. La velocidad del pensamiento aplicada a tu gestión de pacientes.",
+            icon: <Search size={28} />,
             element: ".tour-search"
         },
         {
-            title: "Nuevo Legado",
-            description: "Crea expedientes digitales con la vanguardia de nuestra arquitectura funcional.",
-            icon: <Brain size={24} />,
+            title: "Nueva Arquitectura",
+            description: "Crea expedientes digitales que reflejen la vanguardia de tu práctica clínica diaria.",
+            icon: <Brain size={28} />,
             element: ".tour-add-patient"
         },
         {
-            title: "Configuración Zen",
-            description: "Ajusta tu entorno de trabajo. El software se adapta a la forma de tu maestría clínica.",
-            icon: <Settings size={24} />,
+            title: "Ajustes de Universo",
+            description: "Personaliza cada rincón de Solemia. El software debe ser, siempre, una extensión de tu voluntad.",
+            icon: <Settings size={28} />,
             element: ".tour-settings"
         }
     ];
@@ -57,18 +57,18 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (i < text.length) {
                 setDisplayText(text.substring(0, i + 1));
                 i++;
-                typingTimeoutRef.current = setTimeout(type, 15);
+                typingTimeoutRef.current = setTimeout(type, 18);
             }
         };
 
-        const initialTimeout = setTimeout(type, 200);
+        const initialTimeout = setTimeout(type, 300);
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
         };
     }, [step]);
 
-    // ZENITH SAFE ZONE ANCHORING
+    // PRECISION ANCHORING V16
     useEffect(() => {
         if (!isOpen) return;
 
@@ -80,16 +80,15 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     const rect = el.getBoundingClientRect();
                     setTargetRect(rect);
 
-                    // Lógica de Posicionamiento Horizontal Ultra-Compacta
+                    // Lógica de Posicionamiento con Prioridad de Lectura
                     const screenH = window.innerHeight;
                     const screenW = window.innerWidth;
 
-                    let finalTop = rect.top - 140; // Por defecto arriba
-                    if (finalTop < 20) finalTop = rect.bottom + 40; // Si no hay espacio arriba, abajo
+                    let finalTop = rect.top - 240; // Espacio para la nueva caja vertical
+                    if (finalTop < 40) finalTop = rect.bottom + 40;
 
-                    // Asegurar que no se salga de los bordes
-                    finalTop = Math.min(Math.max(finalTop, 20), screenH - 180);
-                    let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 350), screenW - 350);
+                    finalTop = Math.min(Math.max(finalTop, 40), screenH - 260);
+                    let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 300), screenW - 300);
 
                     setAssistantPos({
                         top: `${finalTop}px`,
@@ -110,16 +109,16 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="solemia-zenith-reborn" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
+        <div id="solemia-glass-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
             <div className="solemia-guide-v4-overlay" />
 
             <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all' }}>
                 {targetRect && (
                     <div className="ghost-spotlight-glow" style={{
-                        top: targetRect.top - 15,
-                        left: targetRect.left - 15,
-                        width: targetRect.width + 30,
-                        height: targetRect.height + 30,
+                        top: targetRect.top - 8,
+                        left: targetRect.left - 8,
+                        width: targetRect.width + 16,
+                        height: targetRect.height + 16,
                         position: 'fixed'
                     }} />
                 )}
@@ -129,31 +128,33 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                         {steps[step].icon}
                     </div>
 
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.85rem', fontWeight: 950, color: '#fca5a5', textTransform: 'uppercase', letterSpacing: '2px' }}>
+                    {/* ZONA DE TEXTO PRIORITARIA (80% del impacto visual) */}
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1.5rem' }}>
+                        <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 950, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '4px' }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: '0.95rem', color: '#f1f5f9', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
+                        <p style={{ fontSize: '1.25rem', color: 'white', lineHeight: 1.6, margin: 0, fontWeight: 600, letterSpacing: '-0.3px' }}>
                             {displayText}
                         </p>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: '1.5rem' }}>
-                        <div style={{ display: 'flex', gap: '8px' }}>
+                    {/* ZONA DE CONTROL COMPACTA (La base refinada) */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1.5px solid rgba(255,255,255,0.15)', paddingTop: '1.25rem', marginTop: '0.5rem' }}>
+                        <div style={{ display: 'flex', gap: '10px' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
                         </div>
 
-                        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                             {step > 0 && (
                                 <button onClick={() => setStep(step - 1)} className="tour-btn-back">
-                                    <ChevronLeft size={20} />
+                                    <ChevronLeft size={22} />
                                 </button>
                             )}
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
                                 <span>{step === steps.length - 1 ? 'REINAR' : 'SIGUIENTE'}</span>
-                                <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+                                <ArrowRight size={20} style={{ marginLeft: '10px' }} />
                             </button>
                         </div>
                     </div>
