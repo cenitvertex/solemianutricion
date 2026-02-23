@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, ArrowRight, ChevronLeft } from 'lucide-react';
+import { Sparkles, ArrowRight, ChevronLeft, Crown, Target } from 'lucide-react';
 
 const WelcomeTour = ({ isOpen, onComplete }) => {
     const [step, setStep] = useState(0);
@@ -11,39 +11,39 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🏛️ SOLEMIA GHOST V12 - SISTEMA PROTAGONISTA");
+            console.log("🦁 SOLEMIA ROYAL GHOST V13 - EL SISTEMA CORONADO");
         }
     }, [isOpen]);
 
     const steps = [
         {
-            title: "Toma el Mando",
-            description: "Tu sistema está listo. Haré que cada clic cuente. Solo observa los resplandores.",
+            title: "Royal Command",
+            description: "Bienvenido a la cima. Tu Dashboard ha sido coronado. Déjame guiarte por tu nuevo imperio digital.",
             element: null
         },
         {
-            title: "Métricas de Éxito",
-            description: "Tu rendimiento en una mirada. La salud de tu consultorio brilla aquí.",
+            title: "Pulso Estratégico",
+            description: "Tus métricas clave. Diseñadas para que veas el éxito antes de que ocurra. Precisión absoluta.",
             element: ".tour-metrics"
         },
         {
-            title: "Mente Digital",
-            description: "Busca y encuentra. Tu historial está siempre a una palabra de distancia.",
+            title: "Inteligencia Fluida",
+            description: "Tu buscador maestro. Encuentra legados y pacientes con la velocidad del pensamiento.",
             element: ".tour-search"
         },
         {
-            title: "Nuevos Legados",
-            description: "Crea expedientes con inteligencia. Empieza aquí.",
+            title: "Arquitectura de Pacientes",
+            description: "Crea nuevos expedientes con la ayuda de mi IA. Cada dato es un pilar de tu legado.",
             element: ".tour-add-patient"
         },
         {
-            title: "Configuración ZEN",
-            description: "Ajusta tu entorno. Solemia se adapta a ti.",
+            title: "Núcleo Zen",
+            description: "Ajusta tu universo. Solemia se pliega a tu voluntad profesional.",
             element: ".tour-settings"
         }
     ];
 
-    // Ghost Typewriter: Minimalista y rápido
+    // Royal Typewriter: Elegante y con presencia
     useEffect(() => {
         setDisplayText('');
         let i = 0;
@@ -53,18 +53,18 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (i < text.length) {
                 setDisplayText(text.substring(0, i + 1));
                 i++;
-                typingTimeoutRef.current = setTimeout(type, 15);
+                typingTimeoutRef.current = setTimeout(type, 18);
             }
         };
 
-        const initialTimeout = setTimeout(type, 100);
+        const initialTimeout = setTimeout(type, 300);
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
         };
     }, [step]);
 
-    // GHOST: Anclaje de Precisión
+    // ROYAL ANCHORING: Inteligencia de Posicionamiento (Smart Avoidance)
     useEffect(() => {
         if (!isOpen) return;
 
@@ -76,17 +76,28 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     const rect = el.getBoundingClientRect();
                     setTargetRect(rect);
 
-                    // Posicionamiento de Tooltip (siempre cerca del elemento)
-                    const isTooHigh = rect.top < 250;
+                    // Lógica de Anclaje de Lujo: Evitar solapamientos y buscar estética
+                    const isTooHigh = rect.top < 300;
+                    const isTooLeft = rect.left < 400;
+                    const isTooRight = rect.left > window.innerWidth - 600;
+
+                    let finalLeft = rect.left + rect.width / 2;
+                    let finalTop = isTooHigh ? rect.bottom + 60 : rect.top - 200;
+
+                    // Ajustes laterales para evitar salirse de pantalla
+                    if (isTooLeft) finalLeft = Math.max(280, finalLeft);
+                    if (isTooRight) finalLeft = Math.min(window.innerWidth - 280, finalLeft);
+
                     setAssistantPos({
-                        top: isTooHigh ? `${rect.bottom + 20}px` : `${rect.top - 160}px`,
-                        left: `${rect.left + rect.width / 2}px`,
-                        transform: 'translateX(-50%)'
+                        top: `${finalTop}px`,
+                        left: `${finalLeft}px`,
+                        transform: 'translateX(-50%)',
+                        opacity: 1
                     });
                 }
             } else {
                 setTargetRect(null);
-                setAssistantPos({ top: '2rem', left: '50%', transform: 'translateX(-50%)' });
+                setAssistantPos({ top: '30%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 1 });
             }
         }, 100);
 
@@ -97,44 +108,47 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div className="solemia-ghost-container" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
-            {/* El overlay es transparente en el CSS */}
             <div className="solemia-guide-v4-overlay" />
 
             <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all' }}>
                 {targetRect && <div className="ghost-spotlight-glow" style={{
-                    top: targetRect.top - 10,
-                    left: targetRect.left - 10,
-                    width: targetRect.width + 20,
-                    height: targetRect.height + 20,
+                    top: targetRect.top - 15,
+                    left: targetRect.left - 15,
+                    width: targetRect.width + 30,
+                    height: targetRect.height + 30,
                     position: 'fixed'
                 }} />}
 
                 <div className="nutripal-v4-speech">
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.8rem', fontWeight: 900, color: 'var(--solemia-plum)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+                    <div className="nutripal-v4-orb">
+                        {step === 0 ? <Crown size={20} /> : <Target size={20} />}
+                    </div>
+
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                        <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 900, color: 'var(--solemia-plum)', textTransform: 'uppercase', letterSpacing: '2px' }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: '0.85rem', color: '#334155', lineHeight: 1.4, margin: 0, fontWeight: 500 }}>
+                        <p style={{ fontSize: '0.95rem', color: '#1e293b', lineHeight: 1.6, margin: 0, fontWeight: 600, letterSpacing: '-0.2px' }}>
                             {displayText}
                         </p>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '1px solid rgba(0,0,0,0.05)', paddingLeft: '1rem' }}>
-                        <div style={{ display: 'flex', gap: '4px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', borderLeft: '1px solid rgba(225,29,72,0.1)', paddingLeft: '2rem' }}>
+                        <div style={{ display: 'flex', gap: '6px' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
                         </div>
 
-                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                             {step > 0 && (
                                 <button onClick={() => setStep(step - 1)} className="tour-btn-back">
-                                    <ChevronLeft size={14} />
+                                    <ChevronLeft size={18} />
                                 </button>
                             )}
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
-                                <span>{step === steps.length - 1 ? 'LISTO' : 'SIGUIENTE'}</span>
-                                <ArrowRight size={12} style={{ marginLeft: '4px' }} />
+                                <span>{step === steps.length - 1 ? 'REINAR' : 'SIGUIENTE'}</span>
+                                <ArrowRight size={16} style={{ marginLeft: '8px' }} />
                             </button>
                         </div>
                     </div>
