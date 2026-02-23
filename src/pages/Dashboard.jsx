@@ -172,8 +172,9 @@ export default function Dashboard({ session }) {
     useEffect(() => {
         if (!session?.user?.id) return;
 
-        console.log('� Iniciando Suscripción Realtime para:', session.user.id);
+        console.log('🔗 [Realtime] Intentando suscripción para tenant:', session.user.id);
 
+        // Creamos un canal único para el usuario
         const channel = supabase
             .channel(`patients_sync_${session.user.id}`)
             .on(
@@ -181,34 +182,40 @@ export default function Dashboard({ session }) {
                 {
                     event: 'UPDATE',
                     schema: 'public',
-                    table: 'patients',
-                    filter: `tenant_id=eq.${session.user.id}`
+                    table: 'patients'
+                    // Quitamos el filtro server-side para evitar problemas de Replica Identity
                 },
                 (payload) => {
-                    console.log('⚡ Realtime Update Received:', payload);
+                    console.log('⚡ [Realtime] Cambio detectado:', payload);
                     const updatedPatient = payload.new;
+
+                    // Verificamos que sea de nuestro tenant (doble check de RLS)
+                    if (updatedPatient.tenant_id !== session.user.id) return;
 
                     // 1. Actualizar lista global
                     setPatients(current =>
                         current.map(p => p.id === updatedPatient.id ? { ...p, ...updatedPatient } : p)
                     );
 
-                    // 2. Si el perfil está abierto y es el mismo paciente, actualizarlo "en vivo"
+                    // 2. Actualizar perfil si está abierto
                     setEditingPatient(current => {
                         if (current && current.id === updatedPatient.id) {
-                            console.log('🔄 Sincronizando Perfil Abierto para:', updatedPatient.name);
+                            console.log('🔄 [Realtime] Perfil actualizado en vivo:', updatedPatient.name);
                             return { ...current, ...updatedPatient };
                         }
                         return current;
                     });
                 }
             )
-            .subscribe((status) => {
-                console.log('📡 Realtime Status:', status);
+            .subscribe((status, err) => {
+                console.log(`📡 [Realtime] Estado del canal: ${status}`, err || '');
+                if (status === 'CHANNEL_ERROR') {
+                    console.error('❌ [Realtime] Error de conexión. Verifica si el servicio está activo.');
+                }
             });
 
         return () => {
-            console.log('📴 Limpiando Suscripción Realtime');
+            console.log('📴 [Realtime] Limpiando suscripción');
             supabase.removeChannel(channel);
         };
     }, [session?.user?.id]);
