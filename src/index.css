@@ -503,54 +503,61 @@ input:checked+.slider-ia:before {
 }
 
 .tour-btn-next {
-  background: white;
-  color: #540123;
-  border: none;
-  padding: 0.75rem 1.75rem;
-  border-radius: 1rem;
-  font-weight: 900;
-  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.65rem 1.4rem;
+  border-radius: 0.8rem;
+  font-weight: 700;
+  font-size: 0.72rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  backdrop-filter: blur(10px);
 }
 
 .tour-btn-next:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background: white;
+  color: #4d0c30;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border-color: white;
 }
 
 .tour-btn-back {
-  background: rgba(255, 255, 255, 0.05);
-  border: none;
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  width: 36px;
+  height: 36px;
+  border-radius: 0.8rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .tour-btn-back:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .tour-indicator-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  transition: all 0.4s ease;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tour-indicator-dot.active {
-  background: white;
-  width: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  width: 16px;
   border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
 }
 
 /* Foco Adaptativo V18.4 */
