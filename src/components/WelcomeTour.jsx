@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Sparkles, ArrowRight, ChevronLeft, Crown, Brain, Users, Settings, Search } from 'lucide-react';
 
 const WelcomeTour = ({ isOpen, onComplete }) => {
@@ -6,7 +6,6 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     const [targetRect, setTargetRect] = useState(null);
     const [displayText, setDisplayText] = useState('');
     const [assistantPos, setAssistantPos] = useState({ top: '30%', left: '50%', opacity: 0, isCentered: true });
-    const [isTyping, setIsTyping] = useState(false);
 
     const typingTimeoutRef = useRef();
     const tooltipRef = useRef(null);
@@ -52,7 +51,6 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     useEffect(() => {
         setDisplayText('');
-        setIsTyping(true);
         let i = 0;
         const text = steps[step].description;
 
@@ -61,8 +59,6 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 setDisplayText(text.substring(0, i + 1));
                 i++;
                 typingTimeoutRef.current = setTimeout(type, 10);
-            } else {
-                setIsTyping(false);
             }
         };
 
@@ -73,8 +69,8 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         };
     }, [step]);
 
-    // GEOMETRIC STABILITY ENGINE V18.6 (ZERO-JITTER)
-    useLayoutEffect(() => {
+    // GEOMETRIC PRECISION ENGINE V18.5 (ZERO-COLLISION)
+    useEffect(() => {
         if (!isOpen) return;
 
         let animationFrameId;
@@ -86,9 +82,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 const el = document.querySelector(currentStep.element);
                 if (el) {
                     const rect = el.getBoundingClientRect();
-                    // Usamos una altura predicha para evitar el jitter del texto
-                    // 220px es suficiente para alojar cualquier texto de Solemia sin saltar
-                    const predictedHeight = 220;
+                    const tooltipRect = tooltipEl.getBoundingClientRect();
                     const style = window.getComputedStyle(el);
 
                     setTargetRect({
@@ -110,20 +104,18 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     const spaceAbove = rect.top;
                     const spaceBelow = screenH - rect.bottom;
 
-                    // LÓGICA DE ESTABILIDAD V18.6
-                    if (spaceAbove > predictedHeight + buffer + safetyMargin) {
-                        finalTop = rect.top - predictedHeight - buffer;
-                    } else if (spaceBelow > predictedHeight + buffer + safetyMargin) {
+                    if (spaceAbove > tooltipRect.height + buffer + safetyMargin) {
+                        finalTop = rect.top - tooltipRect.height - buffer;
+                    } else if (spaceBelow > tooltipRect.height + buffer + safetyMargin) {
                         finalTop = rect.bottom + buffer;
                     } else {
-                        finalTop = (screenH - predictedHeight) / 2;
+                        finalTop = (screenH - tooltipRect.height) / 2;
                         finalLeft = screenW / 2;
                     }
 
-                    // CLAMPING
-                    const tooltipWidth = tooltipEl.offsetWidth || 370;
-                    finalTop = Math.max(safetyMargin, Math.min(finalTop, screenH - predictedHeight - safetyMargin));
-                    finalLeft = Math.max(tooltipWidth / 2 + safetyMargin, Math.min(finalLeft, screenW - tooltipWidth / 2 - safetyMargin));
+                    const halfW = tooltipRect.width / 2;
+                    finalTop = Math.max(safetyMargin, Math.min(finalTop, screenH - tooltipRect.height - safetyMargin));
+                    finalLeft = Math.max(halfW + safetyMargin, Math.min(finalLeft, screenW - halfW - safetyMargin));
 
                     setAssistantPos({
                         top: `${finalTop}px`,
@@ -156,7 +148,6 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 10997 }}>
-            {/* SPOTLIGHT ADAPTATIVO V18.6 */}
             {targetRect && (
                 <div className="ghost-spotlight-glow" style={{
                     top: targetRect.top - 8,
@@ -178,24 +169,20 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 transform: assistantPos.isCentered ? 'translate(-50%, -50%)' : 'translateX(-50%)',
                 opacity: assistantPos.opacity,
                 pointerEvents: 'all',
-                zIndex: 11000,
-                transition: isTyping ? 'none' : 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+                zIndex: 11000
             }}>
-                {/* CAJA DE TEXTO DE ALTURA ESTABLE V18.6 */}
-                <div ref={tooltipRef} className="nutripal-v4-speech" style={{ minHeight: '210px', justifyContent: 'space-between' }}>
+                <div ref={tooltipRef} className="nutripal-v4-speech">
                     <div className="nutripal-v4-orb">
                         {steps[step].icon}
                     </div>
 
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '1rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.65rem', fontWeight: 950, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '4.5px' }}>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.6rem' }}>
+                        <h4 style={{ margin: 0, fontSize: '0.65rem', fontWeight: 950, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '4px' }}>
                             {steps[step].title}
                         </h4>
-                        <div style={{ minHeight: '80px' }}> {/* Altura fija para el área de descripción */}
-                            <p style={{ fontSize: '1.05rem', color: 'white', lineHeight: 1.45, margin: 0, fontWeight: 500, letterSpacing: '-0.3px', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
-                                {displayText}
-                            </p>
-                        </div>
+                        <p style={{ fontSize: '1.05rem', color: 'white', lineHeight: 1.45, margin: 0, fontWeight: 500, letterSpacing: '-0.3px', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+                            {displayText}
+                        </p>
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.2rem', marginTop: '0.2rem' }}>
