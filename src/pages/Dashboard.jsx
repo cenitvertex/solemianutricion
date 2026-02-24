@@ -223,10 +223,13 @@ export default function Dashboard({ session }) {
     // === SMART POLLING FALLBACK ===
     // Si hay pacientes en estado "Analizando...", refrescamos cada 5s como respaldo a Realtime
     useEffect(() => {
-        const hasPatientsAnalyzing = patients.some(p => p.objective_and_params?.startsWith('⏳'));
+        const hasPatientsAnalyzing = patients.some(p =>
+            p.objective_and_params?.startsWith('⏳') ||
+            (Array.isArray(p.allergies) && p.allergies.some(a => a?.startsWith('⏳')))
+        );
 
         if (hasPatientsAnalyzing) {
-            console.log('🚜 [Smart Polling] Detectados pacientes en análisis, activando refresco de respaldo...');
+            console.log('🚜 [Smart Polling] Detectada actividad IA (Análisis/Alergias), activando respaldo...');
             const interval = setInterval(() => {
                 // Refresco silencioso (sin setLoading)
                 supabase
@@ -240,7 +243,10 @@ export default function Dashboard({ session }) {
                             setEditingPatient(current => {
                                 if (current) {
                                     const updated = data.find(p => p.id === current.id);
-                                    if (updated && updated.objective_and_params !== current.objective_and_params) {
+                                    if (updated && (
+                                        updated.objective_and_params !== current.objective_and_params ||
+                                        JSON.stringify(updated.allergies) !== JSON.stringify(current.allergies)
+                                    )) {
                                         return { ...current, ...updated };
                                     }
                                 }

@@ -107,7 +107,8 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 tenant_id: user.id,
                 is_active: true,
                 // Restauramos valores por defecto para evitar errores de base de datos
-                allergies: client?.allergies || [],
+                // Y añadimos placeholder para que el nutricionista sepa que la IA está trabajando en ambos
+                allergies: client?.allergies || ['⏳ Analizando...'],
                 objective_and_params: client?.objective_and_params || '⏳ En proceso de análisis por el Agente IA...'
             };
 
