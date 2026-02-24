@@ -158,7 +158,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     if (!isOpen) return null;
 
     return (
-        <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 10997 }}>
+        <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'auto', zIndex: 10997 }}>
             {/* SPOTLIGHT ADAPTATIVO V18.7 */}
             {targetRect && (
                 <div className="ghost-spotlight-glow" style={{

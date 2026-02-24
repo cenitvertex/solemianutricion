@@ -441,7 +441,7 @@ input:checked+.slider-ia:before {
   height: 100vh;
   z-index: 10998;
   background: transparent !important;
-  pointer-events: none;
+  pointer-events: auto !important;
 }
 
 /* Nutri-Pal V18: Precision Tooltip (Glass Ethereal) */
