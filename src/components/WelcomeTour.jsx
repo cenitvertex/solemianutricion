@@ -102,19 +102,19 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     let finalTop;
                     let finalLeft;
 
-                    // LÓGICA DE UBICACIÓN DIRIGIDA POR PASO V18.8
+                    // LÓGICA DE UBICACIÓN DIRIGIDA POR PASO V18.9
                     switch (step) {
                         case 1: // MÉTRICAS (Ancho y abajo)
                             finalTop = rect.bottom + 45;
                             finalLeft = screenW / 2;
                             break;
-                        case 2: // BÚSQUEDA (Más a la derecha)
+                        case 2: // BÚSQUEDA (A la IZQUIERDA)
                             finalTop = rect.top + rect.height / 2 - tooltipRect.height / 2;
-                            finalLeft = rect.right + 210; // Incrementado para mayor claridad
+                            finalLeft = rect.left - 210; // Posición izquierda
                             break;
-                        case 3: // NUEVO PACIENTE (Inclinado para no tapar)
+                        case 3: // NUEVO PACIENTE (A la IZQUIERDA)
                             finalTop = rect.top + rect.height / 2 - tooltipRect.height / 2;
-                            finalLeft = rect.right + 250; // Mucho más a la derecha para este botón largo
+                            finalLeft = rect.left - 250; // Posición izquierda
                             break;
                         case 4: // CONFIGURACIÓN (Top Right)
                             finalTop = rect.bottom + 45;
