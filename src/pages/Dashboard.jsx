@@ -1431,6 +1431,6 @@ export default function Dashboard({ session }) {
                 isOpen={isTourOpen}
                 onComplete={handleTourComplete}
             />
-        </>
+        </div >
     );
 }
