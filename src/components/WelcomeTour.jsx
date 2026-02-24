@@ -13,6 +13,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
+            console.log("🦁 SOLEMIA LAYER ARCHITECTURE V18.6 - ZERO-COLLISION MODE");
         }
     }, [isOpen]);
 
@@ -69,7 +70,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         };
     }, [step]);
 
-    // GEOMETRIC PRECISION ENGINE V18.5 (ZERO-COLLISION)
+    // LAYER ARCHITECTURE ENGINE V18.6 (OPPOSITE-SIDE LOGIC)
     useEffect(() => {
         if (!isOpen) return;
 
@@ -95,41 +96,34 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
                     const screenW = window.innerWidth;
                     const screenH = window.innerHeight;
-                    const safetyMargin = 20;
-                    const buffer = 40;
+                    const safetyMargin = 30; // Margen de pantalla más amplio
 
                     let finalTop;
-                    let finalLeft = rect.left + rect.width / 2;
+                    let finalLeft = screenW / 2; // Siempre centrado horizontalmente para evitar cortes laterales
 
-                    const spaceAbove = rect.top;
-                    const spaceBelow = screenH - rect.bottom;
-
-                    if (spaceAbove > tooltipRect.height + buffer + safetyMargin) {
-                        finalTop = rect.top - tooltipRect.height - buffer;
-                    } else if (spaceBelow > tooltipRect.height + buffer + safetyMargin) {
-                        finalTop = rect.bottom + buffer;
+                    // LÓGICA DE "LADO OPUESTO" V18.6
+                    // En lugar de pegarse al elemento, el tooltip se aleja de él
+                    if (rect.top > screenH / 2) {
+                        // El elemento está ABAJO -> Tooltip ARRIBA con margen fijo
+                        finalTop = safetyMargin + 20;
                     } else {
-                        finalTop = (screenH - tooltipRect.height) / 2;
-                        finalLeft = screenW / 2;
+                        // El elemento está ARRIBA -> Tooltip ABAJO con margen fijo
+                        finalTop = screenH - tooltipRect.height - safetyMargin - 20;
                     }
-
-                    const halfW = tooltipRect.width / 2;
-                    finalTop = Math.max(safetyMargin, Math.min(finalTop, screenH - tooltipRect.height - safetyMargin));
-                    finalLeft = Math.max(halfW + safetyMargin, Math.min(finalLeft, screenW - halfW - safetyMargin));
 
                     setAssistantPos({
                         top: `${finalTop}px`,
                         left: `${finalLeft}px`,
                         opacity: 1,
-                        isCentered: false
+                        isCentered: true // Forzar centrado vía transform
                     });
                 } else {
                     setTargetRect(null);
-                    setAssistantPos({ top: '40%', left: '50%', opacity: 1, isCentered: true });
+                    setAssistantPos({ top: '35%', left: '50%', opacity: 1, isCentered: true });
                 }
             } else if (!currentStep.element) {
                 setTargetRect(null);
-                setAssistantPos({ top: '40%', left: '50%', opacity: 1, isCentered: true });
+                setAssistantPos({ top: '35%', left: '50%', opacity: 1, isCentered: true });
             }
 
             animationFrameId = requestAnimationFrame(updatePosition);
@@ -148,13 +142,14 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 10997 }}>
+            {/* SPOTLIGHT ADAPTATIVO V18.6 */}
             {targetRect && (
                 <div className="ghost-spotlight-glow" style={{
-                    top: targetRect.top - 8,
-                    left: targetRect.left - 8,
-                    width: targetRect.width + 16,
-                    height: targetRect.height + 16,
-                    borderRadius: targetRect.radius || '1.1rem',
+                    top: targetRect.top - 5,
+                    left: targetRect.left - 5,
+                    width: targetRect.width + 10,
+                    height: targetRect.height + 10,
+                    borderRadius: targetRect.radius || '0.8rem',
                     position: 'fixed',
                     pointerEvents: 'none',
                     zIndex: 10999
@@ -166,10 +161,12 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             <div className="nutripal-v4-container" style={{
                 top: assistantPos.top,
                 left: assistantPos.left,
-                transform: assistantPos.isCentered ? 'translate(-50%, -50%)' : 'translateX(-50%)',
+                transform: 'translate(-50%, 0)', // Solo centrado horizontal
                 opacity: assistantPos.opacity,
                 pointerEvents: 'all',
-                zIndex: 11000
+                zIndex: 11000,
+                position: 'fixed',
+                transition: 'top 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease'
             }}>
                 <div ref={tooltipRef} className="nutripal-v4-speech">
                     <div className="nutripal-v4-orb">
