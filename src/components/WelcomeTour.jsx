@@ -224,7 +224,8 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                                     fontSize: '0.95rem',
                                     textTransform: 'lowercase',
                                     fontFamily: 'var(--font-display)',
-                                    fontWeight: '800'
+                                    fontWeight: '800',
+                                    letterSpacing: '0.01em'
                                 }}>
                                     {step === steps.length - 1 ? 'comenzar' : 'siguiente'}
                                 </span>
