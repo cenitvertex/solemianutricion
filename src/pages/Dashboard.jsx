@@ -505,31 +505,34 @@ export default function Dashboard({ session }) {
                 </div>
 
                 <header style={{
-                    background: 'rgba(255, 255, 255, 0.7)',
-                    padding: '0.9rem 0',
+                    background: 'linear-gradient(135deg, rgba(77, 12, 48, 0.94) 0%, rgba(225, 29, 72, 0.94) 100%)',
+                    padding: '1rem 0 3.25rem 0', // Espacio extendido para el desvanecimiento seda
                     position: 'sticky',
                     top: 0,
                     zIndex: 100,
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                    borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
+                    boxShadow: '0 10px 50px rgba(77, 12, 48, 0.04)',
+                    border: 'none',
                     borderRadius: 0,
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
-                    marginBottom: '1rem',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    // Máscara ultra-suave (Silk Easing) con 8 paradas para integración total
+                    maskImage: 'linear-gradient(to bottom, black 0%, black 35%, rgba(0,0,0,0.98) 45%, rgba(0,0,0,0.9) 55%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.15) 88%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 35%, rgba(0,0,0,0.98) 45%, rgba(0,0,0,0.9) 55%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.15) 88%, transparent 100%)',
+                    marginBottom: '-2.25rem', // Compensación para que el fade no aleje el contenido
                     pointerEvents: 'none'
                 }}>
                     <div className="container" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'center', pointerEvents: 'auto' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                            <img src={logo} alt="Solemia" style={{ height: '32px', objectFit: 'contain' }} />
-                            <div style={{ width: '1px', height: '16px', background: 'rgba(0,0,0,0.1)', margin: '0 0.25rem' }}></div>
+                            <img src={logo} alt="Solemia" style={{ height: '36px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                            <div style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.3)', margin: '0 0.25rem' }}></div>
                             <h1 style={{
-                                fontSize: '1.1rem',
-                                fontWeight: '400',
-                                letterSpacing: '0.5px',
-                                color: 'var(--solemia-charcoal)',
+                                fontSize: '1.2rem',
+                                fontWeight: '300',
+                                letterSpacing: '1px',
+                                color: 'white',
                                 fontFamily: 'var(--font-display)',
                                 opacity: 0.9,
-                                marginTop: '1px'
+                                marginTop: '2px' // Ajuste fino manual para balancear con el logo
                             }}>
                                 Nutrición
                             </h1>
@@ -538,8 +541,8 @@ export default function Dashboard({ session }) {
                         <div style={{ flex: 1 }} className="hide-mobile"></div>
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', justifyContent: 'flex-end' }}>
-                            <div className="hide-mobile" style={{ textAlign: 'right', borderRight: '1px solid rgba(0,0,0,0.1)', paddingRight: '1.25rem' }}>
-                                <div style={{ fontWeight: '800', fontSize: '1rem', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-inter)', whiteSpace: 'nowrap' }}>
+                            <div className="hide-mobile" style={{ textAlign: 'right', borderRight: '1px solid rgba(255,255,255,0.2)', paddingRight: '1.25rem' }}>
+                                <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'white', fontFamily: 'var(--font-inter)', whiteSpace: 'nowrap' }}>
                                     {tenantName || session.user.email.split('@')[0]}
                                 </div>
                             </div>
@@ -550,58 +553,58 @@ export default function Dashboard({ session }) {
                                     title="Configuración"
                                     className="tour-settings"
                                     style={{
-                                        width: '40px',
-                                        height: '40px',
-                                        borderRadius: '12px',
-                                        border: '1px solid rgba(0,0,0,0.06)',
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '14px',
+                                        border: '1px solid rgba(255,255,255,0.2)',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         cursor: 'pointer',
-                                        color: 'var(--solemia-charcoal)',
-                                        backgroundColor: 'rgba(0,0,0,0.02)',
-                                        backdropFilter: 'blur(5px)'
+                                        color: 'white',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)'
                                     }}
                                 >
-                                    <Settings size={18} />
+                                    <Settings size={20} />
                                 </button>
                                 <button
                                     onClick={() => window.open('https://wa.me/message/YOUR_WHATSAPP_LINK', '_blank')}
                                     title="Soporte Técnico"
                                     style={{
-                                        width: '40px',
-                                        height: '40px',
-                                        borderRadius: '12px',
-                                        border: '1px solid rgba(0,0,0,0.06)',
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '14px',
+                                        border: '1px solid rgba(255,255,255,0.2)',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         cursor: 'pointer',
-                                        color: 'var(--solemia-charcoal)',
-                                        backgroundColor: 'rgba(0,0,0,0.02)',
-                                        backdropFilter: 'blur(5px)'
+                                        color: 'white',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)'
                                     }}
                                 >
-                                    <LifeBuoy size={18} />
+                                    <LifeBuoy size={20} />
                                 </button>
                                 <button
                                     onClick={handleLogout}
                                     title="Salir"
                                     style={{
-                                        width: '40px',
-                                        height: '40px',
-                                        borderRadius: '12px',
-                                        border: '1px solid rgba(0,0,0,0.06)',
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '14px',
+                                        border: '1px solid rgba(255,255,255,0.2)',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         cursor: 'pointer',
-                                        color: 'var(--solemia-charcoal)',
-                                        backgroundColor: 'rgba(0,0,0,0.02)',
-                                        backdropFilter: 'blur(5px)'
+                                        color: 'white',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)'
                                     }}
                                 >
-                                    <LogOut size={18} />
+                                    <LogOut size={20} />
                                 </button>
                             </div>
                         </div>
