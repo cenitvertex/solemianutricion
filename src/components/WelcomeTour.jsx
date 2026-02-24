@@ -220,7 +220,14 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                                 </button>
                             )}
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
-                                <span style={{ fontSize: '0.95rem' }}>{step === steps.length - 1 ? 'comenzar' : 'siguiente'}</span>
+                                <span style={{
+                                    fontSize: '0.95rem',
+                                    textTransform: 'lowercase',
+                                    fontFamily: 'var(--font-display)',
+                                    fontWeight: '800'
+                                }}>
+                                    {step === steps.length - 1 ? 'comenzar' : 'siguiente'}
+                                </span>
                                 <ArrowRight size={16} style={{ marginLeft: '6px' }} />
                             </button>
                         </div>
