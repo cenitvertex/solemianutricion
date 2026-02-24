@@ -14,14 +14,17 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA EXTREME SHIELD V21.2 - VACUUM SEAL ACTIVE");
+            console.log("🦁 SOLEMIA EXTREME SHIELD V21.6 - ZERO ABSOLUTE ACTIVE");
+
+            // Bloqueo de sistema (Inhibición de hardware por CSS)
+            document.body.classList.add('solemia-system-lock');
 
             // Bloqueo Global por Captura Agresivo (Nivel Sistema)
             const blocker = (e) => {
                 const tourContent = document.getElementById('solemia-precision-tour-content');
                 if (tourContent && !tourContent.contains(e.target)) {
                     e.stopPropagation();
-                    e.stopImmediatePropagation(); // Detiene incluso a otros listeners
+                    e.stopImmediatePropagation();
                     e.preventDefault();
                     return false;
                 }
@@ -31,6 +34,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             events.forEach(evt => window.addEventListener(evt, blocker, { capture: true, passive: false }));
 
             return () => {
+                document.body.classList.remove('solemia-system-lock');
                 events.forEach(evt => window.removeEventListener(evt, blocker, { capture: true }));
             };
         }
@@ -179,6 +183,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     const tourContent = (
         <div
             id="solemia-precision-tour"
+            className="solemia-precision-tour-root"
             onClick={(e) => { e.stopPropagation(); }}
             onMouseDown={(e) => { e.stopPropagation(); }}
             style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'auto', zIndex: 2147483647 }}
