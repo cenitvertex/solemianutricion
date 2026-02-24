@@ -15,23 +15,22 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             setStep(0);
             console.log("🦁 SOLEMIA EXTREME SHIELD V21.2 - VACUUM SEAL ACTIVE");
 
-            // Bloqueo Global por Captura (Intercepta antes de que llegue al Dashboard)
+            // Bloqueo Global por Captura Agresivo (Nivel Sistema)
             const blocker = (e) => {
-                const tourEl = document.getElementById('solemia-precision-tour-content');
-                if (tourEl && !tourEl.contains(e.target)) {
+                const tourContent = document.getElementById('solemia-precision-tour-content');
+                if (tourContent && !tourContent.contains(e.target)) {
                     e.stopPropagation();
+                    e.stopImmediatePropagation(); // Detiene incluso a otros listeners
                     e.preventDefault();
+                    return false;
                 }
             };
 
-            window.addEventListener('click', blocker, true);
-            window.addEventListener('mousedown', blocker, true);
-            window.addEventListener('mouseup', blocker, true);
+            const events = ['click', 'mousedown', 'mouseup', 'touchstart', 'touchend', 'contextmenu', 'dblclick'];
+            events.forEach(evt => window.addEventListener(evt, blocker, { capture: true, passive: false }));
 
             return () => {
-                window.removeEventListener('click', blocker, true);
-                window.removeEventListener('mousedown', blocker, true);
-                window.removeEventListener('mouseup', blocker, true);
+                events.forEach(evt => window.removeEventListener(evt, blocker, { capture: true }));
             };
         }
     }, [isOpen]);
@@ -197,7 +196,11 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 }} />
             )}
 
-            <div className="solemia-guide-v4-overlay" />
+            <div
+                className="solemia-guide-v4-overlay"
+                onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
+                onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
+            />
 
             <div className="nutripal-v4-container" style={{
                 top: assistantPos.top,
