@@ -510,11 +510,11 @@ input:checked+.slider-ia:before {
   border-radius: 0.8rem;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.72rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  text-transform: lowercase;
   backdrop-filter: blur(10px);
 }
 
