@@ -439,15 +439,16 @@ input:checked+.slider-ia:before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 110000;
+  z-index: 2147483647;
   background: rgba(0, 0, 0, 0.01) !important;
   pointer-events: auto !important;
+  cursor: default !important;
 }
 
 /* Nutri-Pal V18: Precision Tooltip (Glass Ethereal) */
 .nutripal-v4-container {
   position: fixed;
-  z-index: 110002;
+  z-index: 2147483647;
   pointer-events: all;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   display: flex;
@@ -567,7 +568,7 @@ input:checked+.slider-ia:before {
 /* Neon Attention V19.9 */
 .ghost-spotlight-glow {
   position: fixed;
-  z-index: 110001;
+  z-index: 2147483646;
   pointer-events: none;
   transition:
     top 0.6s cubic-bezier(0.16, 1, 0.3, 1),

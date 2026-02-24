@@ -180,7 +180,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             id="solemia-precision-tour"
             onClick={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
-            style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'auto', zIndex: 109999 }}
+            style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'auto', zIndex: 2147483647 }}
         >
             {/* SPOTLIGHT ADAPTATIVO V18.7 */}
             {targetRect && (
