@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Sparkles, ArrowRight, ChevronLeft, Crown, Brain, Users, Settings, Search } from 'lucide-react';
 
 const WelcomeTour = ({ isOpen, onComplete }) => {
@@ -175,11 +176,11 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     if (!isOpen) return null;
 
-    return (
+    const tourContent = (
         <div
             id="solemia-precision-tour"
-            onClick={(e) => e.stopPropagation()}
-            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => { e.stopPropagation(); }}
+            onMouseDown={(e) => { e.stopPropagation(); }}
             style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'auto', zIndex: 2147483647 }}
         >
             {/* SPOTLIGHT ADAPTATIVO V18.7 */}
@@ -192,7 +193,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     borderRadius: targetRect.radius || '1rem',
                     position: 'fixed',
                     pointerEvents: 'none',
-                    zIndex: 10999
+                    zIndex: 2147483646
                 }} />
             )}
 
@@ -200,6 +201,16 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 className="solemia-guide-v4-overlay"
                 onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
                 onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    background: 'rgba(0,0,0,0.01)',
+                    zIndex: 2147483645,
+                    pointerEvents: 'auto'
+                }}
             />
 
             <div className="nutripal-v4-container" style={{
@@ -208,7 +219,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 transform: 'translate(-50%, 0)',
                 opacity: assistantPos.opacity,
                 pointerEvents: 'all',
-                zIndex: 11000,
+                zIndex: 2147483647,
                 position: 'fixed',
                 transition: 'top 0.7s cubic-bezier(0.16, 1, 0.3, 1), left 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease'
             }}>
@@ -219,7 +230,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     style={{
                         maxWidth: assistantPos.layout === 'wide' ? '550px' : '370px',
                         padding: assistantPos.layout === 'wide' ? '1.5rem 2.2rem' : '1.25rem 1.6rem',
-                        pointerEvents: 'all' // Aseguramos que la burbuja sí reciba eventos
+                        pointerEvents: 'all'
                     }}
                 >
                     <div className="nutripal-v4-orb">
@@ -266,6 +277,8 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             </div>
         </div>
     );
+
+    return createPortal(tourContent, document.body);
 };
 
 export default WelcomeTour;
