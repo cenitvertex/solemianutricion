@@ -432,7 +432,18 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL V18.4 (MAESTRO - FLUIDEZ ABSOLUTA) === */
+/* === BARRERA SISTEMA SOLEMIA V21.6 (CERO ABSOLUTO) === */
+.solemia-system-lock {
+  overflow: hidden !important;
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+/* El tour debe ser el ÚNICO que recupere la interacción */
+.solemia-precision-tour-root {
+  pointer-events: auto !important;
+}
+
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
