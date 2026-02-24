@@ -456,20 +456,22 @@ input:checked+.slider-ia:before {
 }
 
 .nutripal-v4-speech {
-  /* MATERIALIDAD CRISTAL ÉLITE (PLUM PROFUNDO) */
-  background: rgba(40, 2, 18, 0.6);
-  backdrop-filter: blur(40px) saturate(110%);
-  -webkit-backdrop-filter: blur(40px) saturate(110%);
-  padding: 1.75rem 2.25rem;
-  border-radius: 2.5rem;
+  /* MATERIALIDAD CRISTAL ÉLITE ULTRA (MÁS COMPACTO) */
+  background: rgba(30, 2, 14, 0.7);
+  backdrop-filter: blur(40px) saturate(120%);
+  -webkit-backdrop-filter: blur(40px) saturate(120%);
+  padding: 1.25rem 1.75rem;
+  /* Reducido para mayor densidad */
+  border-radius: 2.2rem;
   box-shadow:
-    0 30px 60px -15px rgba(0, 0, 0, 0.4),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
   border: none;
-  max-width: 420px;
+  max-width: 380px;
+  /* Reducción de ancho máximo */
   position: relative;
   overflow: visible;
   animation: precision-entrance 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -554,16 +556,18 @@ input:checked+.slider-ia:before {
   border-radius: 10px;
 }
 
-/* Precision Hole Spotlight V18.2 (Foco de Élite) */
+/* Precision Hole Spotlight V18.3 (Foco Etéreo) */
 .ghost-spotlight-glow {
   position: fixed;
   z-index: 10999;
-  border-radius: 2rem;
+  border-radius: 1.5rem;
+  /* Radio más ajustado */
   pointer-events: none;
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  /* DIMMING TOTAL DESDE EL SPOTLIGHT */
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.75);
-  /* LUZ DE PRECISIÓN */
-  outline: 1.5px solid rgba(255, 255, 255, 0.4);
-  outline-offset: 8px;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  /* DIMMING MÁS SUTIL PARA NO BLOQUEAR VISUALMENTE */
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65);
+  /* LUZ ETÉREA (BORDE CASI INVISIBLE) */
+  outline: 0.5px solid rgba(255, 255, 255, 0.3);
+  outline-offset: 4px;
+  /* Offset reducido para mayor precisión */
 }

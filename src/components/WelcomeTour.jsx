@@ -68,7 +68,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         };
     }, [step]);
 
-    // PRECISION AVOIDANCE ANCHORING V18.2 - ÉLITE (Cero Colisiones)
+    // PRECISION ANCHORING V18.3 - ULTRA ÉLITE
     useEffect(() => {
         if (!isOpen) return;
 
@@ -83,21 +83,21 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     const screenH = window.innerHeight;
                     const screenW = window.innerWidth;
 
-                    // DISTANCIA DE RESPETO ÉLITE: 80px
-                    const buffer = 80;
+                    // BUFFER DE SEGURIDAD V18.3: 100px para visibilidad total
+                    const buffer = 100;
                     let finalTop;
 
                     if (rect.top > screenH / 2) {
-                        // Elemento en la mitad inferior -> Tooltip ARRIBA con espacio de seguridad
-                        finalTop = rect.top - 240;
+                        // Tooltip ARRIBA del elemento
+                        finalTop = rect.top - 220;
                     } else {
-                        // Elemento en la mitad superior -> Tooltip ABAJO con espacio de seguridad
+                        // Tooltip DEBAJO del elemento
                         finalTop = rect.bottom + buffer;
                     }
 
-                    // Forzar límites de seguridad (Safe Area)
-                    finalTop = Math.min(Math.max(finalTop, 40), screenH - 280);
-                    let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 220), screenW - 220);
+                    // Safe Area Limits
+                    finalTop = Math.min(Math.max(finalTop, 20), screenH - 250);
+                    let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 200), screenW - 200);
 
                     setAssistantPos({
                         top: `${finalTop}px`,
@@ -125,13 +125,13 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 10997 }}>
-            {/* PORTAL DE FOCO (AISLADO) */}
+            {/* SPOTLIGHT ETÉREO (Padding ultra-preciso) */}
             {targetRect && (
                 <div className="ghost-spotlight-glow" style={{
-                    top: targetRect.top - 15,
-                    left: targetRect.left - 15,
-                    width: targetRect.width + 30,
-                    height: targetRect.height + 30,
+                    top: targetRect.top - 10,
+                    left: targetRect.left - 10,
+                    width: targetRect.width + 20,
+                    height: targetRect.height + 20,
                     position: 'fixed',
                     pointerEvents: 'none',
                     zIndex: 10999
@@ -146,16 +146,16 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                         {steps[step].icon}
                     </div>
 
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '1rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.75rem', fontWeight: 950, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '4px' }}>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.3rem', marginTop: '0.8rem' }}>
+                        <h4 style={{ margin: 0, fontSize: '0.7rem', fontWeight: 950, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '4.5px' }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: '1.2rem', color: 'white', lineHeight: 1.45, margin: 0, fontWeight: 500, letterSpacing: '-0.5px', textShadow: '0 2px 15px rgba(0,0,0,0.3)' }}>
+                        <p style={{ fontSize: '1.1rem', color: 'white', lineHeight: 1.4, margin: 0, fontWeight: 500, letterSpacing: '-0.4px', textShadow: '0 2px 10px rgba(0,0,0,0.4)' }}>
                             {displayText}
                         </p>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.5rem', marginTop: '0.5rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.25rem', marginTop: '0.2rem' }}>
                         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
@@ -165,12 +165,12 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                             {step > 0 && (
                                 <button onClick={() => setStep(step - 1)} className="tour-btn-back" title="Anterior">
-                                    <ChevronLeft size={18} />
+                                    <ChevronLeft size={16} />
                                 </button>
                             )}
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
-                                <span>{step === steps.length - 1 ? 'COMENZAR' : 'SIGUIENTE'}</span>
-                                <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+                                <span style={{ fontSize: '0.85rem' }}>{step === steps.length - 1 ? 'COMENZAR' : 'SIGUIENTE'}</span>
+                                <ArrowRight size={16} style={{ marginLeft: '6px' }} />
                             </button>
                         </div>
                     </div>
