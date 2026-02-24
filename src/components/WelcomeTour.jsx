@@ -68,35 +68,45 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         };
     }, [step]);
 
-    // PRECISION ANCHORING V18.3 - ULTRA ÉLITE
+    // MAESTRO PRECISION ENGINE V18.4 (RequestAnimationFrame for 60fps fluidity)
     useEffect(() => {
         if (!isOpen) return;
 
+        let animationFrameId;
         const updatePosition = () => {
             const currentStep = steps[step];
             if (currentStep.element) {
                 const el = document.querySelector(currentStep.element);
                 if (el) {
                     const rect = el.getBoundingClientRect();
-                    setTargetRect(rect);
+                    const style = window.getComputedStyle(el);
+                    const borderRadius = style.borderRadius;
+
+                    setTargetRect({
+                        top: rect.top,
+                        left: rect.left,
+                        width: rect.width,
+                        height: rect.height,
+                        radius: borderRadius
+                    });
 
                     const screenH = window.innerHeight;
                     const screenW = window.innerWidth;
 
-                    // BUFFER DE SEGURIDAD V18.3: 100px para visibilidad total
-                    const buffer = 100;
+                    // ZONA DE RESPETO MAESTRO: 110px
+                    const buffer = 110;
                     let finalTop;
 
                     if (rect.top > screenH / 2) {
-                        // Tooltip ARRIBA del elemento
-                        finalTop = rect.top - 220;
+                        // Tooltip ARRIBA
+                        finalTop = rect.top - 210;
                     } else {
-                        // Tooltip DEBAJO del elemento
+                        // Tooltip ABAJO
                         finalTop = rect.bottom + buffer;
                     }
 
-                    // Safe Area Limits
-                    finalTop = Math.min(Math.max(finalTop, 20), screenH - 250);
+                    // Strict Safe Area Limits
+                    finalTop = Math.min(Math.max(finalTop, 25), screenH - 240);
                     let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 200), screenW - 200);
 
                     setAssistantPos({
@@ -110,13 +120,14 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 setTargetRect(null);
                 setAssistantPos({ top: '40%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 1 });
             }
+            animationFrameId = requestAnimationFrame(updatePosition);
         };
 
-        const timer = setInterval(updatePosition, 100);
+        animationFrameId = requestAnimationFrame(updatePosition);
         window.addEventListener('resize', updatePosition);
 
         return () => {
-            clearInterval(timer);
+            cancelAnimationFrame(animationFrameId);
             window.removeEventListener('resize', updatePosition);
         };
     }, [isOpen, step]);
@@ -125,13 +136,14 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
     return (
         <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 10997 }}>
-            {/* SPOTLIGHT ETÉREO (Padding ultra-preciso) */}
+            {/* SPOTLIGHT ADAPTATIVO (Sincronización Geométrica) */}
             {targetRect && (
                 <div className="ghost-spotlight-glow" style={{
-                    top: targetRect.top - 10,
-                    left: targetRect.left - 10,
-                    width: targetRect.width + 20,
-                    height: targetRect.height + 20,
+                    top: targetRect.top - 8,
+                    left: targetRect.left - 8,
+                    width: targetRect.width + 16,
+                    height: targetRect.height + 16,
+                    borderRadius: targetRect.radius || '1.5rem',
                     position: 'fixed',
                     pointerEvents: 'none',
                     zIndex: 10999
@@ -146,30 +158,30 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                         {steps[step].icon}
                     </div>
 
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.3rem', marginTop: '0.8rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.7rem', fontWeight: 950, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '4.5px' }}>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.6rem' }}>
+                        <h4 style={{ margin: 0, fontSize: '0.65rem', fontWeight: 950, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '4px' }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: '1.1rem', color: 'white', lineHeight: 1.4, margin: 0, fontWeight: 500, letterSpacing: '-0.4px', textShadow: '0 2px 10px rgba(0,0,0,0.4)' }}>
+                        <p style={{ fontSize: '1.05rem', color: 'white', lineHeight: 1.45, margin: 0, fontWeight: 500, letterSpacing: '-0.3px', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
                             {displayText}
                         </p>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.25rem', marginTop: '0.2rem' }}>
-                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.2rem', marginTop: '0.2rem' }}>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
                         </div>
 
-                        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '0.7rem', alignItems: 'center' }}>
                             {step > 0 && (
                                 <button onClick={() => setStep(step - 1)} className="tour-btn-back" title="Anterior">
                                     <ChevronLeft size={16} />
                                 </button>
                             )}
                             <button onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()} className="tour-btn-next">
-                                <span style={{ fontSize: '0.85rem' }}>{step === steps.length - 1 ? 'COMENZAR' : 'SIGUIENTE'}</span>
+                                <span style={{ fontSize: '0.8rem' }}>{step === steps.length - 1 ? 'COMENZAR' : 'SIGUIENTE'}</span>
                                 <ArrowRight size={16} style={{ marginLeft: '6px' }} />
                             </button>
                         </div>
