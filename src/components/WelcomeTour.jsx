@@ -102,23 +102,23 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     let finalTop;
                     let finalLeft;
 
-                    // LÓGICA DE UBICACIÓN DIRIGIDA POR PASO
+                    // LÓGICA DE UBICACIÓN DIRIGIDA POR PASO V18.8
                     switch (step) {
                         case 1: // MÉTRICAS (Ancho y abajo)
-                            finalTop = rect.bottom + 40;
+                            finalTop = rect.bottom + 45;
                             finalLeft = screenW / 2;
                             break;
-                        case 2: // BÚSQUEDA (A la derecha según dibujo)
+                        case 2: // BÚSQUEDA (Más a la derecha)
                             finalTop = rect.top + rect.height / 2 - tooltipRect.height / 2;
-                            finalLeft = rect.right + 180; // Espacio lateral derecho
+                            finalLeft = rect.right + 210; // Incrementado para mayor claridad
                             break;
-                        case 3: // NUEVO PACIENTE (A la derecha según dibujo)
+                        case 3: // NUEVO PACIENTE (Inclinado para no tapar)
                             finalTop = rect.top + rect.height / 2 - tooltipRect.height / 2;
-                            finalLeft = rect.right + 180;
+                            finalLeft = rect.right + 250; // Mucho más a la derecha para este botón largo
                             break;
-                        case 4: // CONFIGURACIÓN (Top Right según dibujo)
-                            finalTop = rect.bottom + 40;
-                            finalLeft = rect.left - 120; // Un poco a la izquierda del icono para no salirse
+                        case 4: // CONFIGURACIÓN (Top Right)
+                            finalTop = rect.bottom + 45;
+                            finalLeft = rect.left - 150;
                             break;
                         default:
                             finalTop = (screenH - tooltipRect.height) / 2;
@@ -201,7 +201,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                         <h4 style={{ margin: 0, fontSize: '0.65rem', fontWeight: 950, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '4px' }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: assistantPos.layout === 'wide' ? '1.15rem' : '1.05rem', color: 'white', lineHeight: 1.45, margin: 0, fontWeight: 500, letterSpacing: '-0.3px', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+                        <p style={{ fontSize: '1.05rem', color: 'white', lineHeight: 1.45, margin: 0, fontWeight: 500, letterSpacing: '-0.3px', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
                             {displayText}
                         </p>
                     </div>
