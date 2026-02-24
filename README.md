@@ -1,16 +1,40 @@
-# React + Vite
+# Solemia NutriPal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Acompañamiento Nutricional de Precisión Clínica
 
-Currently, two official plugins are available:
+Solemia NutriPal es una plataforma avanzada diseñada para nutricionistas que buscan elevar el estándar de cuidado de sus pacientes mediante inteligencia artificial y un seguimiento clínico riguroso.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 💎 Propuesta de Valor
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Precisión Clínica:** Extracción y análisis inteligente de expedientes y planes nutricionales.
+- **Experiencia Premium:** Interfaz de usuario minimalista y de alto rendimiento ("Minimalismo de Precisión").
+- **Seguimiento Automatizado:** Integración fluida con WhatsApp para mantener una conexión constante con el paciente.
+- **Protocolos de Venta:** Basado en el protocolo de ventas de Solemia para asegurar la conversión y retención.
 
-## Expanding the ESLint configuration
+## 🛠️ Stack Tecnológico
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React 19 + Vite
+- **Backend/Base de Datos:** Supabase (PostgreSQL, Auth, Realtime)
+- **Pagos:** Mercado Pago SDK
+- **Infraestructura:** Vercel
+- **Automatización:** n8n + Twilio (WhatsApp API)
+
+## 🚀 Inicio Rápido
+
+1. **Clonar el repositorio**
+2. **Instalar dependencias:** `npm install`
+3. **Configurar variables de entorno:** Crear un archivo `.env` basado en `.env.example` con las credenciales de Supabase y Mercado Pago.
+4. **Ejecutar en desarrollo:** `npm run dev`
+
+## 🎨 Guía de Estilo
+
+El proyecto sigue el sistema de diseño **Solemia Beauty**:
+- **Colores:** #4d0c30 (Plum), #e11d48 (Pink), #1a1a1a (Charcoal).
+- **Tipografía:** "Plus Jakarta Sans" para encabezados, "Inter" para el cuerpo.
+- **UI:** Glassmorphism con radios de borde de 40px y desenfoques profundos.
+
+---
+
+© 2026 Solemia Nutrición. Todos los derechos reservados.
