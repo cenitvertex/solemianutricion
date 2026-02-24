@@ -13,7 +13,26 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA DIRECTED DESIGN V18.7 - USER GUIDED MODE");
+            console.log("🦁 SOLEMIA EXTREME SHIELD V21.2 - VACUUM SEAL ACTIVE");
+
+            // Bloqueo Global por Captura (Intercepta antes de que llegue al Dashboard)
+            const blocker = (e) => {
+                const tourEl = document.getElementById('solemia-precision-tour-content');
+                if (tourEl && !tourEl.contains(e.target)) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            };
+
+            window.addEventListener('click', blocker, true);
+            window.addEventListener('mousedown', blocker, true);
+            window.addEventListener('mouseup', blocker, true);
+
+            return () => {
+                window.removeEventListener('click', blocker, true);
+                window.removeEventListener('mousedown', blocker, true);
+                window.removeEventListener('mouseup', blocker, true);
+            };
         }
     }, [isOpen]);
 
@@ -192,10 +211,12 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             }}>
                 <div
                     ref={tooltipRef}
+                    id="solemia-precision-tour-content"
                     className="nutripal-v4-speech"
                     style={{
                         maxWidth: assistantPos.layout === 'wide' ? '550px' : '370px',
-                        padding: assistantPos.layout === 'wide' ? '1.5rem 2.2rem' : '1.25rem 1.6rem'
+                        padding: assistantPos.layout === 'wide' ? '1.5rem 2.2rem' : '1.25rem 1.6rem',
+                        pointerEvents: 'all' // Aseguramos que la burbuja sí reciba eventos
                     }}
                 >
                     <div className="nutripal-v4-orb">
