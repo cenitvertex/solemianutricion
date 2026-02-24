@@ -585,21 +585,21 @@ input:checked+.slider-ia:before {
 @keyframes solemia-super-glow {
   0% {
     box-shadow:
-      0 0 0 9999px rgba(0, 0, 0, 0.76),
-      0 0 30px rgba(225, 29, 72, 0.6);
+      0 0 0 9999px rgba(0, 0, 0, 0.77),
+      0 0 30px rgba(225, 29, 72, 0.5);
   }
 
   50% {
     box-shadow:
-      0 0 0 9999px rgba(0, 0, 0, 0.76),
-      0 0 60px rgba(225, 29, 72, 1),
-      0 0 120px rgba(244, 63, 94, 0.8),
-      0 0 180px rgba(244, 63, 94, 0.4);
+      0 0 0 9999px rgba(0, 0, 0, 0.77),
+      0 0 60px #e11d48,
+      0 0 130px #be185d,
+      0 0 200px rgba(225, 29, 72, 0.6);
   }
 
   100% {
     box-shadow:
-      0 0 0 9999px rgba(0, 0, 0, 0.76),
-      0 0 30px rgba(225, 29, 72, 0.6);
+      0 0 0 9999px rgba(0, 0, 0, 0.77),
+      0 0 30px rgba(225, 29, 72, 0.5);
   }
 }
