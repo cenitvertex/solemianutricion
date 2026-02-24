@@ -513,7 +513,7 @@ input:checked+.slider-ia:before {
   font-size: 0.95rem !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  letter-spacing: -0.04em !important;
+  letter-spacing: 0.01em !important;
   text-transform: lowercase !important;
   backdrop-filter: blur(10px) !important;
   display: flex !important;
