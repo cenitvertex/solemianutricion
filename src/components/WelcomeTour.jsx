@@ -5,13 +5,14 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     const [step, setStep] = useState(0);
     const [targetRect, setTargetRect] = useState(null);
     const [displayText, setDisplayText] = useState('');
-    const [assistantPos, setAssistantPos] = useState({ top: '30%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 0 });
+    const [assistantPos, setAssistantPos] = useState({ top: '30%', left: '50%', opacity: 0, isCentered: true });
+
     const typingTimeoutRef = useRef();
+    const tooltipRef = useRef(null);
 
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA PRECISION GLASS V18 - MINIMALISMO ABSOLUTO");
         }
     }, [isOpen]);
 
@@ -57,69 +58,86 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (i < text.length) {
                 setDisplayText(text.substring(0, i + 1));
                 i++;
-                typingTimeoutRef.current = setTimeout(type, 10); // Ligeramente más rápido para mayor fluidez
+                typingTimeoutRef.current = setTimeout(type, 10);
             }
         };
 
-        const initialTimeout = setTimeout(type, 400); // Espera a que la animación de entrada termine
+        const initialTimeout = setTimeout(type, 400);
         return () => {
             clearTimeout(initialTimeout);
             clearTimeout(typingTimeoutRef.current);
         };
     }, [step]);
 
-    // MAESTRO PRECISION ENGINE V18.4 (RequestAnimationFrame for 60fps fluidity)
+    // GEOMETRIC PRECISION ENGINE V18.5 (ZERO-COLLISION)
     useEffect(() => {
         if (!isOpen) return;
 
         let animationFrameId;
         const updatePosition = () => {
             const currentStep = steps[step];
-            if (currentStep.element) {
+            const tooltipEl = tooltipRef.current;
+
+            if (currentStep.element && tooltipEl) {
                 const el = document.querySelector(currentStep.element);
                 if (el) {
                     const rect = el.getBoundingClientRect();
+                    const tooltipRect = tooltipEl.getBoundingClientRect();
                     const style = window.getComputedStyle(el);
-                    const borderRadius = style.borderRadius;
 
                     setTargetRect({
                         top: rect.top,
                         left: rect.left,
                         width: rect.width,
                         height: rect.height,
-                        radius: borderRadius
+                        radius: style.borderRadius
                     });
 
-                    const screenH = window.innerHeight;
                     const screenW = window.innerWidth;
+                    const screenH = window.innerHeight;
+                    const safetyMargin = 20;
+                    const buffer = 40; // Espacio entre foco y tooltip
 
-                    // ZONA DE RESPETO MAESTRO: 110px
-                    const buffer = 110;
                     let finalTop;
+                    let finalLeft = rect.left + rect.width / 2;
 
-                    if (rect.top > screenH / 2) {
-                        // Tooltip ARRIBA
-                        finalTop = rect.top - 210;
-                    } else {
-                        // Tooltip ABAJO
+                    // LÓGICA ANTI-COLISIÓN (Prioridad Espacial)
+                    const spaceAbove = rect.top;
+                    const spaceBelow = screenH - rect.bottom;
+
+                    if (spaceAbove > tooltipRect.height + buffer + safetyMargin) {
+                        // ARRIBA (Prioridad 1)
+                        finalTop = rect.top - tooltipRect.height - buffer;
+                    } else if (spaceBelow > tooltipRect.height + buffer + safetyMargin) {
+                        // ABAJO (Prioridad 2)
                         finalTop = rect.bottom + buffer;
+                    } else {
+                        // REFUERZO DE EMERGENCIA (Centro de pantalla si no cabe)
+                        finalTop = (screenH - tooltipRect.height) / 2;
+                        finalLeft = screenW / 2;
                     }
 
-                    // Strict Safe Area Limits
-                    finalTop = Math.min(Math.max(finalTop, 25), screenH - 240);
-                    let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 200), screenW - 200);
+                    // CLAMPING ESTRICTO (No tocar bordes)
+                    const halfW = tooltipRect.width / 2;
+                    finalTop = Math.max(safetyMargin, Math.min(finalTop, screenH - tooltipRect.height - safetyMargin));
+                    finalLeft = Math.max(halfW + safetyMargin, Math.min(finalLeft, screenW - halfW - safetyMargin));
 
                     setAssistantPos({
                         top: `${finalTop}px`,
                         left: `${finalLeft}px`,
-                        transform: 'translateX(-50%)',
-                        opacity: 1
+                        opacity: 1,
+                        isCentered: false
                     });
+                } else {
+                    // Fallback si el elemento no existe en el DOM aún
+                    setTargetRect(null);
+                    setAssistantPos({ top: '40%', left: '50%', opacity: 1, isCentered: true });
                 }
-            } else {
+            } else if (!currentStep.element) {
                 setTargetRect(null);
-                setAssistantPos({ top: '40%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 1 });
+                setAssistantPos({ top: '40%', left: '50%', opacity: 1, isCentered: true });
             }
+
             animationFrameId = requestAnimationFrame(updatePosition);
         };
 
@@ -135,15 +153,15 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     if (!isOpen) return null;
 
     return (
-        <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 10997 }}>
-            {/* SPOTLIGHT ADAPTATIVO (Sincronización Geométrica) */}
+        <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 10997 }}>
+            {/* SPOTLIGHT ADAPTATIVO V18.5 */}
             {targetRect && (
                 <div className="ghost-spotlight-glow" style={{
                     top: targetRect.top - 8,
                     left: targetRect.left - 8,
                     width: targetRect.width + 16,
                     height: targetRect.height + 16,
-                    borderRadius: targetRect.radius || '1.5rem',
+                    borderRadius: targetRect.radius || '1.1rem',
                     position: 'fixed',
                     pointerEvents: 'none',
                     zIndex: 10999
@@ -152,8 +170,15 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
 
             <div className="solemia-guide-v4-overlay" />
 
-            <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all', zIndex: 11000 }}>
-                <div className="nutripal-v4-speech">
+            <div className="nutripal-v4-container" style={{
+                top: assistantPos.top,
+                left: assistantPos.left,
+                transform: assistantPos.isCentered ? 'translate(-50%, -50%)' : 'translateX(-50%)',
+                opacity: assistantPos.opacity,
+                pointerEvents: 'all',
+                zIndex: 11000
+            }}>
+                <div ref={tooltipRef} className="nutripal-v4-speech">
                     <div className="nutripal-v4-orb">
                         {steps[step].icon}
                     </div>
