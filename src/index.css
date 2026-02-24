@@ -432,16 +432,16 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === GUÍA SOLEMIA: NUTRI-PAL V18 (MINIMALISMO DE PRECISIÓN - LA GUÍA INVISIBLE) === */
+/* === GUÍA SOLEMIA: NUTRI-PAL V18.2 (ÉLITE - MINIMALISMO ABSOLUTO) === */
 .solemia-guide-v4-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 11000;
-  background: rgba(0, 0, 0, 0.4) !important;
-  /* Dimming más dramático para que el foco resalte */
+  z-index: 10998;
+  background: transparent !important;
+  /* El dimming lo maneja el spotlight */
   pointer-events: none;
 }
 
@@ -456,24 +456,23 @@ input:checked+.slider-ia:before {
 }
 
 .nutripal-v4-speech {
-  /* MATERIALIDAD CRISTAL REAL (REDUCCIÓN DE OPACIDAD AL 40%) */
-  background: rgba(84, 1, 35, 0.4);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
-  padding: 1.25rem 1.75rem;
-  border-radius: 1.75rem;
+  /* MATERIALIDAD CRISTAL ÉLITE (PLUM PROFUNDO) */
+  background: rgba(40, 2, 18, 0.6);
+  backdrop-filter: blur(40px) saturate(110%);
+  -webkit-backdrop-filter: blur(40px) saturate(110%);
+  padding: 1.75rem 2.25rem;
+  border-radius: 2.5rem;
   box-shadow:
-    0 20px 50px -10px rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    0 30px 60px -15px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
   border: none;
-  max-width: 380px;
-  /* DRÁSTICA REDUCCIÓN DE ESCALA */
+  max-width: 420px;
   position: relative;
   overflow: visible;
-  animation: precision-entrance 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  animation: precision-entrance 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes precision-entrance {
@@ -555,17 +554,16 @@ input:checked+.slider-ia:before {
   border-radius: 10px;
 }
 
-/* Precision Hole Spotlight V18 (Foco Absoluto) */
+/* Precision Hole Spotlight V18.2 (Foco de Élite) */
 .ghost-spotlight-glow {
   position: fixed;
   z-index: 10999;
-  border-radius: 1.1rem;
+  border-radius: 2rem;
   pointer-events: none;
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-  /* FOCO LIMPIO: SIN BORDES GRUESOS QUE CORTEN NADA */
-  box-shadow:
-    0 0 0 9999px rgba(0, 0, 0, 0.6),
-    /* El sistema se oscurece */
-    inset 0 0 0 2px rgba(255, 255, 255, 0.4);
-  /* Solo un borde de luz interna para marcar el agujero */
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  /* DIMMING TOTAL DESDE EL SPOTLIGHT */
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.75);
+  /* LUZ DE PRECISIÓN */
+  outline: 1.5px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 8px;
 }

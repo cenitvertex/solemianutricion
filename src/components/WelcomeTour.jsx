@@ -68,11 +68,11 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
         };
     }, [step]);
 
-    // PRECISION AVOIDANCE ANCHORING V18.1 - Mejorado para evitar solapamientos
+    // PRECISION AVOIDANCE ANCHORING V18.2 - ÉLITE (Cero Colisiones)
     useEffect(() => {
         if (!isOpen) return;
 
-        const timer = setInterval(() => {
+        const updatePosition = () => {
             const currentStep = steps[step];
             if (currentStep.element) {
                 const el = document.querySelector(currentStep.element);
@@ -83,18 +83,20 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     const screenH = window.innerHeight;
                     const screenW = window.innerWidth;
 
-                    // Lógica de posicionamiento inteligente: Arriba o Abajo según espacio redactado
+                    // DISTANCIA DE RESPETO ÉLITE: 80px
+                    const buffer = 80;
                     let finalTop;
+
                     if (rect.top > screenH / 2) {
-                        // Si el elemento está en la mitad inferior, ponemos el tour arriba
-                        finalTop = rect.top - 200;
+                        // Elemento en la mitad inferior -> Tooltip ARRIBA con espacio de seguridad
+                        finalTop = rect.top - 240;
                     } else {
-                        // Si está en la mitad superior, lo ponemos abajo
-                        finalTop = rect.bottom + 60;
+                        // Elemento en la mitad superior -> Tooltip ABAJO con espacio de seguridad
+                        finalTop = rect.bottom + buffer;
                     }
 
-                    // Constreñir a los límites de la pantalla
-                    finalTop = Math.min(Math.max(finalTop, 60), screenH - 250);
+                    // Forzar límites de seguridad (Safe Area)
+                    finalTop = Math.min(Math.max(finalTop, 40), screenH - 280);
                     let finalLeft = Math.min(Math.max(rect.left + rect.width / 2, 220), screenW - 220);
 
                     setAssistantPos({
@@ -108,44 +110,53 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 setTargetRect(null);
                 setAssistantPos({ top: '40%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 1 });
             }
-        }, 100);
+        };
 
-        return () => clearInterval(timer);
+        const timer = setInterval(updatePosition, 100);
+        window.addEventListener('resize', updatePosition);
+
+        return () => {
+            clearInterval(timer);
+            window.removeEventListener('resize', updatePosition);
+        };
     }, [isOpen, step]);
 
     if (!isOpen) return null;
 
     return (
-        <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 11000 }}>
+        <div id="solemia-precision-tour" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 10997 }}>
+            {/* PORTAL DE FOCO (AISLADO) */}
+            {targetRect && (
+                <div className="ghost-spotlight-glow" style={{
+                    top: targetRect.top - 15,
+                    left: targetRect.left - 15,
+                    width: targetRect.width + 30,
+                    height: targetRect.height + 30,
+                    position: 'fixed',
+                    pointerEvents: 'none',
+                    zIndex: 10999
+                }} />
+            )}
+
             <div className="solemia-guide-v4-overlay" />
 
-            <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all' }}>
-                {targetRect && (
-                    <div className="ghost-spotlight-glow" style={{
-                        top: targetRect.top - 12,
-                        left: targetRect.left - 12,
-                        width: targetRect.width + 24,
-                        height: targetRect.height + 24,
-                        position: 'fixed'
-                    }} />
-                )}
-
+            <div className="nutripal-v4-container" style={{ ...assistantPos, pointerEvents: 'all', zIndex: 11000 }}>
                 <div className="nutripal-v4-speech">
                     <div className="nutripal-v4-orb">
                         {steps[step].icon}
                     </div>
 
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '1rem' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.75rem', fontWeight: 950, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '4px' }}>
+                        <h4 style={{ margin: 0, fontSize: '0.75rem', fontWeight: 950, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '4px' }}>
                             {steps[step].title}
                         </h4>
-                        <p style={{ fontSize: '1.15rem', color: 'white', lineHeight: 1.4, margin: 0, fontWeight: 500, letterSpacing: '-0.4px', textShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
+                        <p style={{ fontSize: '1.2rem', color: 'white', lineHeight: 1.45, margin: 0, fontWeight: 500, letterSpacing: '-0.5px', textShadow: '0 2px 15px rgba(0,0,0,0.3)' }}>
                             {displayText}
                         </p>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.25rem', marginTop: '0.4rem' }}>
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.5rem', marginTop: '0.5rem' }}>
+                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                             {steps.map((_, i) => (
                                 <div key={i} className={`tour-indicator-dot ${i === step ? 'active' : ''}`} />
                             ))}
