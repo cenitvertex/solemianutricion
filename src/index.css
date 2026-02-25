@@ -432,16 +432,13 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === BARRERA SISTEMA SOLEMIA V28.0 (IRON CURTAIN) === */
-/* Estética de Seguridad Extrema: Si el tour está activo, el universo Solemia se apaga visualmente */
+/* === BARRERA SISTEMA SOLEMIA V32.1 (GHOST LOCK) === */
+/* Bloqueo Invisible: El fondo se ve perfectamente pero no reacciona a nada */
 .solemia-system-locked {
   pointer-events: none !important;
   user-select: none !important;
-  filter: grayscale(1) contrast(0.5) blur(5px) !important;
-  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  opacity: 0.5 !important;
-  background: #000 !important;
-  /* El fondo se vuelve negro */
+  opacity: 1 !important;
+  transition: opacity 0.5s ease-important;
 }
 
 /* El Portal del Tour: El Único Punto de Existencia */
