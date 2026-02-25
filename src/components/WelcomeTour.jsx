@@ -14,7 +14,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA GRAVITY SHIELD V25.0 - HARDWARE LOCK ACTIVE");
+            console.log("🦁 SOLEMIA UNIVERSAL VOID V27.0 - SYSTEM-WIDE LOCK ACTIVE");
 
             // Activación del Escudo de Gravedad (Nivel Atómico / CSS Engine)
             document.documentElement.setAttribute('data-solemia-tour', 'active');

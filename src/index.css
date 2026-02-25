@@ -432,25 +432,31 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === BARRERA SISTEMA SOLEMIA V25.0 (GRAVITY SHIELD) === */
-/* Norma Atómica: Si el tour está activo, el universo Solemia muere físicamente */
-html[data-solemia-tour="active"] #solemia-app-root {
+/* === BARRERA SISTEMA SOLEMIA V27.0 (UNIVERSAL VOID) === */
+/* La Ley del Vacío: Absolutamente nada en el universo DOM responde si el tour está activo */
+html[data-solemia-tour="active"] * {
   pointer-events: none !important;
   user-select: none !important;
-  filter: grayscale(0.4) blur(2px);
-  transition: filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0.8;
+}
+
+/* Estética de Seguridad (Solo para la App principal) */
+html[data-solemia-tour="active"] #solemia-app-root {
+  filter: grayscale(0.6) blur(3px);
+  transition: filter 1s ease;
+  opacity: 0.7;
+}
+
+/* El Portal del Tour: El Único Punto de Existencia e Interacción */
+html[data-solemia-tour="active"] .solemia-precision-tour-root,
+html[data-solemia-tour="active"] .solemia-precision-tour-root * {
+  pointer-events: auto !important;
+  user-select: auto !important;
+  filter: none !important;
+  opacity: 1 !important;
 }
 
 html[data-solemia-tour="active"] body {
   overflow: hidden !important;
-}
-
-/* El tour debe ser el ÚNICO que recupere la interacción por encima de la ley del root */
-.solemia-precision-tour-root {
-  pointer-events: auto !important;
-  filter: none !important;
-  opacity: 1 !important;
 }
 
 .solemia-guide-v4-overlay {

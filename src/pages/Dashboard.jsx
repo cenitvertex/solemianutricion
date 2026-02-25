@@ -443,7 +443,7 @@ export default function Dashboard({ session }) {
     };
 
     return (
-        <div style={{ pointerEvents: isTourOpen ? 'none' : 'auto' }}>
+        <>
             <div className="layout-dashboard animate-premium">
                 <style>{`
                 @keyframes shimmer {
@@ -1422,6 +1422,6 @@ export default function Dashboard({ session }) {
                 />
             )}
 
-        </div >
+        </>
     );
 }
