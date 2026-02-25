@@ -432,9 +432,9 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === BARRERA SISTEMA SOLEMIA V34.0 (GHOST LOCK PRO) === */
-/* La Ley del Silencio: El fondo es visible pero físicamente inerte ante el ratón */
-body.solemia-system-lock * {
+/* === BARRERA SISTEMA SOLEMIA V35.1 (GHOST LOCK PRECISE) === */
+/* Bloqueo selectivo: Todo el universo del body se congela, excepto la raíz del tour */
+body.solemia-system-lock>*:not(.solemia-precision-tour-root) {
   pointer-events: none !important;
 }
 

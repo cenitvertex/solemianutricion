@@ -19,23 +19,8 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             // Bloqueo de Nivel Hardware por Clase Maestra
             document.body.classList.add('solemia-system-lock');
 
-            // Triple Blindaje por Captura Sistémica (Rastreo de eventos a nivel Window)
-            const blocker = (e) => {
-                const tourContent = document.getElementById('solemia-precision-tour-content');
-                if (tourContent && !tourContent.contains(e.target)) {
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    e.preventDefault();
-                    return false;
-                }
-            };
-
-            const events = ['click', 'mousedown', 'mouseup', 'touchstart', 'touchend', 'contextmenu', 'dblclick'];
-            events.forEach(evt => window.addEventListener(evt, blocker, { capture: true, passive: false }));
-
             return () => {
                 document.body.classList.remove('solemia-system-lock');
-                events.forEach(evt => window.removeEventListener(evt, blocker, { capture: true }));
             };
         }
     }, [isOpen]);
