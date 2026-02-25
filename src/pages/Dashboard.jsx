@@ -68,11 +68,10 @@ export default function Dashboard({ session }) {
     const [accessUntil, setAccessUntil] = useState(null);
     const [isPaywallOpen, setIsPaywallOpen] = useState(false);
     const [planType, setPlanType] = useState(null);
-    const [isTourOpen, setIsTourOpen] = useState(false);
 
     // Bloqueo de scroll cuando hay un modal abierto
     useEffect(() => {
-        const anyModalOpen = isTourOpen || isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen || legalConfig.isOpen || isPaywallOpen;
+        const anyModalOpen = isModalOpen || isSettingsOpen || isProfileOpen || isDeleteModalOpen || !!editingPatient || isLogsOpen || isPreviewOpen || legalConfig.isOpen || isPaywallOpen;
         if (anyModalOpen) {
             document.body.style.overflow = 'hidden';
             document.body.style.height = '100vh';
@@ -131,10 +130,6 @@ export default function Dashboard({ session }) {
                     setIsPaywallOpen(false); // Aseguramos que se cierre
                     fetchPatients();
 
-                    // Si no ha visto el tour, lo abrimos (defensivo)
-                    if (data.has_seen_tour === false) {
-                        setIsTourOpen(true);
-                    }
                 }
             } else {
                 // Si hay error en la query (ej. tabla vacía o error de red), 
@@ -1413,7 +1408,7 @@ export default function Dashboard({ session }) {
                     onResetTour={handleResetTour}
                     onRestartTour={() => {
                         setIsSettingsOpen(false);
-                        setIsTourOpen(true);
+                        if (window.solemiaRestartTour) window.solemiaRestartTour();
                     }}
                 />
             )}
@@ -1427,10 +1422,6 @@ export default function Dashboard({ session }) {
                 />
             )}
 
-            <WelcomeTour
-                isOpen={isTourOpen}
-                onComplete={handleTourComplete}
-            />
         </div >
     );
 }

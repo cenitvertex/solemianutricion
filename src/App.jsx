@@ -10,11 +10,24 @@ import LandingPage from './pages/LandingPage';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
 
+import WelcomeTour from './components/WelcomeTour';
+
 function App() {
   const [session, setSession] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuspended, setIsSuspended] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isTourOpen, setIsTourOpen] = useState(false);
+
+  // Global Access for Dashboard/Settings
+  useEffect(() => {
+    window.solemiaOpenTour = () => setIsTourOpen(true);
+    window.solemiaRestartTour = () => setIsTourOpen(true);
+    return () => {
+      delete window.solemiaOpenTour;
+      delete window.solemiaRestartTour;
+    };
+  }, []);
 
   useEffect(() => {
     const checkUser = async (currentSession) => {
@@ -39,6 +52,11 @@ function App() {
 
           // Solo suspendemos si is_active es explícitamente false
           setIsSuspended(tenantRecord?.is_active === false);
+
+          // AUTO-TOUR logic moved to root
+          if (tenantRecord && tenantRecord.has_seen_tour === false && !adminStatus) {
+            setIsTourOpen(true);
+          }
         } else {
           setIsSuspended(false);
         }
@@ -75,42 +93,51 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        {/* Landing Page Pública */}
-        <Route path="/" element={<LandingPage />} />
+    <>
+      <div id="solemia-app-root" style={{ pointerEvents: isTourOpen ? 'none' : 'auto' }}>
+        <Router>
+          <Routes>
+            {/* Landing Page Pública */}
+            <Route path="/" element={<LandingPage />} />
 
-        {/* Auth Routes */}
-        <Route
-          path="/login"
-          element={!session ? <Login /> : (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Navigate to="/app" />))}
-        />
-        <Route
-          path="/signup"
-          element={!session ? <Signup /> : <Navigate to="/app" />}
-        />
+            {/* Auth Routes */}
+            <Route
+              path="/login"
+              element={!session ? <Login /> : (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Navigate to="/app" />))}
+            />
+            <Route
+              path="/signup"
+              element={!session ? <Signup /> : <Navigate to="/app" />}
+            />
 
-        {/* App Privada */}
-        <Route
-          path="/app"
-          element={session ? (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Dashboard session={session} />)) : <Navigate to="/login" />}
-        />
+            {/* App Privada */}
+            <Route
+              path="/app"
+              element={session ? (isAdmin ? <Navigate to="/admin" /> : (isSuspended ? <Navigate to="/suspended" /> : <Dashboard session={session} />)) : <Navigate to="/login" />}
+            />
 
-        <Route
-          path="/suspended"
-          element={session && isSuspended ? <SuspendedScreen /> : <Navigate to="/" />}
-        />
+            <Route
+              path="/suspended"
+              element={session && isSuspended ? <SuspendedScreen /> : <Navigate to="/" />}
+            />
 
-        {/* Admin Routes */}
-        <Route
-          path="/admin"
-          element={session ? (isAdmin ? <Admin session={session} /> : <Navigate to="/app" />) : <AdminLogin />}
-        />
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={session ? (isAdmin ? <Admin session={session} /> : <Navigate to="/app" />) : <AdminLogin />}
+            />
 
-        {/* Redirección por defecto */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Router>
+            {/* Redirección por defecto */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Router>
+      </div>
+
+      <WelcomeTour
+        isOpen={isTourOpen}
+        onComplete={() => setIsTourOpen(false)}
+      />
+    </>
   );
 }
 
