@@ -438,7 +438,7 @@ input:checked+.slider-ia:before {
   pointer-events: none !important;
   user-select: none !important;
   opacity: 1 !important;
-  transition: opacity 0.5s ease-important;
+  transition: opacity 0.5s ease !important;
 }
 
 /* El Portal del Tour: El Único Punto de Existencia */
