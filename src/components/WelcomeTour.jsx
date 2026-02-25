@@ -14,12 +14,12 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA EXTREME SHIELD V21.6 - ZERO ABSOLUTE ACTIVE");
+            console.log("🦁 SOLEMIA GRAVITY SHIELD V25.0 - HARDWARE LOCK ACTIVE");
 
-            // Bloqueo de sistema (Inhibición de hardware por CSS)
-            document.body.classList.add('solemia-system-lock');
+            // Activación del Escudo de Gravedad (Nivel Atómico / CSS Engine)
+            document.documentElement.setAttribute('data-solemia-tour', 'active');
 
-            // Bloqueo Global por Captura Agresivo (Nivel Sistema)
+            // Doble Blindaje por Captura (Sigue activo como respaldo)
             const blocker = (e) => {
                 const tourContent = document.getElementById('solemia-precision-tour-content');
                 if (tourContent && !tourContent.contains(e.target)) {
@@ -34,7 +34,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             events.forEach(evt => window.addEventListener(evt, blocker, { capture: true, passive: false }));
 
             return () => {
-                document.body.classList.remove('solemia-system-lock');
+                document.documentElement.removeAttribute('data-solemia-tour');
                 events.forEach(evt => window.removeEventListener(evt, blocker, { capture: true }));
             };
         }
