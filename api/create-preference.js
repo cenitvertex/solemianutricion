@@ -1,4 +1,5 @@
 import { MercadoPagoConfig, Preference, PreApproval } from 'mercadopago';
+import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -11,6 +12,32 @@ export default async function handler(req, res) {
     if (!accessToken) {
         return res.status(500).json({ error: 'Configuración faltante: MP_ACCESS_TOKEN' });
     }
+
+    // --- VERIFICACIÓN DE SESIÓN (SECURITY P0) ---
+    const supabase = createClient(
+        process.env.VITE_SUPABASE_URL,
+        process.env.VITE_SUPABASE_ANON_KEY
+    );
+
+    // Obtener token del header
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ error: 'No autorizado: Falta token de sesión' });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+        return res.status(401).json({ error: 'Sesión inválida o expirada' });
+    }
+
+    // Verificar que el userId que quiere pagar sea el mismo que el autenticado
+    if (user.id !== userId) {
+        console.error(`🔒 Intento de pago no autorizado: El usuario ${user.id} intentó pagar para el ID ${userId}`);
+        return res.status(403).json({ error: 'No tienes permiso para realizar esta operación' });
+    }
+    // --------------------------------------------
 
     const client = new MercadoPagoConfig({ accessToken });
     const baseUrl = process.env.VITE_APP_URL || 'https://solemianutricion-m338.vercel.app';

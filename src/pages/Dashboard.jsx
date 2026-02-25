@@ -420,7 +420,10 @@ export default function Dashboard({ session }) {
         try {
             const response = await fetch('/api/create-preference', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.access_token}`
+                },
                 body: JSON.stringify({
                     title: selectedPlan.title,
                     unit_price: selectedPlan.price,

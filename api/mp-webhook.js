@@ -1,5 +1,6 @@
 import { MercadoPagoConfig, Payment, PreApproval } from 'mercadopago';
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
 
 // Inicialización de Supabase con Service Role para bypass de RLS en el server
 const supabaseAdmin = createClient(
@@ -14,7 +15,43 @@ export default async function handler(req, res) {
 
     const { type, data, action } = req.body;
     const accessToken = process.env.MP_ACCESS_TOKEN;
+    const webhookSecret = process.env.MP_WEBHOOK_SECRET;
     const client = new MercadoPagoConfig({ accessToken });
+
+    // --- VERIFICACIÓN DE FIRMA (SECURITY P0) ---
+    const xSignature = req.headers['x-signature'];
+    const xRequestId = req.headers['x-request-id'];
+
+    if (webhookSecret && xSignature && xRequestId) {
+        try {
+            const parts = xSignature.split(',');
+            let ts = '';
+            let v1 = '';
+
+            parts.forEach(part => {
+                const [key, value] = part.split('=');
+                if (key === 'ts') ts = value;
+                if (key === 'v1') v1 = value;
+            });
+
+            const manifest = `id:${data.id};request-id:${xRequestId};ts:${ts};`;
+            const hmac = crypto.createHmac('sha256', webhookSecret);
+            hmac.update(manifest);
+            const sha = hmac.digest('hex');
+
+            if (sha !== v1) {
+                console.error('❌ Firma de webhook inválida');
+                return res.status(401).json({ message: 'Invalid signature' });
+            }
+            console.log('✅ Firma de webhook verificada');
+        } catch (err) {
+            console.error('Error verificando firma:', err);
+            // Seguir procesando si hay error técnico pero avisar
+        }
+    } else if (!webhookSecret) {
+        console.warn('⚠️ MP_WEBHOOK_SECRET no configurado. Saltando verificación de firma.');
+    }
+    // -------------------------------------------
 
     console.log('Webhook recibido:', { type, action, id: data?.id });
 

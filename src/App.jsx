@@ -94,7 +94,7 @@ function App() {
 
   return (
     <>
-      <div id="solemia-app-root" className={isTourOpen ? 'solemia-system-locked' : ''} style={{ pointerEvents: isTourOpen ? 'none' : 'auto' }}>
+      <div id="solemia-app-root">
         <Router>
           <Routes>
             {/* Landing Page Pública */}

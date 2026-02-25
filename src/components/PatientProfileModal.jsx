@@ -9,14 +9,40 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
     const [allergiesText, setAllergiesText] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [localPatient, setLocalPatient] = useState(patient);
+    const [documentUrls, setDocumentUrls] = useState({ expediente: null, plan: null });
 
     useEffect(() => {
         if (patient) {
             setLocalPatient(patient);
             setAnalysisText(patient.objective_and_params || '');
             setAllergiesText(Array.isArray(patient.allergies) ? patient.allergies.join(', ') : '');
+            generateSignedUrls(patient);
         }
     }, [patient]);
+
+    const generateSignedUrls = async (p) => {
+        const fetchSignedUrl = async (path) => {
+            if (!path) return null;
+            // Extraer el nombre del archivo de la URL pública guardada o del path
+            const fileName = path.split('/').pop().split('?')[0];
+            const { data, error } = await supabase.storage
+                .from('documents')
+                .createSignedUrl(fileName, 3600); // 1 hora de validez
+
+            if (error) {
+                console.error('Error generando URL firmada:', error);
+                return null;
+            }
+            return data.signedUrl;
+        };
+
+        const [expUrl, planUrl] = await Promise.all([
+            fetchSignedUrl(p.expediente_url),
+            fetchSignedUrl(p.plan_url)
+        ]);
+
+        setDocumentUrls({ expediente: expUrl, plan: planUrl });
+    };
 
     if (!isOpen || !localPatient) return null;
 
@@ -347,7 +373,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                     <a
-                                        href={localPatient.expediente_url}
+                                        href={documentUrls.expediente}
                                         target="_blank"
                                         rel="noreferrer"
                                         style={{
@@ -356,24 +382,24 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                             gap: '0.8rem',
                                             padding: '1rem',
                                             borderRadius: '1.25rem',
-                                            backgroundColor: localPatient.expediente_url ? '#fcf8fa' : '#f9f9f9',
-                                            color: localPatient.expediente_url ? 'var(--solemia-plum)' : '#ccc',
+                                            backgroundColor: documentUrls.expediente ? '#fcf8fa' : '#f9f9f9',
+                                            color: documentUrls.expediente ? 'var(--solemia-plum)' : '#ccc',
                                             textDecoration: 'none',
                                             border: '1px solid',
-                                            borderColor: localPatient.expediente_url ? '#f5eef1' : '#f0f0f0',
-                                            pointerEvents: localPatient.expediente_url ? 'auto' : 'none'
+                                            borderColor: documentUrls.expediente ? '#f5eef1' : '#f0f0f0',
+                                            pointerEvents: documentUrls.expediente ? 'auto' : 'none'
                                         }}
                                     >
                                         <FileText size={18} />
                                         <div style={{ flex: 1 }}>
                                             <div style={{ fontSize: '9px', fontWeight: '900' }}>Expediente clínico</div>
-                                            <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{localPatient.expediente_url ? 'Consultar PDF' : 'No disponible'}</div>
+                                            <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{documentUrls.expediente ? 'Consultar PDF Seguro' : 'No disponible'}</div>
                                         </div>
-                                        {localPatient.expediente_url && <ChevronRight size={14} />}
+                                        {documentUrls.expediente && <ChevronRight size={14} />}
                                     </a>
 
                                     <a
-                                        href={localPatient.plan_url}
+                                        href={documentUrls.plan}
                                         target="_blank"
                                         rel="noreferrer"
                                         style={{
@@ -382,20 +408,20 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                             gap: '0.8rem',
                                             padding: '1rem',
                                             borderRadius: '1.25rem',
-                                            backgroundColor: localPatient.plan_url ? '#fcf8fa' : '#f9f9f9',
-                                            color: localPatient.plan_url ? 'var(--solemia-plum)' : '#ccc',
+                                            backgroundColor: documentUrls.plan ? '#fcf8fa' : '#f9f9f9',
+                                            color: documentUrls.plan ? 'var(--solemia-plum)' : '#ccc',
                                             textDecoration: 'none',
                                             border: '1px solid',
-                                            borderColor: localPatient.plan_url ? '#f5eef1' : '#f0f0f0',
-                                            pointerEvents: localPatient.plan_url ? 'auto' : 'none'
+                                            borderColor: documentUrls.plan ? '#f5eef1' : '#f0f0f0',
+                                            pointerEvents: documentUrls.plan ? 'auto' : 'none'
                                         }}
                                     >
                                         <Activity size={18} />
                                         <div style={{ flex: 1 }}>
                                             <div style={{ fontSize: '9px', fontWeight: '900' }}>Plan alimenticio</div>
-                                            <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{localPatient.plan_url ? 'Consultar PDF' : 'No disponible'}</div>
+                                            <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{documentUrls.plan ? 'Consultar PDF Seguro' : 'No disponible'}</div>
                                         </div>
-                                        {localPatient.plan_url && <ChevronRight size={14} />}
+                                        {documentUrls.plan && <ChevronRight size={14} />}
                                     </a>
                                 </div>
                             </section>
