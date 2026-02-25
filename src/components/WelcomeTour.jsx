@@ -14,12 +14,12 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
     useEffect(() => {
         if (isOpen) {
             setStep(0);
-            console.log("🦁 SOLEMIA UNIVERSAL VOID V27.0 - SYSTEM-WIDE LOCK ACTIVE");
+            console.log("🦁 SOLEMIA IRON CURTAIN V28.0 - ABSOLUTE INTERCEPTION ACTIVE");
 
-            // Activación del Escudo de Gravedad (Nivel Atómico / CSS Engine)
-            document.documentElement.setAttribute('data-solemia-tour', 'active');
+            // Bloqueo de Nivel Hardware por Clase Maestra
+            document.body.classList.add('solemia-system-lock');
 
-            // Doble Blindaje por Captura (Sigue activo como respaldo)
+            // Triple Blindaje por Captura Sistémica (Rastreo de eventos a nivel Window)
             const blocker = (e) => {
                 const tourContent = document.getElementById('solemia-precision-tour-content');
                 if (tourContent && !tourContent.contains(e.target)) {
@@ -34,7 +34,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             events.forEach(evt => window.addEventListener(evt, blocker, { capture: true, passive: false }));
 
             return () => {
-                document.documentElement.removeAttribute('data-solemia-tour');
+                document.body.classList.remove('solemia-system-lock');
                 events.forEach(evt => window.removeEventListener(evt, blocker, { capture: true }));
             };
         }
