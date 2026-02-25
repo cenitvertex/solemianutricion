@@ -432,30 +432,29 @@ input:checked+.slider-ia:before {
   color: var(--solemia-pink);
 }
 
-/* === BARRERA SISTEMA SOLEMIA V27.0 (UNIVERSAL VOID) === */
-/* La Ley del Vacío: Absolutamente nada en el universo DOM responde si el tour está activo */
-html[data-solemia-tour="active"] * {
+/* === BARRERA SISTEMA SOLEMIA V28.0 (IRON CURTAIN) === */
+/* Estética de Seguridad Extrema: Si el tour está activo, el universo Solemia se apaga visualmente */
+.solemia-system-locked {
   pointer-events: none !important;
   user-select: none !important;
+  filter: grayscale(1) contrast(0.5) blur(5px) !important;
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  opacity: 0.5 !important;
+  background: #000 !important;
+  /* El fondo se vuelve negro */
 }
 
-/* Estética de Seguridad (Solo para la App principal) */
-html[data-solemia-tour="active"] #solemia-app-root {
-  filter: grayscale(0.6) blur(3px);
-  transition: filter 1s ease;
-  opacity: 0.7;
-}
-
-/* El Portal del Tour: El Único Punto de Existencia e Interacción */
-html[data-solemia-tour="active"] .solemia-precision-tour-root,
-html[data-solemia-tour="active"] .solemia-precision-tour-root * {
+/* El Portal del Tour: El Único Punto de Existencia */
+.solemia-precision-tour-root,
+.solemia-precision-tour-root * {
   pointer-events: auto !important;
   user-select: auto !important;
   filter: none !important;
   opacity: 1 !important;
+  cursor: auto !important;
 }
 
-html[data-solemia-tour="active"] body {
+body.solemia-system-lock {
   overflow: hidden !important;
 }
 
