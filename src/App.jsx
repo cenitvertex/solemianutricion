@@ -94,44 +94,6 @@ function App() {
 
   return (
     <>
-      {/* LOKI MONITOR: Visual Evidence of State (Delete after success) */}
-      <div style={{
-        position: 'fixed',
-        top: '10px',
-        right: '10px',
-        zIndex: 2147483647,
-        padding: '5px 10px',
-        background: isTourOpen ? '#cd365b' : '#333',
-        color: 'white',
-        fontSize: '10px',
-        borderRadius: '50px',
-        fontWeight: 'bold',
-        pointerEvents: 'none',
-        opacity: 0.8
-      }}>
-        SOLEMIA SYSTEM: {isTourOpen ? 'TOUR_ACTIVE (LOCKED)' : 'IDLE'}
-      </div>
-
-      {/* THE IRON CURTAIN: Biological Hardware Lock */}
-      {isTourOpen && (
-        <div
-          id="solemia-iron-curtain"
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); console.log("Loki Shield: Pulse Blocked"); }}
-          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            zIndex: 2147483640,
-            background: 'rgba(0,0,0,0.01)',
-            pointerEvents: 'auto',
-            cursor: 'not-allowed'
-          }}
-        />
-      )}
-
       <div id="solemia-app-root" className={isTourOpen ? 'solemia-system-locked' : ''} style={{ pointerEvents: isTourOpen ? 'none' : 'auto' }}>
         <Router>
           <Routes>

@@ -360,15 +360,6 @@ export default function Admin({ session }) {
                                             style={{
                                                 padding: '0.5rem 1rem',
                                                 borderRadius: '1rem',
-                                                border: 'none',
-                                                background: tenant.subscription_status === 'active' ? '#ecfdf5' : '#f8fafc',
-                                                color: tenant.subscription_status === 'active' ? '#10b981' : '#94a3b8',
-                                                fontWeight: '900',
-                                                fontSize: '0.65rem',
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '0.5rem',
                                                 border: tenant.subscription_status === 'active' ? '1px solid #10b981' : '1px solid #e2e8f0'
                                             }}
                                             title={tenant.subscription_status === 'active' ? 'Quitar acceso de cortesía' : 'Dar acceso libre ilimitado'}
@@ -382,15 +373,6 @@ export default function Admin({ session }) {
                                             style={{
                                                 padding: '0.5rem 1rem',
                                                 borderRadius: '1rem',
-                                                border: 'none',
-                                                background: tenant.is_active ? '#f8fafc' : '#ed406a',
-                                                color: tenant.is_active ? '#94a3b8' : 'white',
-                                                fontWeight: '900',
-                                                fontSize: '0.65rem',
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '0.5rem',
                                                 border: '1px solid currentColor'
                                             }}
                                             title={tenant.is_active ? "Baneas al usuario (no podrá ni ver precios)" : "Quitar baneo"}
