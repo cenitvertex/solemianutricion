@@ -108,6 +108,27 @@ export default async function handler(req, res) {
 
                 console.log(`Renovando suscripción (${isSemiannual ? 'Semestral' : 'Mensual'}) para usuario ${userId} (ID: ${subscriptionId})...`);
 
+                // --- CONTROL DE IDEMPOTENCIA ---
+                const { data: currentTenant } = await supabaseAdmin
+                    .from('tenants')
+                    .select('access_until, plan_type')
+                    .eq('id', userId)
+                    .single();
+
+                // Si ya tiene acceso activo y el plan es el mismo, evitar renovar innecesariamente si la fecha es lejana
+                if (currentTenant?.access_until) {
+                    const currentExpiry = new Date(currentTenant.access_until);
+                    const now = new Date();
+                    const diffDays = (currentExpiry - now) / (1000 * 60 * 60 * 24);
+
+                    // Si ya tiene más de 25 días (mensual) o 175 días (semestral), ignoramos para evitar duplicar por reintentos de MP
+                    const threshold = (isSemiannual ? 175 : 25);
+                    if (diffDays > threshold) {
+                        console.log(`⚠️ Idempotencia: Usuario ${userId} ya tiene acceso activo (${Math.round(diffDays)} días restantes). Saltando actualización.`);
+                        return res.status(200).send('OK');
+                    }
+                }
+
                 const { error } = await supabaseAdmin
                     .from('tenants')
                     .update({

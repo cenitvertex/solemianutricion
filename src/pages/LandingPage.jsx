@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -14,14 +15,20 @@ import {
 } from 'lucide-react';
 import PricingCard from '../components/PricingCard';
 import logo from '../assets/logo.png';
+import LegalModal from '../components/LegalModal';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import { supabase } from '../lib/supabase';
 
 export default function LandingPage() {
-    const navigate = useNavigate();
+    const [scrolled, setScrolled] = React.useState(false);
     const [session, setSession] = React.useState(null);
 
     React.useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
         });
@@ -33,6 +40,28 @@ export default function LandingPage() {
         } else {
             console.warn("Mercado Pago Public Key is missing!");
         }
+
+        // Intersection Observer for Reveal Animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            revealElements.forEach(el => observer.unobserve(el));
+        };
     }, []);
 
     const featuresMonthly = [
@@ -84,7 +113,7 @@ export default function LandingPage() {
 
             if (!response.ok) {
                 const errorBody = await response.text();
-                throw new Error(`Error API (${response.status}): ${errorBody}`);
+                throw new Error(`Error API(${response.status}): ${errorBody} `);
             }
 
             const data = await response.json();
@@ -123,28 +152,35 @@ export default function LandingPage() {
                     detailMsg = parsed.details || parsed.fullError || error.message;
                 }
             } catch (e) { }
-            alert(`No se pudo iniciar el pago: ${detailMsg}`);
+            alert(`No se pudo iniciar el pago: ${detailMsg} `);
         }
     };
 
     return (
-        <div className="layout-dashboard" style={{ overflowX: 'hidden' }}>
+        <div className="layout-dashboard" style={{ overflowX: 'hidden', position: 'relative', background: 'transparent', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <div className="bg-atmosphere-fixed"></div>
             {/* Navbar Minimalista */}
-            <nav style={{
-                padding: '1.5rem 3rem',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                position: 'absolute',
-                width: '100%',
-                zIndex: 10
-            }}>
-                <img src={logo} alt="Solemia" style={{ height: '32px' }} />
+            <nav
+                className={scrolled ? 'nav-sticky' : ''}
+                style={{
+                    padding: '1.5rem 3rem',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    zIndex: 100,
+                    transition: 'all 0.3s ease'
+                }}
+            >
+                <img src={logo} alt="Solemia Logo" style={{ height: '32px', cursor: 'pointer' }} onClick={() => navigate('/')} />
                 <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
                     <button onClick={() => navigate(session ? '/app' : '/login')} className="btn-outline" style={{ background: 'transparent', fontWeight: '700' }}>
                         {session ? 'Ir a mi Dashboard' : 'Iniciar Sesión'}
                     </button>
-                    <button onClick={() => navigate('/signup')} className="btn btn-primary">
+                    <button onClick={() => navigate('/signup')} className="btn btn-primary shadow-lg">
                         Empezar Ahora
                     </button>
                 </div>
@@ -156,120 +192,124 @@ export default function LandingPage() {
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                padding: '6rem 0'
+                padding: '8rem 0 4rem'
             }}>
                 <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-                    <div style={{ maxWidth: '750px' }}>
-                        <div className="text-detail" style={{ color: 'var(--solemia-pink)', marginBottom: '1rem', display: 'block' }}>
-                            REVOLUCIÓN EN ADHERENCIA NUTRICIONAL
+                    <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }} className="reveal">
+                        <div className="text-detail" style={{ color: 'var(--solemia-pink)', marginBottom: '1.5rem', display: 'block', letterSpacing: '3px', fontWeight: '900' }}>
+                            ELEVATED CLINICAL INTELLIGENCE
                         </div>
-                        <h1 style={{ fontSize: '4.5rem', lineHeight: '1.1', marginBottom: '1.5rem', color: 'var(--solemia-plum)' }}>
-                            Nutrición con <span style={{ color: 'var(--solemia-pink)' }}>Adherencia</span> sin Juicios.
+                        <h1 style={{ fontSize: 'clamp(3.5rem, 10vw, 5.5rem)', lineHeight: '1.0', marginBottom: '2rem', color: 'var(--solemia-plum)', letterSpacing: '-0.05em' }}>
+                            Nutrición con <span style={{ color: 'var(--solemia-pink)' }}>Adherencia</span><br />sin Juicios.
                         </h1>
-                        <h1 style={{ fontSize: '4.5rem', lineHeight: '1.1', marginBottom: '1.5rem', color: 'var(--solemia-plum)' }}>
-                            Nutrición con <span style={{ color: 'var(--solemia-pink)' }}>Adherencia</span> sin Juicios.
-                        </h1>
-                        <p style={{ fontSize: '1.25rem', color: 'var(--solemia-charcoal)', opacity: 0.8, marginBottom: '2.5rem', maxWidth: '600px' }}>
-                            Solemia Nutri-Pal es el cómplice inteligente que guía a tus pacientes en sus momentos críticos, eliminando la culpa y elevando tus resultados clínicos.
+                        <p style={{ fontSize: '1.4rem', color: 'var(--solemia-charcoal)', opacity: 0.7, marginBottom: '3.5rem', maxWidth: '700px', margin: '0 auto 3.5rem', lineHeight: '1.5' }}>
+                            El cómplice inteligente que transforma la "Caja Negra" nutricional en resultados clínicos predecibles.
                         </p>
-                        <div style={{ display: 'flex', gap: '1rem' }}>
+                        <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
                             <button
-                                onClick={() => navigate('/signup')}
+                                onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}
                                 className="btn btn-primary"
-                                style={{ padding: '1.25rem 3rem', fontSize: '14px' }}
+                                style={{ padding: '1.5rem 4rem', fontSize: '16px' }}
                             >
-                                Ver Planes de Lanzamiento <ArrowRight size={18} />
+                                Empezar Ahora <ArrowRight size={20} />
                             </button>
                         </div>
                     </div>
                 </div>
-
-                {/* Abstract Background Element */}
-                <div style={{
-                    position: 'absolute',
-                    right: '-10%',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: '60%',
-                    height: '80%',
-                    background: 'var(--solemia-gradient)',
-                    borderRadius: '100px 0 0 100px',
-                    opacity: 0.05,
-                    zIndex: 1
-                }} />
             </section>
 
-            {/* El Problema Section */}
-            <section style={{ padding: '8rem 0', background: '#fff' }}>
+            {/* Bento Grid Showcase */}
+            <section style={{ padding: '10rem 0', background: 'transparent' }}>
                 <div className="container">
-                    <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 5rem' }}>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>El "Abandono por Culpa" detiene tu crecimiento.</h2>
-                        <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>
-                            El 40% de los pacientes abandonan su tratamiento porque se sienten solos o juzgados ante un fallo. Entre consulta y consulta, el paciente está a la deriva.
+                    <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 6rem' }} className="reveal">
+                        <h2 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>El Abandono se detiene aquí.</h2>
+                        <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                            Elimina la intermitencia clínica. Tu IA siempre está presente, capturando datos reales y brindando apoyo sin juicios cuando tus pacientes más lo necesitan.
                         </p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
-                        <div className="card-premium">
-                            <TrendingUp size={40} color="var(--solemia-pink)" style={{ marginBottom: '1.5rem' }} />
-                            <h3 style={{ marginBottom: '1rem' }}>Autoridad Blindada</h3>
-                            <p style={{ color: 'var(--text-muted)' }}>Conviértete en el experto que siempre está ahí, sin tener que trabajar fines de semana. Tu IA nunca descansa.</p>
+                    <div className="bento-grid">
+                        <div className="card-premium bento-card bento-card-lg reveal" style={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(10px)' }}>
+                            <div style={{ maxWidth: '400px' }}>
+                                <ShieldCheck size={48} color="var(--solemia-pink)" style={{ marginBottom: '2rem' }} />
+                                <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Inteligencia Clínica Profunda</h3>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
+                                    Accede a la "Caja Negra" clínica. Descubre qué sienten y qué comen realmente tus pacientes entre consulta y consulta.
+                                </p>
+                            </div>
+                            {/* Graphic Placeholder (Circle with gradient) */}
+                            <div className="bento-blob-animate" style={{ position: 'absolute', right: '-10%', bottom: '-10%', width: '300px', height: '300px', background: 'var(--solemia-gradient)', borderRadius: '50%', filter: 'blur(40px)', zIndex: 0 }} />
                         </div>
-                        <div className="card-premium">
-                            <ShieldCheck size={40} color="var(--solemia-pink)" style={{ marginBottom: '1.5rem' }} />
-                            <h3 style={{ marginBottom: '1rem' }}>Precisión Quirúrgica</h3>
-                            <p style={{ color: 'var(--text-muted)' }}>Accede a la "Caja Negra" clínica. Datos reales sobre lo que tus pacientes realmente comen y sienten tras la puerta.</p>
+
+                        <div className="card-premium bento-card bento-card-sm reveal delay-100" style={{ background: 'var(--solemia-plum)', color: 'white' }}>
+                            <TrendingUp size={48} color="var(--solemia-pink)" style={{ marginBottom: '2rem' }} />
+                            <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'white' }}>Autoridad 24/7</h3>
+                            <p style={{ opacity: 0.8 }}>Conviértete en el experto omnipresente sin sacrificar tu tiempo personal.</p>
                         </div>
-                        <div className="card-premium">
-                            <Zap size={40} color="var(--solemia-pink)" style={{ marginBottom: '1.5rem' }} />
-                            <h3 style={{ marginBottom: '1rem' }}>Rentabilidad Directa</h3>
-                            <p style={{ color: 'var(--text-muted)' }}>Justifica un aumento de honorarios del 20-30% ofreciendo un acompañamiento tecnológico de élite.</p>
+
+                        <div className="card-premium bento-card bento-card-sm reveal delay-200">
+                            <Zap size={48} color="var(--solemia-pink)" style={{ marginBottom: '2rem' }} />
+                            <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>Soporte Real</h3>
+                            <p style={{ color: 'var(--text-muted)' }}>Cero alucinaciones. Pura eficiencia clínica bajo tus propias reglas nutricionales.</p>
+                        </div>
+
+                        <div className="card-premium bento-card bento-card-lg reveal delay-300" style={{ background: 'white' }}>
+                            <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
+                                <div style={{ flex: 1 }}>
+                                    <Heart size={48} color="var(--solemia-pink)" style={{ marginBottom: '1.5rem' }} />
+                                    <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Resultados que Inspiran</h3>
+                                    <p style={{ color: 'var(--text-muted)' }}>Mejora la adherencia en un 60% reduciendo la culpa y el miedo al juicio del profesional.</p>
+                                </div>
+                                <div style={{ flex: 1, padding: '2rem', background: '#f8f8f8', borderRadius: '2rem', textAlign: 'center' }}>
+                                    <div style={{ fontSize: '3.5rem', fontWeight: '900', color: 'var(--solemia-plum)' }}>+25%</div>
+                                    <div style={{ fontSize: '0.9rem', color: 'var(--solemia-pink)', fontWeight: '700' }}>HONORARIOS JUSTIFICADOS</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* IA Comparison Section */}
-            <section style={{ padding: '8rem 0', background: 'var(--solemia-bg)' }}>
+            <section style={{ padding: '8rem 0', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(5px)' }}>
                 <div className="container">
-                    <div className="card-premium" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '4rem', alignItems: 'center', padding: '4rem' }}>
-                        <div>
-                            <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>¿Por qué no usar ChatGPT?</h2>
-                            <ul style={{ listStyle: 'none' }}>
-                                <li style={{ marginBottom: '2rem', display: 'flex', gap: '1rem' }}>
-                                    <div style={{ background: '#fee2e2', padding: '10px', borderRadius: '12px', height: 'fit-content' }}>
-                                        <Lock size={20} color="#dc2626" />
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '6rem', alignItems: 'center' }}>
+                        <div className="reveal">
+                            <h2 style={{ fontSize: '3rem', marginBottom: '2.5rem', lineHeight: '1.2', letterSpacing: '-0.02em' }}>¿Por qué no usar <span style={{ color: 'var(--solemia-pink)' }}>IA Genérica</span>?</h2>
+                            <ul style={{ listStyle: 'none', padding: 0 }}>
+                                <li style={{ marginBottom: '3rem', display: 'flex', gap: '2rem' }} className="reveal delay-100">
+                                    <div style={{ background: '#fff', padding: '16px', borderRadius: '20px', height: 'fit-content', boxShadow: 'var(--shadow-premium)' }}>
+                                        <Lock size={24} color="var(--solemia-pink)" />
                                     </div>
                                     <div>
-                                        <h4 style={{ marginBottom: '0.5rem' }}>Privacidad y Contexto Clínico</h4>
-                                        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>ChatGPT no conoce tu plan específico. Solemia actúa bajo TUS reglas y protocolos, protegiendo tu ética profesional.</p>
+                                        <h4 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: '800' }}>Privacidad y Contexto Clínico</h4>
+                                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: '1.7' }}>ChatGPT no conoce tus protocolos. Solemia actúa bajo TUS reglas, protegiendo la confidencialidad y tu ética profesional.</p>
                                     </div>
                                 </li>
-                                <li style={{ marginBottom: '2rem', display: 'flex', gap: '1rem' }}>
-                                    <div style={{ background: '#f0f4ff', padding: '10px', borderRadius: '12px', height: 'fit-content' }}>
-                                        <Brain size={20} color="#3b82f6" />
+                                <li style={{ marginBottom: '3rem', display: 'flex', gap: '2rem' }} className="reveal delay-200">
+                                    <div style={{ background: '#fff', padding: '16px', borderRadius: '20px', height: 'fit-content', boxShadow: 'var(--shadow-premium)' }}>
+                                        <Brain size={24} color="var(--solemia-pink)" />
                                     </div>
                                     <div>
-                                        <h4 style={{ marginBottom: '0.5rem' }}>Cero Alucinaciones</h4>
-                                        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Nuestra IA está configurada para ser conservadora y referir al paciente contigo ante cualquier duda crítica.</p>
+                                        <h4 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: '800' }}>Cero Alucinaciones</h4>
+                                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: '1.7' }}>Nuestra IA está blindada para referir al paciente contigo ante dudas críticas, evitando recomendaciones erróneas.</p>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        <div style={{ position: 'relative' }}>
-                            <div style={{
-                                background: 'var(--solemia-gradient)',
-                                padding: '3rem',
-                                borderRadius: '3rem',
-                                color: 'white',
-                                boxShadow: '0 30px 60px -15px rgba(77, 12, 48, 0.3)'
+                        <div style={{ position: 'relative' }} className="reveal delay-300">
+                            <div className="card-premium" style={{
+                                background: 'var(--solemia-plum)',
+                                padding: '4rem',
+                                borderRadius: '4rem',
+                                color: 'white'
                             }}>
-                                <MessageSquare size={32} style={{ marginBottom: '1.5rem', opacity: 0.8 }} />
-                                <p style={{ fontSize: '1.5rem', fontStyle: 'italic', lineHeight: '1.4' }}>
-                                    "La IA genérica te hace ver amateur. Solemia te posiciona como una clínica de vanguardia."
+                                <MessageSquare size={40} style={{ marginBottom: '2rem', color: 'var(--solemia-pink)' }} />
+                                <p style={{ fontSize: '2rem', fontWeight: '800', fontStyle: 'italic', lineHeight: '1.3', letterSpacing: '-0.01em' }}>
+                                    "La IA genérica te hace ver amateur. Solemia te posiciona como una clínica de élite."
                                 </p>
-                                <div style={{ marginTop: '2rem', fontWeight: '900', fontSize: '0.9rem', opacity: 0.8 }}>
-                                    — SOLEMIA CORE PRINCIPLE
+                                <div style={{ marginTop: '2.5rem', fontWeight: '900', fontSize: '0.9rem', color: 'var(--solemia-pink)', letterSpacing: '3px' }}>
+                                    — MANIFIESTO SOLEMIA
                                 </div>
                             </div>
                         </div>
@@ -278,34 +318,38 @@ export default function LandingPage() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" style={{ padding: '8rem 0', background: '#fff' }}>
+            <section id="pricing" style={{ padding: '10rem 0', background: 'transparent' }}>
                 <div className="container">
-                    <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 5rem' }}>
-                        <h2 style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>Elige tu nivel de impacto.</h2>
-                        <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>
-                            Únete al Pioneer Group y transforma tu clínica con tecnología de vanguardia.
+                    <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 6rem' }} className="reveal">
+                        <h2 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>Inversión en tu Autoridad.</h2>
+                        <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>
+                            Únete al Pioneer Group y lidera la nutrición tecnológica en habla hispana.
                         </p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-                        <PricingCard
-                            title="Suscripción Mensual"
-                            price="$1,349"
-                            period="MXN / mes"
-                            features={featuresMonthly}
-                            buttonText="Empezar Ahora"
-                            onAction={() => navigate('/signup')}
-                        />
-                        <PricingCard
-                            title="Fundador (Semestral)"
-                            price="$5,000"
-                            period="MXN / 6 meses"
-                            highlight="La Opción Más Rentable"
-                            features={featuresFounderCash}
-                            isPopular={true}
-                            buttonText="Obtener Promo Semestral"
-                            onAction={() => navigate('/signup')}
-                        />
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3rem', maxWidth: '1100px', margin: '0 auto' }}>
+                        <div className="reveal delay-100">
+                            <PricingCard
+                                title="Plan Profesional"
+                                price="$1,349"
+                                period="MXN / mes"
+                                features={featuresMonthly}
+                                buttonText="Empezar Ahora"
+                                onAction={() => navigate('/signup')}
+                            />
+                        </div>
+                        <div className="reveal delay-200">
+                            <PricingCard
+                                title="Pase Fundador Elite"
+                                price="$5,000"
+                                period="MXN / 6 meses"
+                                highlight="60% AHORRO DIRECTO"
+                                features={featuresFounderCash}
+                                isPopular={true}
+                                buttonText="Obtener Promo Elite"
+                                onAction={() => navigate('/signup')}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
@@ -313,7 +357,7 @@ export default function LandingPage() {
             {/* Garantía Section */}
             <section style={{ padding: '8rem 0', background: 'var(--solemia-charcoal)', color: 'white', textAlign: 'center' }}>
                 <div className="container">
-                    <div className="glass" style={{ padding: '4rem', maxWidth: '900px', margin: '0 auto', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div className="glass reveal" style={{ padding: '4rem', maxWidth: '900px', margin: '0 auto', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)' }}>
                         <Heart size={48} color="var(--solemia-pink)" style={{ marginBottom: '2rem' }} />
                         <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: 'white' }}>Garantía Blindada</h2>
                         <p style={{ fontSize: '1.25rem', opacity: 0.8, marginBottom: '2.5rem', lineHeight: '1.8' }}>

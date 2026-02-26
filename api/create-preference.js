@@ -64,7 +64,7 @@ export default async function handler(req, res) {
                     },
                     back_url: `${baseUrl}/app`, // Regresa al Dashboard
                     status: 'pending',
-                    payer_email: 'cliente@ejemplo.com',
+                    payer_email: user.email,
                 }
             });
 
