@@ -43,40 +43,81 @@ export const LegalDisclaimer = () => {
 };
 
 export const PrivacyPolicyContent = () => (
-    <div>
-        <h3 style={{ marginBottom: '1rem', fontWeight: '800' }}>1. Identidad y Domicilio del Responsable</h3>
-        <p>Solemia Nutripal (en adelante "Solemia"), con sede de operaciones en México, es la entidad responsable del tratamiento y protección de sus datos personales, así como de los datos que usted (el "Nutriólogo" o "Profesional") ingrese a la plataforma respecto a sus pacientes, actuando Solemia en este último caso como Encargado del Tratamiento.</p>
+    <div style={{ lineHeight: '1.6', fontSize: '0.9rem', color: 'var(--solemia-charcoal)' }}>
+        <p style={{ marginBottom: '2rem' }}><strong>Fecha de última actualización:</strong> Febrero 2026</p>
 
-        <h3 style={{ marginTop: '2rem', marginBottom: '1rem', fontWeight: '800' }}>2. Datos Personales Sensibles y Finalidad del Tratamiento</h3>
-        <p>Solemia recopila información de los profesionales (nombre, correo, teléfono) para la gestión de la cuenta, cobro y prestación del servicio SaaS.</p>
-        <p><strong>Respecto a los pacientes:</strong> Solemia procesa datos de salud y hábitos alimenticios ingresados exclusivamente por el Profesional. La finalidad única de este procesamiento es generar análisis, resúmenes y asistencia clínica mediante algoritmos de Inteligencia Artificial para uso exclusivo del Profesional.</p>
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>1. Identidad y Domicilio del Responsable</h3>
+        <p style={{ marginBottom: '1.5rem' }}>Solemia Nutripal (en lo sucesivo "Solemia" o el "Responsable"), operando bajo las leyes de los Estados Unidos Mexicanos, es la persona moral responsable del tratamiento, uso y protección de sus datos personales, así como de los datos que usted (el "Usuario", "Nutriólogo" o "Profesional") ingrese a la plataforma respecto a sus propios clientes y/o pacientes, actuando Solemia en este último caso estrictamente como <strong>Encargado del Tratamiento</strong> en términos de la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).</p>
 
-        <h3 style={{ marginTop: '2rem', marginBottom: '1rem', fontWeight: '800' }}>3. Transferencia de Datos e Inteligencia Artificial</h3>
-        <p><strong>Cláusula Crítica:</strong> Para proveer la funcionalidad de análisis clínico, los datos anónimos o seudonimizados pueden ser transmitidos a las APIs de nuestros proveedores de Inteligencia Artificial (ej. OpenAI, Anthropic). Solemia garantiza contractualmente que <strong>estos proveedores no utilizarán los datos de sus pacientes para entrenar modelos públicos o propios</strong>. La transmisión se realiza mediante canales cifrados y el procesamiento es de naturaleza efímera o estrictamente controlada.</p>
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>2. Datos Personales que Recabamos</h3>
+        <p style={{ marginBottom: '0.5rem' }}>Para llevar a cabo las finalidades descritas en el presente aviso, recabaremos las siguientes categorías de datos personales:</p>
+        <ul style={{ marginBottom: '1.5rem', paddingLeft: '1.5rem' }}>
+            <li><strong>Datos de Identificación del Usuario:</strong> Nombre completo, correo electrónico, teléfono, datos de facturación y fiscales.</li>
+            <li><strong>Datos de Uso y Navegación:</strong> Direcciones IP, tipo de navegador, sistema operativo, tiempos de acceso y páginas visitadas (recolectados mediante cookies y tecnologías similares).</li>
+            <li><strong>Datos de Pacientes (Sensibles):</strong> Solemia procesa datos ingresados por el Usuario titular de la cuenta, los cuales pueden incluir nombres, información antropométrica, hábitos alimenticios, historiales clínicos, padecimientos, alergias y análisis bioquímicos. <strong>Estos datos son considerados patrimoniales y sensibles</strong>, y su ingreso a la plataforma es responsabilidad exclusiva del Usuario.</li>
+        </ul>
 
-        <h3 style={{ marginTop: '2rem', marginBottom: '1rem', fontWeight: '800' }}>4. Derechos ARCO</h3>
-        <p>Usted tiene derecho a Acceder, Rectificar, Cancelar u Oponerse al tratamiento de sus datos. En el caso de los pacientes, el Profesional es el Responsable directo ante ellos, y Solemia actuará según las instrucciones del Profesional para la eliminación de historiales clínicos cuando sea requerido. Para cualquier solicitud legal, contáctenos a través de los canales de soporte de la plataforma.</p>
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>3. Finalidades del Tratamiento de los Datos</h3>
+        <p style={{ marginBottom: '0.5rem' }}>Los datos personales que recabamos son utilizados para las siguientes finalidades primarias (estrictamente necesarias para el servicio):</p>
+        <ul style={{ marginBottom: '0.5rem', paddingLeft: '1.5rem' }}>
+            <li>Creación, gestión y mantenimiento de la cuenta de Usuario (SaaS B2B).</li>
+            <li>Procesamiento de pagos y facturación a través de nuestros proveedores (ej. Mercado Pago, Stripe).</li>
+            <li>Almacenamiento en la nube y organización de los expedientes clínicos creados por el Usuario.</li>
+            <li>Procesamiento algorítmico y análisis automatizado mediante Inteligencia Artificial para asistir al Usuario en su labor clínica.</li>
+            <li>Cumplimiento de obligaciones legales, resolución de disputas y protección de nuestros legítimos intereses.</li>
+        </ul>
+        <p style={{ marginBottom: '1.5rem' }}>De manera secundaria, podremos utilizar su información de contacto para enviarle notificaciones técnicas, actualizaciones de producto, boletines informativos y ofertas relevantes, a lo cual puede oponerse en cualquier momento.</p>
+
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>4. Transferencia de Datos a Terceros y subprocesadores (IA)</h3>
+        <p style={{ marginBottom: '0.5rem' }}>Solemia se compromete a no vender, alquilar ni comercializar su información personal ni la de sus pacientes. Sin embargo, para operar la infraestructura técnica del Software as a Service (SaaS), se realizan transferencias a subprocesadores bajo estrictos Acuerdos de Procesamiento de Datos (DPA):</p>
+        <ul style={{ marginBottom: '1.5rem', paddingLeft: '1.5rem' }}>
+            <li><strong>Servicios en la Nube (Hosting y BD):</strong> Proveedores como Vercel y Supabase, utilizados para alojar la aplicación y bases de datos con encriptación en tránsito y en reposo (AES-256).</li>
+            <li><strong>Pasarelas de Pago:</strong> Proveedores certificados PCI-DSS para el cobro de suscripciones.</li>
+            <li><strong>Cláusula Crítica de Inteligencia Artificial (LLMs):</strong> Para proveer la funcionalidad de análisis clínico y asistencia, porciones de texto(anonimizadas y/o seudonimizadas bajo la responsabilidad del Usuario) son transmitidas a través de APIs empresariales de proveedores de IA (ej. OpenAI LLC, Anthropic). Solemia mantiene contratos empresariales de <em>Zero Data Retention Protocol</em>, lo que garantiza jurídicamente que <strong>estos proveedores externos NO utilizarán los datos de sus pacientes para entrenar, ajustar o mejorar sus modelos fundamentales públicos ni privados.</strong></li>
+        </ul>
+
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>5. Responsabilidad del Usuario (Profesional de la Salud)</h3>
+        <p style={{ marginBottom: '1.5rem' }}>Al ser Solemia el <em>Encargado</em> tecnológico, <strong>el Usuario actúa como el Responsable legal primario</strong> frente a sus propios pacientes. El Usuario garantiza bajo juramento que ha obtenido el <strong>Consentimiento Informado</strong> previo y expreso de sus pacientes para recolectar su información de salud, digitalizarla y procesarla utilizando herramientas tecnológicas en la nube y algoritmos de Inteligencia Artificial de terceros, eximiendo a Solemia de cualquier reclamación, multa o litigio por falta de dicho consentimiento.</p>
+
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>6. Derechos ARCO (Acceso, Rectificación, Cancelación y Oposición)</h3>
+        <p style={{ marginBottom: '1.5rem' }}>Usted tiene derecho a conocer qué datos personales tenemos de usted, para qué los utilizamos y las condiciones del uso que les damos (Acceso). Asimismo, es su derecho solicitar la corrección de su información en caso de que esté desactualizada, sea inexacta o incompleta (Rectificación); que la eliminemos de nuestros registros o bases de datos cuando considere que no está siendo utilizada adecuadamente (Cancelación); así como oponerse al uso de sus datos personales para fines específicos (Oposición). Para el ejercicio de cualquiera de los derechos ARCO, usted o el titular originario de los datos (el paciente) deberá presentar la solicitud respectiva a través del correo electrónico de soporte de Solemia.</p>
+
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>7. Medidas de Seguridad y Modificaciones al Aviso</h3>
+        <p>Solemia ha implementado medidas de seguridad administrativas, técnicas y físicas, tales como control de accesos basados en roles (RLS), criptografía (SSL/TLS) y firmas digitales (Signed URLs) para proteger sus datos personales contra daño, pérdida, alteración, destrucción o el uso, acceso o tratamiento no autorizado. Cualquier modificación a este Aviso de Privacidad será notificada a través de la plataforma.</p>
     </div>
 );
 
 export const TermsAndConditionsContent = () => (
-    <div>
-        <h3 style={{ marginBottom: '1rem', fontWeight: '800' }}>1. Naturaleza del Servicio y Licencia</h3>
-        <p>Solemia Nutripal es una herramienta "Software as a Service" (SaaS) B2B diseñada para asistir a nutriólogos y profesionales de la salud. Se otorga una licencia limitada, no exclusiva e intransferible para el uso de la plataforma. Queda estrictamente prohibida la ingeniería inversa, copia o distribución no autorizada de la plataforma o sus mecánicas subyacentes de IA.</p>
+    <div style={{ lineHeight: '1.6', fontSize: '0.9rem', color: 'var(--solemia-charcoal)' }}>
+        <p style={{ marginBottom: '2rem' }}><strong>Efectivos a partir de:</strong> Febrero 2026</p>
 
-        <h3 style={{ marginTop: '2rem', marginBottom: '1rem', fontWeight: '800' }}>2. Deslinde de Responsabilidad Clínica (Uso de IA)</h3>
-        <p style={{ textTransform: 'uppercase', fontWeight: '700', fontSize: '0.85rem' }}>
-            Solemia Nutripal no provee diagnósticos médicos directos ni consejos de salud directos a pacientes. La IA es una herramienta de asistencia probabilística y no reemplaza el criterio humano. El usuario (Nutriólogo) es el único y absoluto responsable de la interpretación de la información generada por la IA, de los tratamientos prescritos y de la validación de alergias o condiciones médicas. Solemia no asume ninguna responsabilidad civil, penal o administrativa por negligencia médica, malos diagnósticos o efectos adversos en los pacientes del usuario.
-        </p>
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>1. Aceptación de los Términos y Naturaleza del Servicio</h3>
+        <p style={{ marginBottom: '1.5rem' }}>Estos Términos y Condiciones ("Términos") constituyen un contrato legalmente vinculante entre usted (el "Usuario", "Usted" o el "Profesional") y Solemia Nutripal ("Solemia", "Nosotros" o "Manejador"). Al crear una cuenta, acceder o utilizar la plataforma Solemia Nutripal, usted reconoce haber leído, entendido y aceptado cumplir con todos los términos aquí descritos. Solemia es una plataforma "Software as a Service" (SaaS) Business-to-Business (B2B) desarrollada como una herramienta digital de gestión de pacientes y asistencia impulsada por Inteligencia Artificial (IA), diseñada <strong>única y exclusivamente para el uso de profesionales de la salud debidamente certificados (Nutriólogos, Médicos, Dietistas).</strong></p>
 
-        <h3 style={{ marginTop: '2rem', marginBottom: '1rem', fontWeight: '800' }}>3. Obligación de Consentimiento Informado</h3>
-        <p>El Profesional se obliga a obtener el consentimiento informado de sus pacientes antes de ingresar su información médica a Solemia, notificándoles explícitamente que sus datos serán procesados por herramientas automatizadas y modelos de Inteligencia Artificial. Solemia se exime de cualquier disputa legal derivada de la omisión de este paso por parte del Profesional.</p>
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>2. Creación de Cuentas y Seguridad</h3>
+        <p style={{ marginBottom: '1.5rem' }}>Para acceder a los Servicios, debe registrarse proporcionando información precisa, actual y completa. Usted es responsable de mantener la confidencialidad de sus credenciales de inicio de sesión y de todas las actividades que ocurran bajo su cuenta. Solemia se reserva el derecho de suspender o cancelar cuentas que violen la seguridad, compartan accesos de forma ilícita (uso simultáneo abusivo) o infrinjan estos Términos.</p>
 
-        <h3 style={{ marginTop: '2rem', marginBottom: '1rem', fontWeight: '800' }}>4. Pagos, Suscripciones y Garantía Blindada</h3>
-        <p>Las suscripciones se cobran por adelantado a través de nuestro proveedor de pagos (Mercado Pago). <strong>Garantía Blindada de 15 Días:</strong> Los nuevos usuarios tienen derecho a solicitar un reembolso íntegro de su primera suscripción dentro de los primeros 15 días naturales de uso si la plataforma no cumple con sus expectativas. Pasado este plazo, no se emitirán reembolsos por periodos parciales utilizados. Solemia se reserva el derecho de cancelar cuentas en caso de fraude o violación a estos términos.</p>
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>3. Licencia de Uso y Propiedad Intelectual</h3>
+        <p style={{ marginBottom: '1.5rem' }}>Solemia le otorga una licencia limitada, no exclusiva, no sublicenciable y revocable para acceder y utilizar el Software con fines profesionales internos. Todo el código fuente, la interfaz de usuario, las bases de datos algorítmicas, la marca comercial "Solemia", logotipos y el "know-how" del sistema subyacente son propiedad intelectual exclusiva de Solemia o de sus licenciantes. Queda estrictamente prohibido realizar ingeniería inversa, descompilar, copiar, reproducir, modificar o crear trabajos derivados de la Plataforma o utilizar el servicio para desarrollar un producto competitivo.</p>
 
-        <h3 style={{ marginTop: '2rem', marginBottom: '1rem', fontWeight: '800' }}>5. Nivel de Servicio (SLA)</h3>
-        <p>Solemia hace esfuerzos razonables para mantener la plataforma operativa 24/7. Sin embargo, al depender de infraestructuras en la nube de terceros y proveedores de modelos de lenguaje subyacentes, no garantizamos una disponibilidad ininterrumpida o libre de errores temporales.</p>
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>4. Descargo Fundamental de Responsabilidad Médica y Clínica (Uso de IA)</h3>
+        <div style={{ backgroundColor: 'rgba(225, 29, 72, 0.05)', padding: '1.5rem', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.2)', marginBottom: '1.5rem' }}>
+            <p style={{ margin: 0, fontWeight: '700', textTransform: 'uppercase', fontSize: '0.8rem' }}>
+                4.1 Limitación Absoluta. Solemia no provee diagnósticos médicos directos, ni tratamientos, ni servicios de salud a pacientes finales. La plataforma y sus algoritmos de IA son exclusivamente herramientas de "ASISTENCIA" (Co-Pilot). Las sugerencias, resúmenes, inferencias o cálculos emitidos por la IA son de naturaleza probabilística y pueden contener errores, imprecisiones u omisiones ("ALUCINACIONES").
+                <br /><br />
+                4.2 Responsabilidad del Usuario. El Usuario (Nutriólogo / Profesional) acepta y reconoce ser el ÚNICO RESPONSABLE de la interpretación y validación clínica y humana de toda información procesada por la plataforma antes de su aplicación en un paciente real. El Usuario asume total responsabilidad civil, penal, administrativa y ética derivada del tratamiento prescrito a sus pacientes. Solemia Nutripal queda categóricamente exonerado de cualquier demanda por negligencia médica, mala praxis, lesiones, daños a la salud o muerte derivada del uso (correcto o incorrecto) de la plataforma.
+            </p>
+        </div>
+
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>5. Condiciones Financieras: Pagos, Suscripciones y "Garantía Blindada"</h3>
+        <p style={{ marginBottom: '0.5rem' }}>El uso de Solemia opera mediante suscripciones prepagadas (recurrentes) procesadas por agentes de pago autorizados (Mercado Pago). El servicio continuará facturándose automáticamente en el ciclo acordado (mensual, semestral o anual) hasta que el Usuario decida cancelar su suscripción a través del panel de control de su cuenta, lo cual debe y puede hacerse antes de la fecha de corte.</p>
+        <p style={{ marginBottom: '1.5rem' }}><strong>5.1. Garantía Blindada (Reembolso de 15 Días):</strong> Como compromiso de calidad, los <em>nuevos</em> usuarios (primer ciclo de facturación) están protegidos por una garantía de devolución total de su pago inicial si solicitan la cancelación y el reembolso dentro de los primeros quince (15) días naturales posteriores a la fecha de activación, sin preguntas. Esta política solo aplica al primer pago. Una vez vencidos los 15 días iniciales, o para periodos de renovación subsiguientes, <strong>no existen devoluciones pro-rata ni reembolsos totales</strong> por el tiempo no utilizado en el mes o año activo.</p>
+
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>6. Disponibilidad del Servicio (SLA) y Modificaciones</h3>
+        <p style={{ marginBottom: '1.5rem' }}>Solemia realiza esfuerzos comercialmente razonables para mantener una disponibilidad de red del 99.9%. No obstante, al encontrarnos cimentados en infraestructuras de computación en la Nube (AWS/GCP/Vercel) y depender de LLMs de alta demanda (OpenAI/Anthropic), el servicio se proporciona "TAL CUAL" y "SEGÚN DISPONIBILIDAD". No garantizamos que el servicio estará libre de interrupciones técnicas temporales (mantenimientos programados o caídas de terceros). Solemia se reserva el derecho de modificar el software, agregar características o alterar módulos en cualquier momento para su actualización y mejora continua.</p>
+
+        <h3 style={{ marginBottom: '1rem', fontWeight: '800', color: 'var(--solemia-plum)' }}>7. Indemnización y Jurisdicción</h3>
+        <p style={{ marginBottom: '1.5rem' }}>Usted acepta indemnizar y eximir de responsabilidad a Solemia, sus fundadores, empleados y afiliados contra todos los daños, reclamaciones de terceros y gastos, incluidos los honorarios razonables de abogados, que surjan de su uso de la plataforma, de sus decisiones clínicas, o de la violación de estos términos o de las leyes locales aplicables en su territorio de ejercicio. Estos términos se rigen e interpretan de acuerdo con las leyes de los Estados Unidos Mexicanos, renunciando a cualquier otra jurisdicción que pudiera corresponderles por motivo de domicilio presente o futuro.</p>
     </div>
 );
 
