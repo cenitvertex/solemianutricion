@@ -3,6 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { UserPlus, Mail, Lock, AlertCircle, CheckCircle, User, Phone, MessageSquare } from 'lucide-react';
 import logo from '../assets/logo.png';
+import LegalModal from '../components/LegalModal';
+import {
+    PrivacyPolicyContent,
+    TermsAndConditionsContent,
+    DataAndAIPolicyContent
+} from '../content/legal';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -14,9 +20,25 @@ export default function Signup() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [acceptTerms, setAcceptTerms] = useState(false);
+    const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
+    const [legalModalTitle, setLegalModalTitle] = useState('');
+    const [legalModalContent, setLegalModalContent] = useState(null);
+
+    const openLegalModal = (title, contentComp) => {
+        setLegalModalTitle(title);
+        setLegalModalContent(contentComp);
+        setIsLegalModalOpen(true);
+    };
 
     const handleSignup = async (e) => {
         e.preventDefault();
+
+        if (!acceptTerms) {
+            setError('Debes aceptar los Términos y Condiciones y el Aviso de Privacidad para continuar.');
+            return;
+        }
+
         setLoading(true);
         setError(null);
 
@@ -208,6 +230,22 @@ export default function Signup() {
                         </div>
                     )}
 
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginTop: '1rem', background: '#f8fafc', padding: '1rem', borderRadius: '1rem' }}>
+                        <input
+                            type="checkbox"
+                            id="acceptTerms"
+                            checked={acceptTerms}
+                            onChange={(e) => {
+                                setAcceptTerms(e.target.checked);
+                                if (e.target.checked && error?.includes('Términos')) setError(null);
+                            }}
+                            style={{ marginTop: '0.2rem', cursor: 'pointer', width: '18px', height: '18px', accentColor: 'var(--solemia-plum)' }}
+                        />
+                        <label htmlFor="acceptTerms" style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.5', cursor: 'pointer' }}>
+                            He leído y acepto los <span onClick={(e) => { e.preventDefault(); openLegalModal("Términos y Condiciones", <TermsAndConditionsContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Términos y Condiciones</span>, el <span onClick={(e) => { e.preventDefault(); openLegalModal("Aviso de Privacidad", <PrivacyPolicyContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Aviso de Privacidad</span> y entiendo que Solemia Nutripal es una herramienta de asistencia donde <strong>el diagnóstico final es responsabilidad exclusiva del profesional</strong>. También acepto la <span onClick={(e) => { e.preventDefault(); openLegalModal("Política de Uso de Datos e IA", <DataAndAIPolicyContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Política de uso de IA</span>.
+                        </label>
+                    </div>
+
                     <button
                         disabled={loading}
                         className="btn btn-primary"
@@ -249,6 +287,13 @@ export default function Signup() {
                     </div>
                 </div>
             </div>
+
+            <LegalModal
+                isOpen={isLegalModalOpen}
+                onClose={() => setIsLegalModalOpen(false)}
+                title={legalModalTitle}
+                content={legalModalContent}
+            />
         </div>
     );
 }

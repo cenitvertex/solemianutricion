@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { X, MessageSquare, Clock, Brain, User } from 'lucide-react';
+import { LegalDisclaimer } from '../content/legal';
 
 export default function LogsModal({ isOpen, onClose, patient }) {
     const [logs, setLogs] = useState([]);
@@ -92,6 +93,10 @@ export default function LogsModal({ isOpen, onClose, patient }) {
                                 </div>
                             ))
                         )}
+                    </div>
+
+                    <div style={{ marginTop: '2rem' }}>
+                        <LegalDisclaimer />
                     </div>
 
                     <div style={{ marginTop: '3rem', textAlign: 'center' }}>

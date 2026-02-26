@@ -18,10 +18,26 @@ import logo from '../assets/logo.png';
 import LegalModal from '../components/LegalModal';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import { supabase } from '../lib/supabase';
+import {
+    PrivacyPolicyContent,
+    TermsAndConditionsContent,
+    DataAndAIPolicyContent,
+    CookiesPolicyContent
+} from '../content/legal';
 
 export default function LandingPage() {
+    const navigate = useNavigate();
     const [scrolled, setScrolled] = React.useState(false);
     const [session, setSession] = React.useState(null);
+    const [isLegalModalOpen, setIsLegalModalOpen] = React.useState(false);
+    const [legalModalTitle, setLegalModalTitle] = React.useState('');
+    const [legalModalContent, setLegalModalContent] = React.useState(null);
+
+    const openLegalModal = (title, contentComp) => {
+        setLegalModalTitle(title);
+        setLegalModalContent(contentComp);
+        setIsLegalModalOpen(true);
+    };
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -375,14 +391,27 @@ export default function LandingPage() {
             </section>
 
             {/* Footer Minimalista */}
-            <footer style={{ padding: '4rem 0', background: 'var(--solemia-bg)', textAlign: 'center' }}>
-                <div className="container">
+            <footer style={{ padding: '4rem 0 3rem', background: 'var(--solemia-bg)', textAlign: 'center' }}>
+                <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <img src={logo} alt="Solemia" style={{ height: '24px', opacity: 0.5, marginBottom: '2rem' }} />
+                    <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                        <button onClick={() => openLegalModal("Términos y Condiciones", <TermsAndConditionsContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Términos y Condiciones</button>
+                        <button onClick={() => openLegalModal("Aviso de Privacidad", <PrivacyPolicyContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Aviso de Privacidad</button>
+                        <button onClick={() => openLegalModal("Política de Uso de Datos e IA", <DataAndAIPolicyContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Uso de Datos e IA</button>
+                        <button onClick={() => openLegalModal("Política de Cookies", <CookiesPolicyContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Política de Cookies</button>
+                    </div>
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                         © {new Date().getFullYear()} Solemia Nutrición. v1.0.2 - Premium Health Technology.
                     </p>
                 </div>
             </footer>
+
+            <LegalModal
+                isOpen={isLegalModalOpen}
+                onClose={() => setIsLegalModalOpen(false)}
+                title={legalModalTitle}
+                content={legalModalContent}
+            />
         </div>
     );
 }

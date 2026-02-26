@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { X, Phone, User, FileText, Brain, ChevronRight, Edit, Heart, Activity, Save, Check } from 'lucide-react';
+import { LegalDisclaimer } from '../content/legal';
 
 export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }) {
     const [isEditingAnalysis, setIsEditingAnalysis] = useState(false);
@@ -252,6 +253,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                         </p>
                                     )}
                                 </div>
+                                <LegalDisclaimer />
                             </section>
 
                             <section>
