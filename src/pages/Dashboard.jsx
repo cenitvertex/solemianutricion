@@ -36,6 +36,7 @@ import SettingsModal from '../components/SettingsModal';
 import LegalModal from '../components/LegalModal';
 import logo from '../assets/logo.png';
 import WelcomeTour from '../components/WelcomeTour';
+import { PrivacyPolicyContent, TermsAndConditionsContent } from '../content/legal';
 
 export default function Dashboard({ session }) {
     const [patients, setPatients] = useState([]);
