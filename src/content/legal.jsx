@@ -33,7 +33,7 @@ export const LegalDisclaimer = () => {
                     boxShadow: '0 4px 15px rgba(0,0,0,0.02)',
                     animation: 'fadeIn 0.3s ease'
                 }}>
-                    <p className="text-detail" style={{ fontSize: '0.7rem', lineHeight: '1.5', color: 'var(--text-muted)', margin: 0, opacity: 0.85 }}>
+                    <p style={{ fontSize: '0.75rem', lineHeight: '1.6', color: 'var(--text-muted)', margin: 0, opacity: 0.8, fontWeight: '400', fontFamily: 'var(--font-inter)' }}>
                         Nota de Responsabilidad: La información generada en <em>Solemia Nutripal</em> proviene de modelos de Inteligencia Artificial como herramienta de asistencia clínica. No constituye un diagnóstico médico. El profesional de la salud es el único responsable de revisar, validar y autorizar cualquier cálculo o sugerencia algorítmica antes de su aplicación clínica.
                     </p>
                 </div>
