@@ -18,7 +18,7 @@ export const LegalDisclaimer = () => {
                 onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
                 onMouseLeave={(e) => e.currentTarget.style.opacity = '0.6'}
             >
-                <ShieldAlert size={14} color="var(--solemia-pink)" />
+                <ShieldAlert size={14} color="var(--text-muted)" />
                 Aviso Legal sobre Inteligencia Artificial
                 {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </button>
@@ -34,7 +34,7 @@ export const LegalDisclaimer = () => {
                     animation: 'fadeIn 0.3s ease'
                 }}>
                     <p className="text-detail" style={{ fontSize: '0.7rem', lineHeight: '1.5', color: 'var(--text-muted)', margin: 0, opacity: 0.85 }}>
-                        <strong>Nota de Responsabilidad:</strong> La información generada en <em>Solemia Nutripal</em> proviene de modelos de Inteligencia Artificial como <strong>herramienta de asistencia clínica</strong>. No constituye un diagnóstico médico. El profesional de la salud es el único responsable de revisar, validar y autorizar cualquier cálculo o sugerencia algorítmica antes de su aplicación clínica.
+                        Nota de Responsabilidad: La información generada en <em>Solemia Nutripal</em> proviene de modelos de Inteligencia Artificial como herramienta de asistencia clínica. No constituye un diagnóstico médico. El profesional de la salud es el único responsable de revisar, validar y autorizar cualquier cálculo o sugerencia algorítmica antes de su aplicación clínica.
                     </p>
                 </div>
             )}
