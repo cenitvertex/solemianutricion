@@ -1,13 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ShieldAlert, ChevronDown, ChevronUp } from 'lucide-react';
 
-export const LegalDisclaimer = () => (
-    <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(255, 255, 255, 0.5)', borderRadius: '1rem', border: '1px solid rgba(190, 24, 93, 0.1)' }}>
-        <p className="text-detail" style={{ fontSize: '0.75rem', lineHeight: '1.4', color: 'var(--text-muted)', margin: 0, opacity: 0.8 }}>
-            <strong>Nota Legal y Descargo de Responsabilidad:</strong> La información y los análisis generados en <em>Solemia Nutripal</em> provienen de modelos de Inteligencia Artificial y tienen un propósito <strong>exclusivamente de asistencia y soporte clínico</strong>.
-            Esta información <strong>no constituye un diagnóstico médico, prescripción o tratamiento</strong>. El profesional de la salud es el único y absoluto responsable de revisar, validar y autorizar cualquier cálculo, sugerencia o inferencia antes de aplicarla o comunicarla a sus pacientes. Solemia no se hace responsable por daños, negligencias o errores derivados del uso de la información aquí proporcionada.
-        </p>
-    </div>
-);
+export const LegalDisclaimer = () => {
+    const [expanded, setExpanded] = useState(false);
+
+    return (
+        <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <button
+                onClick={() => setExpanded(!expanded)}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: '0.5rem',
+                    background: 'transparent', border: 'none', padding: '0.25rem 0',
+                    color: 'var(--text-muted)', cursor: 'pointer', opacity: 0.6,
+                    fontSize: '0.75rem', fontWeight: '800', transition: 'all 0.2s',
+                    fontFamily: 'var(--font-inter)'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.6'}
+            >
+                <ShieldAlert size={14} color="var(--solemia-pink)" />
+                Aviso Legal sobre Inteligencia Artificial
+                {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+
+            {expanded && (
+                <div style={{
+                    padding: '1rem',
+                    background: 'rgba(255, 255, 255, 0.7)',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: '1rem',
+                    border: '1px solid rgba(190, 24, 93, 0.15)',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.02)',
+                    animation: 'fadeIn 0.3s ease'
+                }}>
+                    <p className="text-detail" style={{ fontSize: '0.7rem', lineHeight: '1.5', color: 'var(--text-muted)', margin: 0, opacity: 0.85 }}>
+                        <strong>Nota de Responsabilidad:</strong> La información generada en <em>Solemia Nutripal</em> proviene de modelos de Inteligencia Artificial como <strong>herramienta de asistencia clínica</strong>. No constituye un diagnóstico médico. El profesional de la salud es el único responsable de revisar, validar y autorizar cualquier cálculo o sugerencia algorítmica antes de su aplicación clínica.
+                    </p>
+                </div>
+            )}
+        </div>
+    );
+};
 
 export const PrivacyPolicyContent = () => (
     <div>

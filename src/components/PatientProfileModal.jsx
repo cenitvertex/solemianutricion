@@ -24,17 +24,30 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
     const generateSignedUrls = async (p) => {
         const fetchSignedUrl = async (path) => {
             if (!path) return null;
-            // Extraer el nombre del archivo de la URL pública guardada o del path
-            const fileName = path.split('/').pop().split('?')[0];
-            const { data, error } = await supabase.storage
-                .from('documents')
-                .createSignedUrl(fileName, 3600); // 1 hora de validez
 
-            if (error) {
-                console.error('Error generando URL firmada:', error);
-                return null;
+            try {
+                // Extraer el path correcto para Supabase Storage (incluyendo la carpeta del paciente)
+                let filePath = path;
+                if (path.includes('/documents/')) {
+                    filePath = path.split('/documents/').pop().split('?')[0];
+                } else {
+                    filePath = path.split('/').slice(-2).join('/'); // fallback (id/archivo)
+                }
+                filePath = decodeURIComponent(filePath);
+
+                const { data, error } = await supabase.storage
+                    .from('documents')
+                    .createSignedUrl(filePath, 3600); // 1 hora de validez
+
+                if (error) {
+                    console.error('Error generando URL firmada para', filePath, ':', error);
+                    return path; // Fallback: usar URL original si falla la firma
+                }
+                return data.signedUrl;
+            } catch (err) {
+                console.error('Error procesando path de documento:', err);
+                return path;
             }
-            return data.signedUrl;
         };
 
         const [expUrl, planUrl] = await Promise.all([
