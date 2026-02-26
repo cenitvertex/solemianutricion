@@ -27,21 +27,33 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
 
             try {
                 // Extraer el path correcto para Supabase Storage (incluyendo la carpeta del paciente)
-                let filePath = path;
-                if (path.includes('/documents/')) {
-                    filePath = path.split('/documents/').pop().split('?')[0];
-                } else {
-                    filePath = path.split('/').slice(-2).join('/'); // fallback (id/archivo)
+                let bucketName = 'documents';
+                let fileName = path;
+
+                try {
+                    const urlObj = new URL(path);
+                    const pathname = urlObj.pathname;
+                    const publicIndex = pathname.indexOf('/public/');
+                    if (publicIndex !== -1) {
+                        const afterPublic = pathname.substring(publicIndex + 8);
+                        const parts = afterPublic.split('/');
+                        bucketName = parts[0];
+                        fileName = decodeURIComponent(parts.slice(1).join('/'));
+                    } else {
+                        fileName = decodeURIComponent(path.split('/').pop().split('?')[0]);
+                    }
+                } catch (e) {
+                    // Evitamos error
+                    fileName = decodeURIComponent(path.split('/').pop().split('?')[0]);
                 }
-                filePath = decodeURIComponent(filePath);
 
                 const { data, error } = await supabase.storage
-                    .from('documents')
-                    .createSignedUrl(filePath, 3600); // 1 hora de validez
+                    .from(bucketName)
+                    .createSignedUrl(fileName, 3600); // 1 hora de validez
 
-                if (error) {
-                    console.error('Error generando URL firmada para', filePath, ':', error);
-                    return path; // Fallback: usar URL original si falla la firma
+                if (error || !data?.signedUrl) {
+                    console.error('Error generando URL firmada:', error);
+                    return path; // Fallback a la url pública original para evitar que el botón quede deshabilitado si falla
                 }
                 return data.signedUrl;
             } catch (err) {
