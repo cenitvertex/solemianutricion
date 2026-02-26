@@ -1213,14 +1213,7 @@ export default function Dashboard({ session }) {
                                 onClick={() => setLegalConfig({
                                     isOpen: true,
                                     title: 'Aviso de Privacidad',
-                                    content: (
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                                            <p>En <strong>SOLEMIA</strong>, la privacidad de tus datos y los de tus pacientes es nuestra máxima prioridad. Este sistema ha sido diseñado bajo los estándares más estrictos de seguridad digital.</p>
-                                            <p><strong>Recopilación de Datos:</strong> Solo almacenamos la información necesaria para el seguimiento nutricional (nombres, medidas, objetivos y registros de progreso). Nunca compartiremos esta información con terceros.</p>
-                                            <p><strong>Seguridad:</strong> Toda la información está encriptada y protegida mediante Supabase Auth y protocolos de seguridad de nivel industrial. Tú eres el único dueño de la información de tus pacientes.</p>
-                                            <p><strong>Derechos ARCO:</strong> Puedes consultar, rectificar o eliminar cualquier registro directamente desde el panel de control en cualquier momento.</p>
-                                        </div>
-                                    )
+                                    content: <PrivacyPolicyContent />
                                 })}
                                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                 className="footer-link"
@@ -1231,14 +1224,7 @@ export default function Dashboard({ session }) {
                                 onClick={() => setLegalConfig({
                                     isOpen: true,
                                     title: 'Términos de Servicio',
-                                    content: (
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                                            <p>Bienvenido al Ecosistema Digital de <strong>SOLEMIA</strong>. Al utilizar esta plataforma, aceptas nuestros términos de uso profesional.</p>
-                                            <p><strong>Propiedad Intelectual:</strong> El software, las plantillas de seguimiento y la algoritmo de IA son propiedad exclusiva de Solemia. El contenido ingresado por el profesional es propiedad del mismo.</p>
-                                            <p><strong>Uso Responsable:</strong> Esta herramienta es un apoyo para el profesional de la nutrición. El criterio clínico final siempre corresponde al nutriólogo a cargo.</p>
-                                            <p><strong>Disponibilidad:</strong> Nos esforzamos por mantener el sistema en línea el 99.9% del tiempo, garantizando que siempre tengas acceso a tus expedientes clínicos.</p>
-                                        </div>
-                                    )
+                                    content: <TermsAndConditionsContent />
                                 })}
                                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                 className="footer-link"
