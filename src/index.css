@@ -601,13 +601,26 @@ main {
   }
 }
 
+@media (max-width: 768px) {
+
+  .nav-landing,
+  .nav-landing.nav-sticky {
+    background-color: #fcfcfd !important;
+    background: #fcfcfd !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: 1px solid rgba(77, 12, 48, 0.08) !important;
+    height: var(--header-height-mobile) !important;
+  }
+}
+
 .nav-sticky {
-  background: rgba(252, 252, 253, 0.8) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-bottom: 1px solid rgba(77, 12, 48, 0.05) !important;
-  padding-top: 1rem !important;
-  padding-bottom: 1rem !important;
+  background: rgba(252, 252, 253, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(77, 12, 48, 0.05);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 /* Hero Section */
@@ -906,10 +919,12 @@ input:checked+.slider-ia:before {
 
 @media (max-width: 600px) {
   .dash-header-premium {
-    height: var(--header-height-mobile);
+    height: var(--header-height-mobile) !important;
+    background-color: white !important;
     background: white !important;
-    backdrop-filter: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
   }
 
   /* Ensure main content doesn't hide behind header */
