@@ -43,6 +43,7 @@ export default function Signup() {
         setError(null);
 
         try {
+            // 1. Crear usuario en Auth
             const { data: authData, error: signupError } = await supabase.auth.signUp({
                 email,
                 password,
@@ -55,6 +56,7 @@ export default function Signup() {
                 const cleanPhone = whatsapp.replace(/\D/g, '');
                 const finalPhone = `${countryCode}${cleanPhone}`;
 
+                // 2. Crear registro en tenants inmediatamente
                 const { error: tenantError } = await supabase.from('tenants').insert({
                     id: user.id,
                     name: name,
@@ -67,6 +69,8 @@ export default function Signup() {
 
                 if (tenantError) {
                     console.error('Error creating tenant:', tenantError);
+                    // Si falla el insert del tenant, el usuario ya existe en auth.
+                    // No bloqueamos el proceso pero informamos.
                 }
                 setSuccess(true);
             }
@@ -79,13 +83,16 @@ export default function Signup() {
 
     if (success) {
         return (
-            <div className="layout-auth" style={{ minHeight: '100vh', background: '#fafbfc', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--container-padding)' }}>
-                <div className="card glass animate-fade-in auth-card" style={{ maxWidth: '500px', width: '100%', textAlign: 'center', padding: 'clamp(1.5rem, 5vw, 3rem)', background: 'white', borderRadius: 'var(--glass-radius)' }}>
+            <div className="layout-auth">
+                <div className="card glass animate-fade-in" style={{ maxWidth: '500px', width: '100%', textAlign: 'center', padding: '3rem' }}>
                     <CheckCircle size={64} color="#10b981" style={{ marginBottom: '1.5rem' }} />
                     <h2 style={{ fontSize: '2rem', color: 'var(--solemia-plum)', fontFamily: 'var(--font-display)', fontWeight: '900' }}>¡Bienvenido, {name.split(' ')[0]}!</h2>
                     <p style={{ margin: '1.5rem 0', color: 'var(--text-muted)', lineHeight: '1.6' }}>
                         Tu cuenta ha sido creada exitosamente. Hemos enviado un correo de confirmación a <strong>{email}</strong>.
                     </p>
+                    <div style={{ backgroundColor: '#f8fafc', padding: '1rem', borderRadius: '1rem', marginBottom: '2rem', fontSize: '0.875rem', textAlign: 'left' }}>
+                        <strong>Nota:</strong> Es necesario verificar tu correo para poder acceder a todas las funciones.
+                    </div>
                     <Link to="/login" className="btn btn-primary" style={{ width: '100%', borderRadius: '1.5rem', padding: '1.25rem' }}>
                         Ir al inicio de sesión
                     </Link>
@@ -95,31 +102,31 @@ export default function Signup() {
     }
 
     return (
-        <div className="auth-layout" style={{
+        <div style={{
             minHeight: '100vh',
             background: '#fafbfc',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 'var(--container-padding)'
+            padding: '2rem'
         }}>
-            <div className="card glass animate-scale-in auth-card signup-card" style={{
-                maxWidth: '700px',
+            <div className="card glass animate-scale-in" style={{
+                maxWidth: '650px',
                 width: '100%',
-                padding: 'clamp(1.5rem, 5vw, 4rem)',
-                borderRadius: 'var(--glass-radius)',
+                padding: '3.5rem 4.5rem',
+                borderRadius: '3.5rem',
                 border: 'none',
                 background: 'white',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.05)'
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                    <img src={logo} alt="Solemia" className="auth-logo" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
-                    <h2 className="auth-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Nueva Cuenta</h2>
+                    <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
+                    <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Nueva Cuenta</h2>
                     <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>Configura tu consultorio inteligente</p>
                 </div>
 
-                <form onSubmit={handleSignup} className="auth-form" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Email profesional</label>
                             <div style={{ position: 'relative' }}>
@@ -154,7 +161,7 @@ export default function Signup() {
                         </div>
                     </div>
 
-                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Nombre del especialista</label>
                             <div style={{ position: 'relative' }}>
@@ -178,7 +185,7 @@ export default function Signup() {
                                     value={countryCode}
                                     onChange={(e) => setCountryCode(e.target.value)}
                                     className="input-field"
-                                    style={{ width: '95px', padding: '0 0.5rem', borderRadius: '1.5rem', background: '#f8fafc', border: 'none', fontWeight: '900', fontSize: '0.8rem' }}
+                                    style={{ width: '90px', padding: '0 0.5rem', borderRadius: '1.5rem', background: '#f8fafc', border: 'none', fontWeight: '900', fontSize: '0.8rem' }}
                                 >
                                     <option value="+52">🇲🇽 +52</option>
                                     <option value="+1">🇺🇸 +1</option>
@@ -208,13 +215,22 @@ export default function Signup() {
                     </div>
 
                     {error && (
-                        <div className="auth-error-badge" style={{ background: '#fff1f2', padding: '1rem 1.5rem', borderRadius: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1rem', border: '1px solid #fee2e2' }}>
+                        <div style={{
+                            background: '#fff1f2',
+                            padding: '1rem 1.5rem',
+                            borderRadius: '1.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem',
+                            marginTop: '1rem',
+                            border: '1px solid #fee2e2'
+                        }}>
                             <AlertCircle size={20} color="#f43f5e" />
                             <span style={{ fontSize: '0.85rem', color: '#e11d48', fontWeight: '600', lineHeight: '1.2' }}>{error}</span>
                         </div>
                     )}
 
-                    <div className="auth-terms" style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginTop: '1rem', background: '#f8fafc', padding: '1rem', borderRadius: '1.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginTop: '1rem', background: '#f8fafc', padding: '1rem', borderRadius: '1rem' }}>
                         <input
                             type="checkbox"
                             id="acceptTerms"
@@ -223,16 +239,16 @@ export default function Signup() {
                                 setAcceptTerms(e.target.checked);
                                 if (e.target.checked && error?.includes('Términos')) setError(null);
                             }}
-                            style={{ marginTop: '0.2rem', cursor: 'pointer', width: '20px', height: '20px', accentColor: 'var(--solemia-plum)' }}
+                            style={{ marginTop: '0.2rem', cursor: 'pointer', width: '18px', height: '18px', accentColor: 'var(--solemia-plum)' }}
                         />
                         <label htmlFor="acceptTerms" style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.5', cursor: 'pointer' }}>
-                            He leído y acepto los <span onClick={(e) => { e.preventDefault(); openLegalModal("Términos y Condiciones", <TermsAndConditionsContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Términos y Condiciones</span>, el <span onClick={(e) => { e.preventDefault(); openLegalModal("Aviso de Privacidad", <PrivacyPolicyContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Aviso de Privacidad</span> y la <span onClick={(e) => { e.preventDefault(); openLegalModal("Política de Uso de Datos e IA", <DataAndAIPolicyContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Política de uso de IA</span>.
+                            He leído y acepto los <span onClick={(e) => { e.preventDefault(); openLegalModal("Términos y Condiciones", <TermsAndConditionsContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Términos y Condiciones</span>, el <span onClick={(e) => { e.preventDefault(); openLegalModal("Aviso de Privacidad", <PrivacyPolicyContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Aviso de Privacidad</span> y entiendo que Solemia Nutripal es una herramienta de asistencia donde <strong>el diagnóstico final es responsabilidad exclusiva del profesional</strong>. También acepto la <span onClick={(e) => { e.preventDefault(); openLegalModal("Política de Uso de Datos e IA", <DataAndAIPolicyContent />); }} style={{ color: 'var(--solemia-plum)', fontWeight: '700', textDecoration: 'underline' }}>Política de uso de IA</span>.
                         </label>
                     </div>
 
                     <button
                         disabled={loading}
-                        className="btn btn-primary auth-submit-btn"
+                        className="btn btn-primary"
                         style={{
                             width: '100%',
                             padding: '1.25rem',
@@ -245,7 +261,8 @@ export default function Signup() {
                             fontSize: '1rem',
                             fontWeight: '900',
                             letterSpacing: '1px',
-                            background: 'var(--solemia-plum)'
+                            background: 'var(--solemia-plum)',
+                            boxShadow: '0 10px 25px rgba(190, 24, 93, 0.2)'
                         }}
                     >
                         {loading ? 'Creando tu consultorio...' : (

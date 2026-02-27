@@ -176,9 +176,23 @@ export default function LandingPage() {
         <div className="layout-dashboard" style={{ overflowX: 'hidden', position: 'relative', background: 'transparent', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <div className="bg-atmosphere-fixed"></div>
             {/* Navbar Minimalista */}
-            <nav className={`nav-landing ${scrolled ? 'nav-sticky' : ''}`}>
+            <nav
+                className={scrolled ? 'nav-sticky' : ''}
+                style={{
+                    padding: '1.5rem 3rem',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    zIndex: 100,
+                    transition: 'all 0.3s ease'
+                }}
+            >
                 <img src={logo} alt="Solemia Logo" style={{ height: '32px', cursor: 'pointer' }} onClick={() => navigate('/')} />
-                <div className="nav-links" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
                     <button onClick={() => navigate(session ? '/app' : '/login')} className="btn-outline" style={{ background: 'transparent', fontWeight: '700' }}>
                         {session ? 'Ir a mi Dashboard' : 'Iniciar Sesión'}
                     </button>
@@ -189,16 +203,22 @@ export default function LandingPage() {
             </nav>
 
             {/* Hero Section */}
-            <section className="hero-section">
+            <section style={{
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                position: 'relative',
+                padding: '8rem 0 4rem'
+            }}>
                 <div className="container" style={{ position: 'relative', zIndex: 2 }}>
                     <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }} className="reveal">
                         <div className="text-detail" style={{ color: 'var(--solemia-pink)', marginBottom: '1.5rem', display: 'block', letterSpacing: '3px', fontWeight: '900' }}>
                             ELEVATED CLINICAL INTELLIGENCE
                         </div>
-                        <h1 className="hero-title">
+                        <h1 style={{ fontSize: 'clamp(3.5rem, 10vw, 5.5rem)', lineHeight: '1.0', marginBottom: '2rem', color: 'var(--solemia-plum)', letterSpacing: '-0.05em' }}>
                             Nutrición con <span style={{ color: 'var(--solemia-pink)' }}>Adherencia</span><br />sin Juicios.
                         </h1>
-                        <p className="hero-subtitle">
+                        <p style={{ fontSize: '1.4rem', color: 'var(--solemia-charcoal)', opacity: 0.7, marginBottom: '3.5rem', maxWidth: '700px', margin: '0 auto 3.5rem', lineHeight: '1.5' }}>
                             El cómplice inteligente que transforma la "Caja Negra" nutricional en resultados clínicos predecibles.
                         </p>
                         <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
@@ -215,25 +235,26 @@ export default function LandingPage() {
             </section>
 
             {/* Bento Grid Showcase */}
-            <section style={{ padding: 'var(--section-padding) 0', background: 'transparent' }}>
+            <section style={{ padding: '10rem 0', background: 'transparent' }}>
                 <div className="container">
                     <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 6rem' }} className="reveal">
-                        <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 3.5rem)', marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>El Abandono se detiene aquí.</h2>
+                        <h2 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>El Abandono se detiene aquí.</h2>
                         <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
                             Elimina la intermitencia clínica. Tu IA siempre está presente, capturando datos reales y brindando apoyo sin juicios cuando tus pacientes más lo necesitan.
                         </p>
                     </div>
 
                     <div className="bento-grid">
-                        <div className="card-premium bento-card bento-card-lg reveal" style={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(10px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                            <div style={{ maxWidth: '400px', position: 'relative', zIndex: 1 }}>
+                        <div className="card-premium bento-card bento-card-lg reveal" style={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(10px)' }}>
+                            <div style={{ maxWidth: '400px' }}>
                                 <ShieldCheck size={48} color="var(--solemia-pink)" style={{ marginBottom: '2rem' }} />
                                 <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Inteligencia Clínica Profunda</h3>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
                                     Accede a la "Caja Negra" clínica. Descubre qué sienten y qué comen realmente tus pacientes entre consulta y consulta.
                                 </p>
                             </div>
-                            <div className="bento-blob-animate hide-mobile" style={{ position: 'absolute', right: '-10%', bottom: '-10%', width: '300px', height: '300px', background: 'var(--solemia-gradient)', borderRadius: '50%', filter: 'blur(40px)', zIndex: 0 }} />
+                            {/* Graphic Placeholder (Circle with gradient) */}
+                            <div className="bento-blob-animate" style={{ position: 'absolute', right: '-10%', bottom: '-10%', width: '300px', height: '300px', background: 'var(--solemia-gradient)', borderRadius: '50%', filter: 'blur(40px)', zIndex: 0 }} />
                         </div>
 
                         <div className="card-premium bento-card bento-card-sm reveal delay-100" style={{ background: 'var(--solemia-plum)', color: 'white' }}>
@@ -249,13 +270,13 @@ export default function LandingPage() {
                         </div>
 
                         <div className="card-premium bento-card bento-card-lg reveal delay-300" style={{ background: 'white' }}>
-                            <div className="responsive-flex" style={{ display: 'flex', gap: '3rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                                <div style={{ flex: '1 1 300px' }}>
+                            <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
+                                <div style={{ flex: 1 }}>
                                     <Heart size={48} color="var(--solemia-pink)" style={{ marginBottom: '1.5rem' }} />
                                     <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Resultados que Inspiran</h3>
                                     <p style={{ color: 'var(--text-muted)' }}>Mejora la adherencia en un 60% reduciendo la culpa y el miedo al juicio del profesional.</p>
                                 </div>
-                                <div style={{ flex: '1 1 200px', padding: '2rem', background: '#f8f8f8', borderRadius: '2rem', textAlign: 'center' }}>
+                                <div style={{ flex: 1, padding: '2rem', background: '#f8f8f8', borderRadius: '2rem', textAlign: 'center' }}>
                                     <div style={{ fontSize: '3.5rem', fontWeight: '900', color: 'var(--solemia-plum)' }}>+25%</div>
                                     <div style={{ fontSize: '0.9rem', color: 'var(--solemia-pink)', fontWeight: '700' }}>HONORARIOS JUSTIFICADOS</div>
                                 </div>
@@ -266,14 +287,14 @@ export default function LandingPage() {
             </section>
 
             {/* IA Comparison Section */}
-            <section style={{ padding: 'var(--section-padding) 0', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(5px)' }}>
+            <section style={{ padding: '8rem 0', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(5px)' }}>
                 <div className="container">
-                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(300px, 100%, 450px), 1fr))', gap: '4rem', alignItems: 'center' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '6rem', alignItems: 'center' }}>
                         <div className="reveal">
-                            <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 3rem)', marginBottom: '2.5rem', lineHeight: '1.2', letterSpacing: '-0.02em' }}>¿Por qué no usar <span style={{ color: 'var(--solemia-pink)' }}>IA Genérica</span>?</h2>
+                            <h2 style={{ fontSize: '3rem', marginBottom: '2.5rem', lineHeight: '1.2', letterSpacing: '-0.02em' }}>¿Por qué no usar <span style={{ color: 'var(--solemia-pink)' }}>IA Genérica</span>?</h2>
                             <ul style={{ listStyle: 'none', padding: 0 }}>
-                                <li style={{ marginBottom: '2.5rem', display: 'flex', gap: '1.5rem' }} className="reveal delay-100">
-                                    <div style={{ background: '#fff', padding: '16px', borderRadius: '20px', height: 'fit-content', boxShadow: 'var(--shadow-premium)', flexShrink: 0 }}>
+                                <li style={{ marginBottom: '3rem', display: 'flex', gap: '2rem' }} className="reveal delay-100">
+                                    <div style={{ background: '#fff', padding: '16px', borderRadius: '20px', height: 'fit-content', boxShadow: 'var(--shadow-premium)' }}>
                                         <Lock size={24} color="var(--solemia-pink)" />
                                     </div>
                                     <div>
@@ -281,8 +302,8 @@ export default function LandingPage() {
                                         <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: '1.7' }}>ChatGPT no conoce tus protocolos. Solemia actúa bajo TUS reglas, protegiendo la confidencialidad y tu ética profesional.</p>
                                     </div>
                                 </li>
-                                <li style={{ marginBottom: '2.5rem', display: 'flex', gap: '1.5rem' }} className="reveal delay-200">
-                                    <div style={{ background: '#fff', padding: '16px', borderRadius: '20px', height: 'fit-content', boxShadow: 'var(--shadow-premium)', flexShrink: 0 }}>
+                                <li style={{ marginBottom: '3rem', display: 'flex', gap: '2rem' }} className="reveal delay-200">
+                                    <div style={{ background: '#fff', padding: '16px', borderRadius: '20px', height: 'fit-content', boxShadow: 'var(--shadow-premium)' }}>
                                         <Brain size={24} color="var(--solemia-pink)" />
                                     </div>
                                     <div>
@@ -295,12 +316,12 @@ export default function LandingPage() {
                         <div style={{ position: 'relative' }} className="reveal delay-300">
                             <div className="card-premium" style={{
                                 background: 'var(--solemia-plum)',
-                                padding: 'clamp(2rem, 5vw, 4rem)',
-                                borderRadius: 'var(--glass-radius)',
+                                padding: '4rem',
+                                borderRadius: '4rem',
                                 color: 'white'
                             }}>
                                 <MessageSquare size={40} style={{ marginBottom: '2rem', color: 'var(--solemia-pink)' }} />
-                                <p style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: '800', fontStyle: 'italic', lineHeight: '1.3', letterSpacing: '-0.01em' }}>
+                                <p style={{ fontSize: '2rem', fontWeight: '800', fontStyle: 'italic', lineHeight: '1.3', letterSpacing: '-0.01em' }}>
                                     "La IA genérica te hace ver amateur. Solemia te posiciona como una clínica de élite."
                                 </p>
                                 <div style={{ marginTop: '2.5rem', fontWeight: '900', fontSize: '0.9rem', color: 'var(--solemia-pink)', letterSpacing: '3px' }}>
@@ -313,16 +334,16 @@ export default function LandingPage() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" style={{ padding: 'var(--section-padding) 0', background: 'transparent' }}>
+            <section id="pricing" style={{ padding: '10rem 0', background: 'transparent' }}>
                 <div className="container">
                     <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 6rem' }} className="reveal">
-                        <h2 style={{ fontSize: 'clamp(2.5rem, 8vw, 3.5rem)', marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>Inversión en tu Autoridad.</h2>
+                        <h2 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>Inversión en tu Autoridad.</h2>
                         <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>
                             Únete al Pioneer Group y lidera la nutrición tecnológica en habla hispana.
                         </p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))', gap: '2rem', maxWidth: '1100px', margin: '0 auto' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3rem', maxWidth: '1100px', margin: '0 auto' }}>
                         <div className="reveal delay-100">
                             <PricingCard
                                 title="Plan Profesional"
@@ -350,12 +371,12 @@ export default function LandingPage() {
             </section>
 
             {/* Garantía Section */}
-            <section style={{ padding: 'var(--section-padding) 0', background: 'var(--solemia-charcoal)', color: 'white', textAlign: 'center' }}>
+            <section style={{ padding: '8rem 0', background: 'var(--solemia-charcoal)', color: 'white', textAlign: 'center' }}>
                 <div className="container">
-                    <div className="card-premium glass-premium reveal" style={{ padding: 'clamp(2rem, 5vw, 4rem)', maxWidth: '900px', margin: '0 auto' }}>
+                    <div className="glass reveal" style={{ padding: '4rem', maxWidth: '900px', margin: '0 auto', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)' }}>
                         <Heart size={48} color="var(--solemia-pink)" style={{ marginBottom: '2rem' }} />
-                        <h2 style={{ fontSize: 'clamp(2rem, 5vw, 2.5rem)', marginBottom: '1.5rem', color: 'white' }}>Garantía Blindada</h2>
-                        <p style={{ fontSize: 'clamp(1.1rem, 3vw, 1.25rem)', opacity: 0.8, marginBottom: '2.5rem', lineHeight: '1.8' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: 'white' }}>Garantía Blindada</h2>
+                        <p style={{ fontSize: '1.25rem', opacity: 0.8, marginBottom: '2.5rem', lineHeight: '1.8' }}>
                             "Úsalo con tus pacientes más difíciles por 15 días. Si no sientes que tienes más control sobre sus resultados y que ellos se sienten 10x más apoyados, te devolvemos el 100% de tu inversión."
                         </p>
                         <button
@@ -370,14 +391,14 @@ export default function LandingPage() {
             </section>
 
             {/* Footer Minimalista */}
-            <footer className="footer-landing">
+            <footer style={{ padding: '4rem 0 3rem', background: 'var(--solemia-bg)', textAlign: 'center' }}>
                 <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <img src={logo} alt="Solemia" style={{ height: '24px', opacity: 0.5, marginBottom: '2rem' }} />
-                    <div className="footer-nav">
-                        <button onClick={() => openLegalModal("Términos y Condiciones", <TermsAndConditionsContent />)} className="footer-link-btn">Términos y Condiciones</button>
-                        <button onClick={() => openLegalModal("Aviso de Privacidad", <PrivacyPolicyContent />)} className="footer-link-btn">Aviso de Privacidad</button>
-                        <button onClick={() => openLegalModal("Política de Uso de Datos e IA", <DataAndAIPolicyContent />)} className="footer-link-btn">Uso de Datos e IA</button>
-                        <button onClick={() => openLegalModal("Política de Cookies", <CookiesPolicyContent />)} className="footer-link-btn">Política de Cookies</button>
+                    <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                        <button onClick={() => openLegalModal("Términos y Condiciones", <TermsAndConditionsContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Términos y Condiciones</button>
+                        <button onClick={() => openLegalModal("Aviso de Privacidad", <PrivacyPolicyContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Aviso de Privacidad</button>
+                        <button onClick={() => openLegalModal("Política de Uso de Datos e IA", <DataAndAIPolicyContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Uso de Datos e IA</button>
+                        <button onClick={() => openLegalModal("Política de Cookies", <CookiesPolicyContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Política de Cookies</button>
                     </div>
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                         © {new Date().getFullYear()} Solemia Nutrición. v1.0.2 - Premium Health Technology.

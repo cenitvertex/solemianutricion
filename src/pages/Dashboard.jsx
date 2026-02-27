@@ -503,29 +503,106 @@ export default function Dashboard({ session }) {
                     ))}
                 </div>
 
-                <header className="dash-header-premium">
-                    <div className="container dash-header-container">
-                        <div className="dash-header-left">
-                            <img src={logo} alt="Solemia" className="dash-logo" />
-                            <div className="dash-divider hide-mobile"></div>
-                            <h1 className="dash-title">Nutrición</h1>
+                <header style={{
+                    background: 'linear-gradient(135deg, rgba(77, 12, 48, 0.94) 0%, rgba(225, 29, 72, 0.94) 100%)',
+                    padding: '1rem 0 3.25rem 0', // Espacio extendido para el desvanecimiento seda
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 100,
+                    boxShadow: '0 10px 50px rgba(77, 12, 48, 0.04)',
+                    border: 'none',
+                    borderRadius: 0,
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    // Máscara ultra-suave (Silk Easing) con 8 paradas para integración total
+                    maskImage: 'linear-gradient(to bottom, black 0%, black 35%, rgba(0,0,0,0.98) 45%, rgba(0,0,0,0.9) 55%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.15) 88%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 35%, rgba(0,0,0,0.98) 45%, rgba(0,0,0,0.9) 55%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.15) 88%, transparent 100%)',
+                    marginBottom: '-2.25rem', // Compensación para que el fade no aleje el contenido
+                    pointerEvents: 'none'
+                }}>
+                    <div className="container" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'center', pointerEvents: 'auto' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <img src={logo} alt="Solemia" style={{ height: '36px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                            <div style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.3)', margin: '0 0.25rem' }}></div>
+                            <h1 style={{
+                                fontSize: '1.2rem',
+                                fontWeight: '300',
+                                letterSpacing: '1px',
+                                color: 'white',
+                                fontFamily: 'var(--font-display)',
+                                opacity: 0.9,
+                                marginTop: '2px' // Ajuste fino manual para balancear con el logo
+                            }}>
+                                Nutrición
+                            </h1>
                         </div>
 
-                        <div className="dash-header-center hide-mobile"></div>
+                        <div style={{ flex: 1 }} className="hide-mobile"></div>
 
-                        <div className="dash-header-right">
-                            <div className="dash-user-badge hide-mobile">
-                                <span className="dash-user-name">{tenantName || session.user.email.split('@')[0]}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', justifyContent: 'flex-end' }}>
+                            <div className="hide-mobile" style={{ textAlign: 'right', borderRight: '1px solid rgba(255,255,255,0.2)', paddingRight: '1.25rem' }}>
+                                <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'white', fontFamily: 'var(--font-inter)', whiteSpace: 'nowrap' }}>
+                                    {tenantName || session.user.email.split('@')[0]}
+                                </div>
                             </div>
 
-                            <div className="dash-actions">
-                                <button onClick={() => setIsSettingsOpen(true)} title="Configuración" className="dash-round-btn tour-settings">
+                            <div style={{ display: 'flex', gap: '0.75rem' }}>
+                                <button
+                                    onClick={() => setIsSettingsOpen(true)}
+                                    title="Configuración"
+                                    className="tour-settings"
+                                    style={{
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '14px',
+                                        border: '1px solid rgba(255,255,255,0.2)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        color: 'white',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)'
+                                    }}
+                                >
                                     <Settings size={20} />
                                 </button>
-                                <button onClick={() => window.open('https://wa.me/message/YOUR_WHATSAPP_LINK', '_blank')} title="Soporte Técnico" className="dash-round-btn">
+                                <button
+                                    onClick={() => window.open('https://wa.me/message/YOUR_WHATSAPP_LINK', '_blank')}
+                                    title="Soporte Técnico"
+                                    style={{
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '14px',
+                                        border: '1px solid rgba(255,255,255,0.2)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        color: 'white',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)'
+                                    }}
+                                >
                                     <LifeBuoy size={20} />
                                 </button>
-                                <button onClick={handleLogout} title="Salir" className="dash-round-btn logout">
+                                <button
+                                    onClick={handleLogout}
+                                    title="Salir"
+                                    style={{
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '14px',
+                                        border: '1px solid rgba(255,255,255,0.2)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        color: 'white',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)'
+                                    }}
+                                >
                                     <LogOut size={20} />
                                 </button>
                             </div>
@@ -533,24 +610,10 @@ export default function Dashboard({ session }) {
                     </div>
                 </header>
 
-                <main className="container" style={{ marginTop: '1.5rem', paddingBottom: '5rem' }}>
-                    <div className="dash-view-header" style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'flex-start',
-                        marginBottom: '2rem',
-                        flexWrap: 'wrap',
-                        gap: '1rem'
-                    }}>
+                <main className="container" style={{ marginTop: '1.25rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
                         <div>
-                            <h2 style={{
-                                fontSize: 'clamp(1.8rem, 8vw, 2.8rem)',
-                                marginBottom: '0.25rem',
-                                fontFamily: 'var(--font-display)',
-                                fontWeight: '800',
-                                letterSpacing: '-1px',
-                                lineHeight: '1.1'
-                            }}>
+                            <h2 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: '800', letterSpacing: '-2px' }}>
                                 {activeView === 'directory' ? 'Expedientes' : 'Actividad de hoy'}
                             </h2>
                             <div className="text-detail" style={{ color: 'var(--solemia-plum)', opacity: 0.8 }}>
@@ -581,34 +644,34 @@ export default function Dashboard({ session }) {
 
                     {activeView === 'directory' ? (
                         <div className="animate-premium">
-                            <div className="tour-metrics stats-grid">
+                            <div className="tour-metrics" style={{ display: 'flex', gap: '1.5rem', marginBottom: '3.5rem', flexWrap: 'wrap' }}>
                                 {stats.map((stat, i) => (
-                                    <div key={i} className="card-premium stats-card">
-                                        <div className="stats-header">
-                                            <div className="stats-icon" style={{ backgroundColor: `${stat.color}10`, color: stat.color }}>
+                                    <div key={i} className="stat-card" style={{ padding: '1.5rem', height: '100%', minWidth: '220px' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+                                            <div style={{ backgroundColor: `${stat.color}10`, color: stat.color, padding: '0.6rem', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                 {stat.icon}
                                             </div>
                                         </div>
-                                        <div className="stats-body">
-                                            <div className="stats-label">{stat.label}</div>
-                                            <div className="stats-value">{stat.value}</div>
-                                            <div className="stats-trend">{stat.sub}</div>
+                                        <div>
+                                            <div className="text-detail" style={{ fontSize: '11px', marginBottom: '8px', opacity: 0.7 }}>{stat.label}</div>
+                                            <div style={{ fontSize: '2.8rem', fontWeight: '900', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-inter)', lineHeight: 0.9, marginBottom: '8px' }}>{stat.value}</div>
+                                            <div className="text-detail" style={{ fontSize: '12px', textTransform: 'none', letterSpacing: '0', opacity: 0.5 }}>{stat.sub}</div>
                                         </div>
                                     </div>
                                 ))}
-                                <div className="stats-action-container">
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
                                     <button
                                         onClick={() => { setEditingPatient(null); setIsModalOpen(true); }}
                                         className="btn btn-primary tour-add-patient"
-                                        style={{ padding: '1.4rem 4rem', fontSize: '13px', boxShadow: '0 10px 30px rgba(225, 29, 72, 0.4)', borderRadius: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%' }}
+                                        style={{ padding: '1.4rem 4rem', fontSize: '13px', boxShadow: '0 10px 30px rgba(225, 29, 72, 0.4)', borderRadius: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
                                     >
                                         <Plus size={20} /> Nuevo paciente
                                     </button>
                                 </div>
                             </div>
 
-                            <div className="dash-controls-container">
-                                <div className="dash-filters">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem', flexWrap: 'wrap', gap: '2rem' }}>
+                                <div style={{ display: 'flex', gap: '1rem' }}>
                                     <div style={{ position: 'relative' }}>
                                         <div
                                             onClick={() => setOpenDropdown(openDropdown === 'sort' ? null : 'sort')}
@@ -786,7 +849,7 @@ export default function Dashboard({ session }) {
                                     </button>
                                 </div>
 
-                                <div className="dash-search-wrapper">
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem', minWidth: '350px' }}>
                                     <div className="text-detail" style={{ fontSize: '0.65rem' }}>
                                         {filteredPatients.length} coincidencias
                                     </div>
@@ -873,7 +936,7 @@ export default function Dashboard({ session }) {
                                                 }}
                                                 onClick={() => { setEditingPatient(patient); setIsProfileOpen(true); }}
                                             >
-                                                <div className="dash-patient-indicator"></div>
+                                                <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '6px', background: 'var(--solemia-plum)' }}></div>
 
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: 1.2 }}>
                                                     <div className="avatar-initial" style={{ width: '56px', height: '56px', borderRadius: '20px', backgroundColor: '#f8f0f4', color: 'var(--solemia-plum)', border: '2px solid white', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', fontSize: '1.2rem' }}>
@@ -1014,7 +1077,7 @@ export default function Dashboard({ session }) {
                                                 }}
                                                 onClick={() => { setEditingPatient(patient); setIsProfileOpen(true); }}
                                             >
-                                                <div className="dash-patient-indicator"></div>
+                                                <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '6px', background: 'var(--solemia-plum)' }}></div>
 
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: 1.2 }}>
                                                     <div className="avatar-initial" style={{ width: '56px', height: '56px', borderRadius: '20px', backgroundColor: '#f8f0f4', color: 'var(--solemia-plum)', border: '2px solid white', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', fontSize: '1.2rem' }}>
