@@ -18,9 +18,9 @@
   /* Responsive Adjustments */
   @media (max-width: 768px) {
     --container-padding: 1.5rem;
-    --section-padding: 5rem;
-    --header-height: 70px;
-    --glass-radius: 24px;
+    --section-padding: 3rem;
+    --header-height: 64px;
+    --glass-radius: 20px;
   }
 
   /* Legacy for compatibility */
@@ -558,9 +558,42 @@ main {
 
 @media (max-width: 768px) {
   .nav-landing {
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1rem;
+    height: var(--header-height-mobile);
   }
 
+  /* Prevent Header Overlap on Sections */
+  section[id] {
+    scroll-margin-top: var(--header-height);
+    padding-top: calc(var(--header-height) + 2rem) !important;
+  }
+
+  .nav-landing .container {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .nav-landing .btn-primary {
+    padding: 0.6rem 1.2rem;
+    font-size: 11px;
+  }
+}
+
+/* Bento Grid Mobile Fix */
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .bento-card {
+    min-height: auto;
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
   .nav-landing .nav-links {
     display: none;
   }
@@ -608,7 +641,17 @@ main {
   }
 
   .hero-title {
-    margin-bottom: 1rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 0.75rem;
+    font-size: 12px;
   }
 
   .hero-subtitle {
@@ -848,6 +891,60 @@ input:checked+.slider-ia:before {
 
 .dash-patient-badge {
   animation: pulse 2s infinite;
+}
+
+.dash-header-premium {
+  height: var(--header-height);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 600px) {
+  .dash-header-premium {
+    height: var(--header-height-mobile);
+  }
+
+  /* Ensure main content doesn't hide behind header */
+  main.container {
+    padding-top: 1rem;
+  }
+}
+
+.dash-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .dash-header-container {
+    padding: 0.75rem 1rem;
+  }
+
+  .dash-logo {
+    height: 24px;
+  }
+
+  .dash-title {
+    font-size: 0.9rem;
+  }
+
+  .dash-actions {
+    gap: 0.5rem;
+  }
+
+  .dash-round-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dash-round-btn svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .dash-patient-actions {

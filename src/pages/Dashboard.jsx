@@ -533,10 +533,24 @@ export default function Dashboard({ session }) {
                     </div>
                 </header>
 
-                <main className="container" style={{ marginTop: '1.25rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+                <main className="container" style={{ marginTop: '1.5rem', paddingBottom: '5rem' }}>
+                    <div className="dash-view-header" style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        marginBottom: '2rem',
+                        flexWrap: 'wrap',
+                        gap: '1rem'
+                    }}>
                         <div>
-                            <h2 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: '800', letterSpacing: '-2px' }}>
+                            <h2 style={{
+                                fontSize: 'clamp(1.8rem, 8vw, 2.8rem)',
+                                marginBottom: '0.25rem',
+                                fontFamily: 'var(--font-display)',
+                                fontWeight: '800',
+                                letterSpacing: '-1px',
+                                lineHeight: '1.1'
+                            }}>
                                 {activeView === 'directory' ? 'Expedientes' : 'Actividad de hoy'}
                             </h2>
                             <div className="text-detail" style={{ color: 'var(--solemia-plum)', opacity: 0.8 }}>
