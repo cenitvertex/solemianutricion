@@ -560,6 +560,8 @@ main {
   .nav-landing {
     padding: 0.75rem 1rem;
     height: var(--header-height-mobile);
+    background: #fcfcfd !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   /* Prevent Header Overlap on Sections */
@@ -905,6 +907,9 @@ input:checked+.slider-ia:before {
 @media (max-width: 600px) {
   .dash-header-premium {
     height: var(--header-height-mobile);
+    background: white !important;
+    backdrop-filter: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   /* Ensure main content doesn't hide behind header */
