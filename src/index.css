@@ -605,11 +605,10 @@ main {
 
   .nav-landing,
   .nav-landing.nav-sticky {
-    background-color: #fcfcfd !important;
-    background: #fcfcfd !important;
+    background: var(--solemia-gradient) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    border-bottom: 1px solid rgba(77, 12, 48, 0.08) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     height: var(--header-height-mobile) !important;
   }
 }
@@ -920,11 +919,20 @@ input:checked+.slider-ia:before {
 @media (max-width: 600px) {
   .dash-header-premium {
     height: var(--header-height-mobile) !important;
-    background-color: white !important;
-    background: white !important;
+    background: var(--solemia-gradient) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .dash-title {
+    color: white !important;
+  }
+
+  .dash-round-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
   }
 
   /* Ensure main content doesn't hide behind header */
