@@ -17,6 +17,8 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
     const [isProcessing, setIsProcessing] = useState(false);
     const [expedienteUrl, setExpedienteUrl] = useState('');
     const [planUrl, setPlanUrl] = useState('');
+    const [expedientePath, setExpedientePath] = useState('');
+    const [planPath, setPlanPath] = useState('');
 
     useEffect(() => {
         if (client) {
@@ -43,7 +45,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
     }, [client]);
 
     const uploadFile = async (file, bucket, clientId) => {
-        if (!file) return null;
+        if (!file) return { url: null, path: null };
         const fileExt = file.name.split('.').pop();
         const fileName = `${clientId}/${bucket}-${Date.now()}.${fileExt}`;
 
@@ -57,7 +59,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
             .from('documents')
             .getPublicUrl(fileName);
 
-        return publicUrl;
+        return { url: publicUrl, path: fileName };
     };
 
     const handleProcessFiles = async () => {
@@ -67,13 +69,15 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (expediente && !isExpedienteProcessed) {
-                const url = await uploadFile(expediente, 'expediente', user.id);
+                const { url, path } = await uploadFile(expediente, 'expediente', user.id);
                 setExpedienteUrl(url);
+                setExpedientePath(path);
                 setIsExpedienteProcessed(true);
             }
             if (plan && !isPlanProcessed) {
-                const url = await uploadFile(plan, 'plan', user.id);
+                const { url, path } = await uploadFile(plan, 'plan', user.id);
                 setPlanUrl(url);
+                setPlanPath(path);
                 setIsPlanProcessed(true);
             }
         } catch (err) {
@@ -106,10 +110,14 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 phone: finalPhone,
                 tenant_id: user.id,
                 is_active: true,
-                // Restauramos valores por defecto para evitar errores de base de datos
-                // Y añadimos placeholder para que el nutricionista sepa que la IA está trabajando en ambos
-                allergies: client?.allergies || ['⏳ Analizando...'],
-                objective_and_params: client?.objective_and_params || '⏳ En proceso de análisis por el Agente IA...'
+                // Si hay nuevos archivos, forzamos placeholders de "Analizando..."
+                // de lo contrario mantenemos lo que hay.
+                allergies: (isExpedienteProcessed || isPlanProcessed)
+                    ? ['⏳ Analizando...']
+                    : (client?.allergies || ['⏳ Analizando...']),
+                objective_and_params: (isExpedienteProcessed || isPlanProcessed)
+                    ? '⏳ En proceso de análisis por el Agente IA...'
+                    : (client?.objective_and_params || '⏳ En proceso de análisis por el Agente IA...')
             };
 
             if (!clientId) {
@@ -152,13 +160,38 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 console.log('🤖 Disparando Webhook de Ingesta IA para paciente:', clientId);
 
                 try {
-                    await fetch('https://apuestasmario10.app.n8n.cloud/webhook/nutribot-ingesta', {
+                    const webhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL;
+
+                    // Generar URLs firmadas para n8n (1 hora de validez)
+                    // Esto permite que n8n lea los archivos aunque el bucket sea privado
+                    let expedienteSignedUrl = null;
+                    let planSignedUrl = null;
+
+                    if (isExpedienteProcessed && expedientePath) {
+                        const { data } = await supabase.storage.from('documents').createSignedUrl(expedientePath, 3600);
+                        expedienteSignedUrl = data?.signedUrl;
+                    }
+
+                    if (isPlanProcessed && planPath) {
+                        const { data } = await supabase.storage.from('documents').createSignedUrl(planPath, 3600);
+                        planSignedUrl = data?.signedUrl;
+                    }
+
+                    await fetch(webhookUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ patientId: clientId }),
-                        keepalive: true // Asegura que la petición termine si el componente se desmonta
+                        body: JSON.stringify({
+                            patientId: clientId,
+                            tenantId: user.id,
+                            expedienteUrl: expedienteSignedUrl,
+                            planUrl: planSignedUrl,
+                            // Mantenemos los paths por si el workflow de n8n los usa directamente
+                            expedientePath: isExpedienteProcessed ? expedientePath : null,
+                            planPath: isPlanProcessed ? planPath : null
+                        }),
+                        keepalive: true
                     });
-                    console.log('✅ Webhook de Ingesta IA enviado con éxito');
+                    console.log('✅ Webhook de Ingesta IA enviado con éxito a:', webhookUrl);
                 } catch (fetchErr) {
                     console.warn('⚠️ Error enviando Webhook n8n:', fetchErr);
                 }

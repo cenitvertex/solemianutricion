@@ -25,31 +25,31 @@ export default function Login() {
     };
 
     return (
-        <div style={{
+        <div className="auth-layout" style={{
             minHeight: '100vh',
             background: '#fafbfc',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '2rem'
+            padding: 'var(--container-padding)'
         }}>
-            <div className="card glass animate-scale-in" style={{
+            <div className="card glass animate-scale-in auth-card" style={{
                 maxWidth: '450px',
                 width: '100%',
-                padding: '3.5rem',
-                borderRadius: '3.5rem',
+                padding: 'clamp(1.5rem, 5vw, 3.5rem)',
+                borderRadius: 'var(--glass-radius)',
                 border: 'none',
                 background: 'white',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.05)'
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                    <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
-                    <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Bienvenido</h2>
+                    <img src={logo} alt="Solemia" className="auth-logo" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
+                    <h2 className="auth-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Bienvenido</h2>
                     <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>Ecosistema Solemia Nutrición</p>
                 </div>
 
                 {error && (
-                    <div style={{
+                    <div className="auth-error-badge" style={{
                         background: '#fff1f2',
                         padding: '1rem 1.5rem',
                         borderRadius: '1.5rem',
@@ -64,7 +64,7 @@ export default function Login() {
                     </div>
                 )}
 
-                <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <form onSubmit={handleLogin} className="auth-form" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Email profesional</label>
                         <div style={{ position: 'relative' }}>
@@ -72,7 +72,7 @@ export default function Login() {
                             <input
                                 required
                                 type="email"
-                                className="input-field"
+                                className="input-field auth-input"
                                 style={{ paddingLeft: '3.5rem', borderRadius: '1.5rem', background: '#f8fafc', border: 'none' }}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -88,7 +88,7 @@ export default function Login() {
                             <input
                                 required
                                 type="password"
-                                className="input-field"
+                                className="input-field auth-input"
                                 style={{ paddingLeft: '3.5rem', borderRadius: '1.5rem', background: '#f8fafc', border: 'none' }}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -99,7 +99,7 @@ export default function Login() {
 
                     <button
                         disabled={loading}
-                        className="btn btn-primary"
+                        className="btn btn-primary auth-submit-btn"
                         style={{
                             width: '100%',
                             padding: '1.25rem',
@@ -120,17 +120,17 @@ export default function Login() {
                         )}
                     </button>
 
-                    <div style={{ marginTop: '2rem', textAlign: 'center', fontSize: '0.8rem' }}>
+                    <div className="auth-footer-links" style={{ marginTop: '2rem', textAlign: 'center', fontSize: '0.8rem' }}>
                         <p style={{ color: '#94a3b8', fontWeight: '500' }}>
                             ¿No tienes cuenta?{' '}
-                            <Link to="/signup" style={{ color: 'var(--solemia-plum)', fontWeight: '800', textDecoration: 'none' }}>
+                            <Link to="/signup" className="auth-link" style={{ color: 'var(--solemia-plum)', fontWeight: '800', textDecoration: 'none' }}>
                                 Regístrate aquí
                             </Link>
                         </p>
                     </div>
                 </form>
 
-                <div style={{ marginTop: '2.5rem', textAlign: 'center' }}>
+                <div className="auth-legal" style={{ marginTop: '2.5rem', textAlign: 'center' }}>
                     <div className="text-detail" style={{ fontSize: '9px', opacity: 0.3, letterSpacing: '1px' }}>
                         © 2026 Todos los derechos reservados.<br />
                         v1.0.2
