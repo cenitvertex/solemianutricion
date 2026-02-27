@@ -28,14 +28,14 @@ import {
     CheckCircle2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ClientModal from '../components/ClientModal';
-import PatientProfileModal from '../components/PatientProfileModal';
-import LogsModal from '../components/LogsModal';
-import PreviewModal from '../components/PreviewModal';
-import SettingsModal from '../components/SettingsModal';
-import LegalModal from '../components/LegalModal';
+import ClientModal from '../components/modals/ClientModal';
+import PatientProfileModal from '../components/modals/PatientProfileModal';
+import LogsModal from '../components/modals/LogsModal';
+import PreviewModal from '../components/modals/PreviewModal';
+import SettingsModal from '../components/modals/SettingsModal';
+import LegalModal from '../components/modals/LegalModal';
 import logo from '../assets/logo.png';
-import WelcomeTour from '../components/WelcomeTour';
+import WelcomeTour from '../components/ui/WelcomeTour';
 import { PrivacyPolicyContent, TermsAndConditionsContent } from '../content/legal';
 
 export default function Dashboard({ session }) {

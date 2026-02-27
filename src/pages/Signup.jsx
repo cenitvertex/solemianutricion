@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { UserPlus, Mail, Lock, AlertCircle, CheckCircle, User, Phone, MessageSquare } from 'lucide-react';
 import logo from '../assets/logo.png';
-import LegalModal from '../components/LegalModal';
+import LegalModal from '../components/modals/LegalModal';
 import {
     PrivacyPolicyContent,
     TermsAndConditionsContent,

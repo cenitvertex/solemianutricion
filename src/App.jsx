@@ -10,7 +10,7 @@ import LandingPage from './pages/LandingPage';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
 
-import WelcomeTour from './components/WelcomeTour';
+import WelcomeTour from './components/ui/WelcomeTour';
 
 function App() {
   const [session, setSession] = useState(null);

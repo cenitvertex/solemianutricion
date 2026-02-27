@@ -13,9 +13,9 @@ import {
     Lock,
     MessageSquare
 } from 'lucide-react';
-import PricingCard from '../components/PricingCard';
+import PricingCard from '../components/ui/PricingCard';
 import logo from '../assets/logo.png';
-import LegalModal from '../components/LegalModal';
+import LegalModal from '../components/modals/LegalModal';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import { supabase } from '../lib/supabase';
 import {

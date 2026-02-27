@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 import { X, Upload, Save, Phone, User, FileText, Loader2, Check, ChevronLeft, Info } from 'lucide-react';
 
 export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack }) {
@@ -152,7 +152,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 console.log('🤖 Disparando Webhook de Ingesta IA para paciente:', clientId);
 
                 try {
-                    await fetch('https://marioenriqueztest4.app.n8n.cloud/webhook/nutribot-ingesta', {
+                    await fetch('https://apuestasmario10.app.n8n.cloud/webhook/nutribot-ingesta', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ patientId: clientId }),

@@ -25,8 +25,21 @@ Solemia NutriPal es una plataforma avanzada diseñada para nutricionistas que bu
 
 1. **Clonar el repositorio**
 2. **Instalar dependencias:** `npm install`
-3. **Configurar variables de entorno:** Crear un archivo `.env` basado en `.env.example` con las credenciales de Supabase y Mercado Pago.
+3. **Configurar variables de entorno:** Crear un archivo `.env` basado en `.env.example`.
 4. **Ejecutar en desarrollo:** `npm run dev`
+
+## 📁 Estructura del Proyecto
+
+Para mantener el orden y la escalabilidad, el proyecto se organiza de la siguiente manera:
+
+- **`api/`**: Funciones serverless para integraciones (Mercado Pago).
+- **`src/components/modals`**: Modales especializados de la aplicación.
+- **`src/components/ui`**: Componentes visuales y animaciones base.
+- **`scripts/`**: Herramientas de mantenimiento y verificación de DB.
+- **`data/`**: Sets de datos para pruebas y demos.
+- **`docs/`**: Documentación de negocio y protocolos.
+
+Para más detalles técnicos, consulta [CONTRIBUTING.md](./CONTRIBUTING.md) y [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 ## 🎨 Guía de Estilo
 

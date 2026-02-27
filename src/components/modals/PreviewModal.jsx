@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, ExternalLink, Download, FileText, Loader2 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
 export default function PreviewModal({ isOpen, onClose, url, title }) {
     const [viewUrl, setViewUrl] = useState('');

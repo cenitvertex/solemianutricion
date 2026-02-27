@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Save, User, Building, Landmark, Phone, MessageSquare } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
 const SettingsModal = ({ isOpen, onClose, session, onRestartTour }) => {
     const [loading, setLoading] = useState(false);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 import { X, MessageSquare, Clock, Brain, User } from 'lucide-react';
-import { LegalDisclaimer } from '../content/legal';
+import { LegalDisclaimer } from '../../content/legal';
 
 export default function LogsModal({ isOpen, onClose, patient }) {
     const [logs, setLogs] = useState([]);
