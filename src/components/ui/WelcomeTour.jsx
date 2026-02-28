@@ -159,6 +159,14 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                             finalLeft = screenW / 2;
                     }
 
+                    // LÓGICA ANTI-COLISIÓN PARA ELEMENTOS GIGANTES EN MÓVIL
+                    if (isMobile && rect.height > screenH * 0.45) {
+                        // Si el elemento es casi del tamaño de la pantalla (como las tarjetas sin compactar), 
+                        // forzamos a que el diálogo flote en el centro de la pantalla para no tapar los datos importantes.
+                        finalTop = (screenH - tooltipRect.height) / 2;
+                        finalLeft = screenW / 2;
+                    }
+
                     // CLAMPING INTELIGENTE (No salirse, pero respetar la indicación)
                     const halfW = tooltipRect.width / 2;
                     finalTop = Math.max(safetyMargin, Math.min(finalTop, screenH - tooltipRect.height - safetyMargin));

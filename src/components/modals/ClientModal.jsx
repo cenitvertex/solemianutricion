@@ -235,7 +235,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                     width: '100%',
                     maxHeight: '90vh',
                     position: 'relative',
-                    padding: '2.5rem 3.5rem',
+                    padding: '2rem 2.5rem',
                     backgroundColor: 'rgba(255, 255, 255, 0.98)',
                     boxShadow: '0 40px 100px rgba(0,0,0,0.2)',
                     borderRadius: '3rem',
@@ -283,7 +283,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                         </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden', paddingRight: '0.25rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '1px', opacity: 0.6 }}>Nombre completo *</label>
                             <input type="text" className="input-field" style={{ fontWeight: '700', borderRadius: '1.25rem', padding: '1rem 1.5rem', border: '1px solid #f0f0f0', backgroundColor: '#fafafa' }} placeholder="Ej. Mariana Sánchez" value={name} onChange={(e) => setName(e.target.value)} required />
