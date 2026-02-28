@@ -233,6 +233,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                 <div className="modal-content glass animate-premium modal-content-responsive modal-padded-responsive" style={{
                     maxWidth: '550px',
                     width: '100%',
+                    maxHeight: '90vh',
                     position: 'relative',
                     padding: '2.5rem 3.5rem',
                     backgroundColor: 'rgba(255, 255, 255, 0.98)',
@@ -419,28 +420,30 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                         )}
 
                         {error && (
-                            <div className="text-detail animate-premium" style={{ display: 'flex', flexDirection: 'column', color: '#e11d48', backgroundColor: '#fff1f2', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.2)', fontSize: '0.7rem', lineHeight: '1.4', overflow: 'hidden' }}>
+                            <div className="animate-premium" style={{ display: 'flex', flexDirection: 'column', backgroundColor: '#fff1f2', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.15)', overflow: 'hidden', marginBottom: '0.5rem', flexShrink: 0 }}>
                                 <div
-                                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '700', padding: '0.8rem 1rem', cursor: typeof error === 'object' && error.detail ? 'pointer' : 'default' }}
+                                    style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.6rem 0.8rem', cursor: typeof error === 'object' && error.detail ? 'pointer' : 'default', transition: 'background-color 0.2s' }}
                                     onClick={() => typeof error === 'object' && error.detail && setShowErrorDetail(!showErrorDetail)}
+                                    onMouseEnter={(e) => { if (typeof error === 'object' && error.detail) e.currentTarget.style.backgroundColor = 'rgba(225, 29, 72, 0.03)' }}
+                                    onMouseLeave={(e) => { if (typeof error === 'object' && error.detail) e.currentTarget.style.backgroundColor = 'transparent' }}
                                 >
-                                    <AlertCircle size={15} style={{ flexShrink: 0 }} />
-                                    <span>{typeof error === 'string' ? error : error.main}</span>
+                                    <AlertCircle size={14} style={{ color: '#e11d48', flexShrink: 0 }} />
+                                    <span style={{ color: '#e11d48', fontSize: '11px', fontWeight: '800', lineHeight: '1.2' }}>{typeof error === 'string' ? error : error.main}</span>
                                     {typeof error === 'object' && error.detail && (
-                                        <div style={{ marginLeft: 'auto', padding: '0.2rem', backgroundColor: 'rgba(225, 29, 72, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <Info size={14} style={{ color: '#e11d48', opacity: 0.8 }} />
+                                        <div style={{ marginLeft: 'auto', padding: '0.25rem', backgroundColor: showErrorDetail ? 'rgba(225, 29, 72, 0.1)' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}>
+                                            <Info size={14} style={{ color: '#e11d48', opacity: 0.9 }} />
                                         </div>
                                     )}
                                 </div>
                                 {typeof error === 'object' && error.detail && showErrorDetail && (
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', padding: '0 1rem 0.8rem 1rem', borderTop: '1px solid rgba(225, 29, 72, 0.1)', paddingTop: '0.8rem' }}>
-                                        <span style={{ fontWeight: '500', opacity: 0.9 }}>{error.detail}</span>
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.4rem', padding: '0 0.8rem 0.6rem 0.8rem', borderTop: '1px dashed rgba(225, 29, 72, 0.15)', paddingTop: '0.6rem', marginTop: '-0.2rem' }}>
+                                        <span style={{ color: '#be123c', fontSize: '10.5px', fontWeight: '500', lineHeight: '1.4', opacity: 0.95 }}>{error.detail}</span>
                                     </div>
                                 )}
                             </div>
                         )}
 
-                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', flexShrink: 0, paddingBottom: '0.5rem' }}>
                             <button
                                 type="submit"
                                 disabled={loading}

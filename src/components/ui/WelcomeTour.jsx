@@ -119,23 +119,40 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                     let finalTop;
                     let finalLeft;
 
+                    const isMobile = screenW <= 768;
+
                     // LÓGICA DE UBICACIÓN DIRIGIDA POR PASO V18.9
                     switch (step) {
                         case 1: // MÉTRICAS (Ancho y abajo)
-                            finalTop = rect.bottom + 45;
+                            finalTop = rect.bottom + (isMobile ? 25 : 45);
                             finalLeft = screenW / 2;
                             break;
-                        case 2: // BÚSQUEDA (A la IZQUIERDA)
-                            finalTop = rect.top + rect.height / 2 - tooltipRect.height / 2;
-                            finalLeft = rect.left - 210; // Posición izquierda
+                        case 2: // BÚSQUEDA 
+                            if (isMobile) {
+                                finalTop = rect.bottom + 25;
+                                finalLeft = screenW / 2;
+                            } else {
+                                finalTop = rect.top + rect.height / 2 - tooltipRect.height / 2;
+                                finalLeft = rect.left - 210; // Posición izquierda
+                            }
                             break;
-                        case 3: // NUEVO PACIENTE (A la IZQUIERDA)
-                            finalTop = rect.top + rect.height / 2 - tooltipRect.height / 2;
-                            finalLeft = rect.left - 250; // Posición izquierda
+                        case 3: // NUEVO PACIENTE 
+                            if (isMobile) {
+                                finalTop = rect.bottom + 25;
+                                finalLeft = screenW / 2;
+                            } else {
+                                finalTop = rect.top + rect.height / 2 - tooltipRect.height / 2;
+                                finalLeft = rect.left - 250; // Posición izquierda
+                            }
                             break;
-                        case 4: // CONFIGURACIÓN (Top Right)
-                            finalTop = rect.bottom + 45;
-                            finalLeft = rect.left - 150;
+                        case 4: // CONFIGURACIÓN 
+                            if (isMobile) {
+                                finalTop = rect.bottom + 25;
+                                finalLeft = screenW / 2;
+                            } else {
+                                finalTop = rect.bottom + 45;
+                                finalLeft = rect.left - 150;
+                            }
                             break;
                         default:
                             finalTop = (screenH - tooltipRect.height) / 2;
@@ -212,7 +229,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 }}
             />
 
-            <div className="nutripal-v4-container tour-tooltip-responsive" style={{
+            <div className="nutripal-v4-container" style={{
                 top: assistantPos.top,
                 left: assistantPos.left,
                 transform: 'translate(-50%, 0)',

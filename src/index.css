@@ -1328,6 +1328,30 @@ body.solemia-system-lock {
     flex: none !important;
   }
 
+  /* Metric Cards Mobile Sizing */
+  .dash-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  .stat-card {
+    padding: 1rem !important;
+    border-radius: 1.25rem !important;
+  }
+
+  .stat-card svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .stat-card>div:first-child {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .dash-stat-value {
+    font-size: 1.75rem !important;
+  }
+
   .dash-card-phone {
     display: none !important;
   }
@@ -1515,27 +1539,6 @@ body.solemia-system-lock {
   /* Prevent total scroll lock on mobile during Welcome Tour */
   body.solemia-system-lock {
     overflow: auto !important;
-  }
-
-  /* =============================================
-     WELCOME TOUR — MOBILE
-     ============================================= */
-  .tour-tooltip-responsive {
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 90% !important;
-    max-width: 400px !important;
-  }
-
-  .tour-tooltip-responsive>div {
-    max-width: 100% !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  .ghost-spotlight-glow {
-    display: none !important;
   }
 
   /* =============================================
