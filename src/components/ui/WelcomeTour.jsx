@@ -203,7 +203,7 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
                 }}
             />
 
-            <div className="nutripal-v4-container" style={{
+            <div className="nutripal-v4-container tour-tooltip-responsive" style={{
                 top: assistantPos.top,
                 left: assistantPos.left,
                 transform: 'translate(-50%, 0)',

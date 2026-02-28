@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { X, Upload, Save, Phone, User, FileText, Loader2, Check, ChevronLeft, Info } from 'lucide-react';
+import { X, Upload, Save, Phone, User, FileText, Loader2, Check, ChevronLeft, Info, AlertCircle } from 'lucide-react';
 
 export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack }) {
     const [name, setName] = useState('');
@@ -203,16 +203,20 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
         } catch (err) {
             console.error('Detailed error:', err);
             let userFriendlyMessage = 'Ups, algo salió mal. Por favor, inténtalo de nuevo.';
+            let errorSolution = null;
 
             if (err.message?.includes('not-null constraint')) {
                 userFriendlyMessage = 'Faltan algunos datos necesarios para completar el registro.';
             } else if (err.message?.includes('network')) {
                 userFriendlyMessage = 'Parece que hay un problema con tu conexión a internet.';
+            } else if (err.message?.includes('patients_phone_tenant_id_key') || err.message?.includes('duplicate key value violates unique constraint')) {
+                userFriendlyMessage = 'Este número de WhatsApp ya está registrado en otro paciente.';
+                errorSolution = 'Si te equivocaste al teclear, corrígelo aquí mismo. Si intentabas actualizar a alguien que ya existe con ese número, cierra esta ventana y búscalo directo en tu lista principal.';
             } else if (err.message) {
                 userFriendlyMessage = err.message;
             }
 
-            setError(userFriendlyMessage);
+            setError(errorSolution ? { main: userFriendlyMessage, detail: errorSolution } : userFriendlyMessage);
         } finally {
             setLoading(false);
         }
@@ -412,7 +416,20 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                             </button>
                         )}
 
-                        {error && <div className="text-detail" style={{ color: '#e11d48', backgroundColor: '#fff1f2', padding: '0.75rem 1rem', borderRadius: '1rem', letterSpacing: '0.5px', textTransform: 'none', fontSize: '10px' }}>{error}</div>}
+                        {error && (
+                            <div className="text-detail animate-premium" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', color: '#e11d48', backgroundColor: '#fff1f2', padding: '1rem', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.2)', fontSize: '0.75rem', lineHeight: '1.4' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '700' }}>
+                                    <AlertCircle size={16} style={{ flexShrink: 0 }} />
+                                    <span>{typeof error === 'string' ? error : error.main}</span>
+                                </div>
+                                {typeof error === 'object' && error.detail && (
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', borderTop: '1px solid rgba(225, 29, 72, 0.2)', paddingTop: '0.75rem' }}>
+                                        <Info size={14} style={{ color: '#e11d48', flexShrink: 0, marginTop: '2px' }} />
+                                        <span style={{ fontWeight: '500', opacity: 0.9 }}>{error.detail}</span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                             <button

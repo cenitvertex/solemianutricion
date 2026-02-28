@@ -1513,6 +1513,27 @@ body.solemia-system-lock {
   }
 
   /* =============================================
+     WELCOME TOUR — MOBILE
+     ============================================= */
+  .tour-tooltip-responsive {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 90% !important;
+    max-width: 400px !important;
+  }
+
+  .tour-tooltip-responsive>div {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .ghost-spotlight-glow {
+    display: none !important;
+  }
+
+  /* =============================================
      AUTH PAGES — MOBILE
      ============================================= */
   .auth-card {
