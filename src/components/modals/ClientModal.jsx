@@ -377,95 +377,94 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                             </div>
                         </div>
 
-                        <div style={{
-                            display: 'flex',
-                            gap: '0.75rem',
-                            backgroundColor: '#f1f5f9',
-                            padding: '1rem',
-                            borderRadius: '1.25rem',
-                            marginTop: '-0.5rem',
-                            border: '1px solid #e2e8f0',
-                            marginBottom: '1rem'
-                        }}>
-                            <Info size={18} style={{ color: '#64748b', flexShrink: 0, marginTop: '2px' }} />
-                            <p style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: '1.4', margin: 0, fontWeight: '500' }}>
-                                Si necesitas corregir o cambiar un archivo, simplemente pulsa de nuevo sobre el botón para seleccionar uno nuevo.
-                            </p>
-                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '-0.5rem' }}>
+                            <div style={{
+                                display: 'flex',
+                                gap: '0.75rem',
+                                backgroundColor: '#f1f5f9',
+                                padding: '1rem',
+                                borderRadius: '1.25rem',
+                                border: '1px solid #e2e8f0'
+                            }}>
+                                <Info size={18} style={{ color: '#64748b', flexShrink: 0, marginTop: '2px' }} />
+                                <p style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: '1.4', margin: 0, fontWeight: '500' }}>
+                                    Si necesitas corregir o cambiar un archivo, simplemente pulsa de nuevo sobre el botón para seleccionar uno nuevo.
+                                </p>
+                            </div>
 
-                        {((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) && (
-                            <button
-                                type="button"
-                                onClick={handleProcessFiles}
-                                disabled={isProcessing}
-                                style={{
-                                    width: '100%',
-                                    padding: '0.85rem',
-                                    borderRadius: '1.25rem',
-                                    border: '1px solid var(--solemia-plum)',
-                                    background: 'transparent',
-                                    color: 'var(--solemia-plum)',
-                                    fontSize: '10px',
-                                    fontWeight: '900',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '0.5rem',
-                                    marginTop: '-0.5rem'
-                                }}
-                            >
-                                {isProcessing ? <Loader2 className="animate-spin" size={16} /> : <><FileText size={16} /> Procesar archivos seleccionados</>}
-                            </button>
-                        )}
-
-                        {error && (
-                            <div className="animate-premium" style={{ display: 'flex', flexDirection: 'column', backgroundColor: '#fff1f2', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.15)', overflow: 'hidden', marginBottom: '0.5rem', flexShrink: 0 }}>
-                                <div
-                                    style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.6rem 0.8rem', cursor: typeof error === 'object' && error.detail ? 'pointer' : 'default', transition: 'background-color 0.2s' }}
-                                    onClick={() => typeof error === 'object' && error.detail && setShowErrorDetail(!showErrorDetail)}
-                                    onMouseEnter={(e) => { if (typeof error === 'object' && error.detail) e.currentTarget.style.backgroundColor = 'rgba(225, 29, 72, 0.03)' }}
-                                    onMouseLeave={(e) => { if (typeof error === 'object' && error.detail) e.currentTarget.style.backgroundColor = 'transparent' }}
+                            {((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) && (
+                                <button
+                                    type="button"
+                                    onClick={handleProcessFiles}
+                                    disabled={isProcessing}
+                                    style={{
+                                        width: '100%',
+                                        padding: '0.85rem',
+                                        borderRadius: '1.25rem',
+                                        border: '1px solid var(--solemia-plum)',
+                                        background: 'transparent',
+                                        color: 'var(--solemia-plum)',
+                                        fontSize: '10px',
+                                        fontWeight: '900',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '0.5rem'
+                                    }}
                                 >
-                                    <AlertCircle size={14} style={{ color: '#e11d48', flexShrink: 0 }} />
-                                    <span style={{ color: '#e11d48', fontSize: '11px', fontWeight: '800', lineHeight: '1.2' }}>{typeof error === 'string' ? error : error.main}</span>
-                                    {typeof error === 'object' && error.detail && (
-                                        <div style={{ marginLeft: 'auto', padding: '0.25rem', backgroundColor: showErrorDetail ? 'rgba(225, 29, 72, 0.1)' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}>
-                                            <Info size={14} style={{ color: '#e11d48', opacity: 0.9 }} />
+                                    {isProcessing ? <Loader2 className="animate-spin" size={16} /> : <><FileText size={16} /> Procesar archivos seleccionados</>}
+                                </button>
+                            )}
+
+                            {error && (
+                                <div className="animate-premium" style={{ display: 'flex', flexDirection: 'column', backgroundColor: '#fff1f2', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.15)', overflow: 'hidden', flexShrink: 0 }}>
+                                    <div
+                                        style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.6rem 0.8rem', cursor: typeof error === 'object' && error.detail ? 'pointer' : 'default', transition: 'background-color 0.2s' }}
+                                        onClick={() => typeof error === 'object' && error.detail && setShowErrorDetail(!showErrorDetail)}
+                                        onMouseEnter={(e) => { if (typeof error === 'object' && error.detail) e.currentTarget.style.backgroundColor = 'rgba(225, 29, 72, 0.03)' }}
+                                        onMouseLeave={(e) => { if (typeof error === 'object' && error.detail) e.currentTarget.style.backgroundColor = 'transparent' }}
+                                    >
+                                        <AlertCircle size={14} style={{ color: '#e11d48', flexShrink: 0 }} />
+                                        <span style={{ color: '#e11d48', fontSize: '11px', fontWeight: '800', lineHeight: '1.2' }}>{typeof error === 'string' ? error : error.main}</span>
+                                        {typeof error === 'object' && error.detail && (
+                                            <div style={{ marginLeft: 'auto', padding: '0.25rem', backgroundColor: showErrorDetail ? 'rgba(225, 29, 72, 0.1)' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}>
+                                                <Info size={14} style={{ color: '#e11d48', opacity: 0.9 }} />
+                                            </div>
+                                        )}
+                                    </div>
+                                    {typeof error === 'object' && error.detail && showErrorDetail && (
+                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.4rem', padding: '0 0.8rem 0.6rem 0.8rem', borderTop: '1px dashed rgba(225, 29, 72, 0.15)', paddingTop: '0.6rem', marginTop: '-0.2rem' }}>
+                                            <span style={{ color: '#be123c', fontSize: '10.5px', fontWeight: '500', lineHeight: '1.4', opacity: 0.95 }}>{error.detail}</span>
                                         </div>
                                     )}
                                 </div>
-                                {typeof error === 'object' && error.detail && showErrorDetail && (
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.4rem', padding: '0 0.8rem 0.6rem 0.8rem', borderTop: '1px dashed rgba(225, 29, 72, 0.15)', paddingTop: '0.6rem', marginTop: '-0.2rem' }}>
-                                        <span style={{ color: '#be123c', fontSize: '10.5px', fontWeight: '500', lineHeight: '1.4', opacity: 0.95 }}>{error.detail}</span>
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                            )}
 
-                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', flexShrink: 0, paddingBottom: '0.5rem' }}>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="btn btn-primary"
-                                style={{
-                                    flex: 1,
-                                    borderRadius: '1.25rem',
-                                    padding: '1rem',
-                                    fontSize: '10px',
-                                    fontWeight: '900',
-                                    background: 'var(--solemia-gradient)',
-                                    color: 'white',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    boxShadow: '0 10px 25px rgba(77, 12, 48, 0.2)',
-                                    opacity: ((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) ? 0.5 : 1
-                                }}
-                            >
-                                {loading ? <Loader2 className="animate-spin" size={20} style={{ margin: '0 auto' }} /> :
-                                    ((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) ? 'Procesa archivos primero' :
-                                        (client ? 'Guardar cambios' : 'Crear registro')}
-                            </button>
+                            <div style={{ display: 'flex', gap: '1rem', flexShrink: 0, paddingBottom: '0.5rem' }}>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="btn btn-primary"
+                                    style={{
+                                        flex: 1,
+                                        borderRadius: '1.25rem',
+                                        padding: '1rem',
+                                        fontSize: '10px',
+                                        fontWeight: '900',
+                                        background: 'var(--solemia-gradient)',
+                                        color: 'white',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 10px 25px rgba(77, 12, 48, 0.2)',
+                                        opacity: ((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) ? 0.5 : 1
+                                    }}
+                                >
+                                    {loading ? <Loader2 className="animate-spin" size={20} style={{ margin: '0 auto' }} /> :
+                                        ((expediente && !isExpedienteProcessed) || (plan && !isPlanProcessed)) ? 'Procesa archivos primero' :
+                                            (client ? 'Guardar cambios' : 'Crear registro')}
+                                </button>
+                            </div>
                         </div>
                     </form>
 
