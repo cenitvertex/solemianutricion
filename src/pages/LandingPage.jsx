@@ -11,7 +11,9 @@ import {
     ArrowRight,
     CheckCircle2,
     Lock,
-    MessageSquare
+    MessageSquare,
+    Menu,
+    X
 } from 'lucide-react';
 import PricingCard from '../components/ui/PricingCard';
 import logo from '../assets/logo.png';
@@ -32,6 +34,7 @@ export default function LandingPage() {
     const [isLegalModalOpen, setIsLegalModalOpen] = React.useState(false);
     const [legalModalTitle, setLegalModalTitle] = React.useState('');
     const [legalModalContent, setLegalModalContent] = React.useState(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
     const openLegalModal = (title, contentComp) => {
         setLegalModalTitle(title);
@@ -179,7 +182,7 @@ export default function LandingPage() {
             <nav
                 className={scrolled ? 'nav-sticky' : ''}
                 style={{
-                    padding: '1.5rem 3rem',
+                    padding: '1.5rem clamp(1rem, 4vw, 3rem)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -192,15 +195,76 @@ export default function LandingPage() {
                 }}
             >
                 <img src={logo} alt="Solemia Logo" style={{ height: '32px', cursor: 'pointer' }} onClick={() => navigate('/')} />
-                <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                {/* Desktop Nav */}
+                <div className="hide-mobile" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
                     <button onClick={() => navigate(session ? '/app' : '/login')} className="btn-outline" style={{ background: 'transparent', fontWeight: '700' }}>
                         {session ? 'Ir a mi Dashboard' : 'Iniciar Sesión'}
                     </button>
-                    <button onClick={() => navigate('/signup')} className="btn btn-primary shadow-lg">
+                    <button onClick={() => navigate('/signup')} className="btn btn-primary shadow-lg" style={{ width: 'auto' }}>
                         Empezar Ahora
                     </button>
                 </div>
+                {/* Mobile Hamburger */}
+                <button
+                    className="show-mobile-only"
+                    onClick={() => setMobileMenuOpen(true)}
+                    style={{
+                        display: 'none',
+                        background: 'rgba(77, 12, 48, 0.08)',
+                        border: 'none',
+                        borderRadius: '14px',
+                        width: '44px',
+                        height: '44px',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        color: 'var(--solemia-plum)'
+                    }}
+                >
+                    <Menu size={22} />
+                </button>
             </nav>
+
+            {/* Mobile Menu Panel */}
+            {mobileMenuOpen && (
+                <>
+                    <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)} />
+                    <div className="mobile-menu-panel">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                            <img src={logo} alt="Solemia" style={{ height: '28px' }} />
+                            <button
+                                onClick={() => setMobileMenuOpen(false)}
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--solemia-charcoal)', padding: '8px' }}
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+                            <button
+                                onClick={() => { setMobileMenuOpen(false); navigate(session ? '/app' : '/login'); }}
+                                className="btn btn-outline"
+                                style={{ width: '100%', justifyContent: 'center', borderRadius: '1rem', background: '#f8f8f8' }}
+                            >
+                                {session ? 'Ir a mi Dashboard' : 'Iniciar Sesión'}
+                            </button>
+                            <button
+                                onClick={() => { setMobileMenuOpen(false); navigate('/signup'); }}
+                                className="btn btn-primary"
+                                style={{ width: '100%', justifyContent: 'center', borderRadius: '1rem' }}
+                            >
+                                Empezar Ahora <ArrowRight size={18} />
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
+
+            {/* Inline style for mobile burger visibility */}
+            <style>{`
+                @media (max-width: 768px) {
+                    .show-mobile-only { display: flex !important; }
+                }
+            `}</style>
 
             {/* Hero Section */}
             <section style={{
@@ -208,20 +272,20 @@ export default function LandingPage() {
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                padding: '8rem 0 4rem'
+                padding: 'clamp(6rem, 12vw, 8rem) 0 clamp(2rem, 4vw, 4rem)'
             }}>
                 <div className="container" style={{ position: 'relative', zIndex: 2 }}>
                     <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }} className="reveal">
                         <div className="text-detail" style={{ color: 'var(--solemia-pink)', marginBottom: '1.5rem', display: 'block', letterSpacing: '3px', fontWeight: '900' }}>
                             ELEVATED CLINICAL INTELLIGENCE
                         </div>
-                        <h1 style={{ fontSize: 'clamp(3.5rem, 10vw, 5.5rem)', lineHeight: '1.0', marginBottom: '2rem', color: 'var(--solemia-plum)', letterSpacing: '-0.05em' }}>
+                        <h1 className="landing-hero-title" style={{ fontSize: 'clamp(3.5rem, 10vw, 5.5rem)', lineHeight: '1.0', marginBottom: '2rem', color: 'var(--solemia-plum)', letterSpacing: '-0.05em' }}>
                             Nutrición con <span style={{ color: 'var(--solemia-pink)' }}>Adherencia</span><br />sin Juicios.
                         </h1>
-                        <p style={{ fontSize: '1.4rem', color: 'var(--solemia-charcoal)', opacity: 0.7, marginBottom: '3.5rem', maxWidth: '700px', margin: '0 auto 3.5rem', lineHeight: '1.5' }}>
+                        <p className="landing-hero-subtitle" style={{ fontSize: '1.4rem', color: 'var(--solemia-charcoal)', opacity: 0.7, marginBottom: '3.5rem', maxWidth: '700px', margin: '0 auto 3.5rem', lineHeight: '1.5' }}>
                             El cómplice inteligente que transforma la "Caja Negra" nutricional en resultados clínicos predecibles.
                         </p>
-                        <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
+                        <div className="landing-hero-cta" style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
                             <button
                                 onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}
                                 className="btn btn-primary"
@@ -235,11 +299,11 @@ export default function LandingPage() {
             </section>
 
             {/* Bento Grid Showcase */}
-            <section style={{ padding: '10rem 0', background: 'transparent' }}>
+            <section style={{ padding: 'clamp(4rem, 10vw, 10rem) 0', background: 'transparent' }}>
                 <div className="container">
                     <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 6rem' }} className="reveal">
-                        <h2 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>El Abandono se detiene aquí.</h2>
-                        <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                        <h2 className="landing-section-title" style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>El Abandono se detiene aquí.</h2>
+                        <p className="landing-section-subtitle" style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
                             Elimina la intermitencia clínica. Tu IA siempre está presente, capturando datos reales y brindando apoyo sin juicios cuando tus pacientes más lo necesitan.
                         </p>
                     </div>
@@ -254,7 +318,7 @@ export default function LandingPage() {
                                 </p>
                             </div>
                             {/* Graphic Placeholder (Circle with gradient) */}
-                            <div className="bento-blob-animate" style={{ position: 'absolute', right: '-10%', bottom: '-10%', width: '300px', height: '300px', background: 'var(--solemia-gradient)', borderRadius: '50%', filter: 'blur(40px)', zIndex: 0 }} />
+                            <div className="bento-blob-animate bento-blob-hide-mobile" style={{ position: 'absolute', right: '-10%', bottom: '-10%', width: '300px', height: '300px', background: 'var(--solemia-gradient)', borderRadius: '50%', filter: 'blur(40px)', zIndex: 0 }} />
                         </div>
 
                         <div className="card-premium bento-card bento-card-sm reveal delay-100" style={{ background: 'var(--solemia-plum)', color: 'white' }}>
@@ -270,7 +334,8 @@ export default function LandingPage() {
                         </div>
 
                         <div className="card-premium bento-card bento-card-lg reveal delay-300" style={{ background: 'white' }}>
-                            <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
+                            {/* Flex container — stacks on mobile */}
+                            <div style={{ display: 'flex', gap: 'clamp(1.5rem, 3vw, 3rem)', alignItems: 'center', flexWrap: 'wrap' }}>
                                 <div style={{ flex: 1 }}>
                                     <Heart size={48} color="var(--solemia-pink)" style={{ marginBottom: '1.5rem' }} />
                                     <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Resultados que Inspiran</h3>
@@ -287,13 +352,13 @@ export default function LandingPage() {
             </section>
 
             {/* IA Comparison Section */}
-            <section style={{ padding: '8rem 0', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(5px)' }}>
+            <section style={{ padding: 'clamp(4rem, 8vw, 8rem) 0', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(5px)' }}>
                 <div className="container">
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '6rem', alignItems: 'center' }}>
+                    <div className="landing-comparison-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(350px, 100%), 1fr))', gap: 'clamp(2rem, 5vw, 6rem)', alignItems: 'center' }}>
                         <div className="reveal">
-                            <h2 style={{ fontSize: '3rem', marginBottom: '2.5rem', lineHeight: '1.2', letterSpacing: '-0.02em' }}>¿Por qué no usar <span style={{ color: 'var(--solemia-pink)' }}>IA Genérica</span>?</h2>
+                            <h2 className="landing-section-title landing-comparison-title" style={{ fontSize: '3rem', marginBottom: '2.5rem', lineHeight: '1.2', letterSpacing: '-0.02em' }}>¿Por qué no usar <span style={{ color: 'var(--solemia-pink)' }}>IA Genérica</span>?</h2>
                             <ul style={{ listStyle: 'none', padding: 0 }}>
-                                <li style={{ marginBottom: '3rem', display: 'flex', gap: '2rem' }} className="reveal delay-100">
+                                <li style={{ marginBottom: '3rem', display: 'flex', gap: '2rem' }} className="reveal delay-100 landing-comparison-item">
                                     <div style={{ background: '#fff', padding: '16px', borderRadius: '20px', height: 'fit-content', boxShadow: 'var(--shadow-premium)' }}>
                                         <Lock size={24} color="var(--solemia-pink)" />
                                     </div>
@@ -302,7 +367,7 @@ export default function LandingPage() {
                                         <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: '1.7' }}>ChatGPT no conoce tus protocolos. Solemia actúa bajo TUS reglas, protegiendo la confidencialidad y tu ética profesional.</p>
                                     </div>
                                 </li>
-                                <li style={{ marginBottom: '3rem', display: 'flex', gap: '2rem' }} className="reveal delay-200">
+                                <li style={{ marginBottom: '3rem', display: 'flex', gap: '2rem' }} className="reveal delay-200 landing-comparison-item">
                                     <div style={{ background: '#fff', padding: '16px', borderRadius: '20px', height: 'fit-content', boxShadow: 'var(--shadow-premium)' }}>
                                         <Brain size={24} color="var(--solemia-pink)" />
                                     </div>
@@ -314,14 +379,14 @@ export default function LandingPage() {
                             </ul>
                         </div>
                         <div style={{ position: 'relative' }} className="reveal delay-300">
-                            <div className="card-premium" style={{
+                            <div className="card-premium landing-quote-card" style={{
                                 background: 'var(--solemia-plum)',
                                 padding: '4rem',
                                 borderRadius: '4rem',
                                 color: 'white'
                             }}>
                                 <MessageSquare size={40} style={{ marginBottom: '2rem', color: 'var(--solemia-pink)' }} />
-                                <p style={{ fontSize: '2rem', fontWeight: '800', fontStyle: 'italic', lineHeight: '1.3', letterSpacing: '-0.01em' }}>
+                                <p className="landing-quote-text" style={{ fontSize: '2rem', fontWeight: '800', fontStyle: 'italic', lineHeight: '1.3', letterSpacing: '-0.01em' }}>
                                     "La IA genérica te hace ver amateur. Solemia te posiciona como una clínica de élite."
                                 </p>
                                 <div style={{ marginTop: '2.5rem', fontWeight: '900', fontSize: '0.9rem', color: 'var(--solemia-pink)', letterSpacing: '3px' }}>
@@ -334,16 +399,16 @@ export default function LandingPage() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" style={{ padding: '10rem 0', background: 'transparent' }}>
+            <section id="pricing" style={{ padding: 'clamp(4rem, 10vw, 10rem) 0', background: 'transparent' }}>
                 <div className="container">
                     <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 6rem' }} className="reveal">
-                        <h2 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>Inversión en tu Autoridad.</h2>
-                        <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>
+                        <h2 className="landing-section-title" style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>Inversión en tu Autoridad.</h2>
+                        <p className="landing-section-subtitle" style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>
                             Únete al Pioneer Group y lidera la nutrición tecnológica en habla hispana.
                         </p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3rem', maxWidth: '1100px', margin: '0 auto' }}>
+                    <div className="landing-pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))', gap: 'clamp(1.5rem, 3vw, 3rem)', maxWidth: '1100px', margin: '0 auto' }}>
                         <div className="reveal delay-100">
                             <PricingCard
                                 title="Plan Profesional"
@@ -371,9 +436,9 @@ export default function LandingPage() {
             </section>
 
             {/* Garantía Section */}
-            <section style={{ padding: '8rem 0', background: 'var(--solemia-charcoal)', color: 'white', textAlign: 'center' }}>
+            <section style={{ padding: 'clamp(4rem, 8vw, 8rem) 0', background: 'var(--solemia-charcoal)', color: 'white', textAlign: 'center' }}>
                 <div className="container">
-                    <div className="glass reveal" style={{ padding: '4rem', maxWidth: '900px', margin: '0 auto', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div className="glass reveal landing-garantia-card" style={{ padding: '4rem', maxWidth: '900px', margin: '0 auto', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)' }}>
                         <Heart size={48} color="var(--solemia-pink)" style={{ marginBottom: '2rem' }} />
                         <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: 'white' }}>Garantía Blindada</h2>
                         <p style={{ fontSize: '1.25rem', opacity: 0.8, marginBottom: '2.5rem', lineHeight: '1.8' }}>
@@ -394,7 +459,7 @@ export default function LandingPage() {
             <footer style={{ padding: '4rem 0 3rem', background: 'var(--solemia-bg)', textAlign: 'center' }}>
                 <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <img src={logo} alt="Solemia" style={{ height: '24px', opacity: 0.5, marginBottom: '2rem' }} />
-                    <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <div className="landing-footer-links" style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
                         <button onClick={() => openLegalModal("Términos y Condiciones", <TermsAndConditionsContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Términos y Condiciones</button>
                         <button onClick={() => openLegalModal("Aviso de Privacidad", <PrivacyPolicyContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Aviso de Privacidad</button>
                         <button onClick={() => openLegalModal("Política de Uso de Datos e IA", <DataAndAIPolicyContent />)} className="btn-outline" style={{ border: 'none', background: 'transparent', padding: 0, textDecoration: 'underline', color: 'var(--solemia-plum)', opacity: 0.7, fontSize: '0.85rem' }}>Uso de Datos e IA</button>

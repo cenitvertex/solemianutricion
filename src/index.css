@@ -518,13 +518,15 @@ main {
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 1.5rem;
+    padding: 0 1rem;
   }
 
   .client-card {
     flex-direction: column;
     align-items: flex-start;
-    padding: 2rem;
+    padding: 1.5rem;
+    gap: 1rem;
+    border-radius: 1.5rem;
   }
 
   .hide-mobile {
@@ -871,5 +873,800 @@ body.solemia-system-lock {
     box-shadow:
       0 0 0 9999px rgba(0, 0, 0, 0.77),
       0 0 30px rgba(205, 54, 91, 0.5);
+  }
+}
+
+/* ============================
+   RESPONSIVE LAYER — SOLEMIA
+   Desktop remains untouched.
+   ============================ */
+
+/* --- TABLET (≤1024px) --- */
+@media (max-width: 1024px) {
+  :root {
+    --container-padding: 2rem;
+    --glass-radius: 2rem;
+  }
+
+  .bento-grid {
+    gap: 1rem;
+  }
+
+  .card-premium {
+    padding: 2rem;
+    border-radius: 2rem;
+  }
+
+  .stat-card {
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .nav-sticky {
+    padding: 1rem 2rem !important;
+  }
+
+  main {
+    padding: 2rem 0;
+  }
+
+  /* Landing — Tablet */
+  .landing-hero-title {
+    font-size: 4rem !important;
+  }
+
+  .landing-hero-subtitle {
+    font-size: 1.15rem !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  .landing-section-title {
+    font-size: 2.8rem !important;
+  }
+
+  .landing-quote-card {
+    padding: 3rem !important;
+    border-radius: 3rem !important;
+  }
+
+  .landing-quote-text {
+    font-size: 1.6rem !important;
+  }
+
+  /* Dashboard — Tablet */
+  .dash-page-title {
+    font-size: 2.2rem !important;
+  }
+}
+
+/* --- MOBILE (≤768px) --- */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 1rem;
+    --glass-radius: 1.5rem;
+  }
+
+  /* Cards */
+  .card-premium {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+  }
+
+  .card-premium:hover {
+    transform: none;
+  }
+
+  .stat-card {
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+  }
+
+  .stat-card:hover {
+    transform: none;
+  }
+
+  /* Bento */
+  .bento-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .bento-card,
+  .bento-card-lg,
+  .bento-card-md,
+  .bento-card-sm {
+    grid-column: span 12 !important;
+  }
+
+  /* Buttons — Touch Targets */
+  .btn {
+    min-height: 48px;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Navigation Tabs */
+  .nav-tab-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .nav-tab-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-tab-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-height: 44px;
+  }
+
+  /* Notifications */
+  .notification-bubble {
+    padding: 1rem;
+    border-radius: 1.25rem;
+    gap: 1rem;
+  }
+
+  .notif-icon-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  /* Input fields */
+  .input-field {
+    padding: 0.875rem 1.25rem;
+    font-size: 16px;
+    /* Prevent iOS zoom */
+  }
+
+  /* Avatar */
+  .avatar-initial {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+    border-radius: 14px;
+  }
+
+  /* Sticky Nav */
+  .nav-sticky {
+    padding: 0.75rem 1rem !important;
+  }
+
+  /* Main */
+  main {
+    padding: 1.5rem 0;
+  }
+
+  /* Tour tooltip */
+  .nutripal-v4-speech {
+    max-width: calc(100vw - 2rem);
+    padding: 1rem 1.25rem;
+    border-radius: 1.5rem;
+  }
+
+  /* Footer links */
+  .footer-link {
+    padding: 0.25rem;
+  }
+
+  /* Consultation badge */
+  .consult-badge {
+    font-size: 8px;
+    padding: 3px 8px;
+    margin-left: 0.5rem;
+  }
+
+  /* Mobile hamburger menu */
+  .mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 999;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .mobile-menu-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(320px, 85vw);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 1000;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: slideFromRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+  }
+
+  @keyframes slideFromRight {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* =============================================
+     LANDING PAGE — MOBILE
+     ============================================= */
+
+  /* Hero */
+  .landing-hero-title {
+    font-size: 2.6rem !important;
+    letter-spacing: -0.03em !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .landing-hero-subtitle {
+    font-size: 1rem !important;
+    margin-bottom: 2rem !important;
+    max-width: 100% !important;
+  }
+
+  .landing-hero-cta {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  .landing-hero-cta .btn {
+    width: 100% !important;
+    padding: 1.25rem 2rem !important;
+    font-size: 14px !important;
+  }
+
+  /* Sections */
+  .landing-section-title {
+    font-size: 2rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .landing-section-subtitle {
+    font-size: 1rem !important;
+  }
+
+  .landing-section-header {
+    margin-bottom: 3rem !important;
+  }
+
+  /* Bento — Hide decorative blobs */
+  .bento-blob-hide-mobile {
+    display: none !important;
+  }
+
+  .bento-card h3 {
+    font-size: 1.4rem !important;
+  }
+
+  /* IA Comparison */
+  .landing-comparison-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  .landing-comparison-title {
+    font-size: 2rem !important;
+  }
+
+  .landing-comparison-item {
+    margin-bottom: 2rem !important;
+    gap: 1.25rem !important;
+  }
+
+  .landing-comparison-item h4 {
+    font-size: 1.1rem !important;
+  }
+
+  .landing-comparison-item p {
+    font-size: 0.95rem !important;
+  }
+
+  /* Quote card */
+  .landing-quote-card {
+    padding: 2rem !important;
+    border-radius: 2rem !important;
+  }
+
+  .landing-quote-text {
+    font-size: 1.25rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Pricing */
+  .landing-pricing-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Garantía */
+  .landing-garantia-card {
+    padding: 2.5rem 1.5rem !important;
+    border-radius: 2rem !important;
+  }
+
+  .landing-garantia-card h2 {
+    font-size: 1.8rem !important;
+  }
+
+  .landing-garantia-card p {
+    font-size: 1rem !important;
+  }
+
+  /* Footer */
+  .landing-footer-links {
+    gap: 0.75rem !important;
+  }
+
+  .landing-footer-links button {
+    font-size: 0.8rem !important;
+  }
+
+  /* =============================================
+     DASHBOARD — MOBILE
+     ============================================= */
+
+  /* Dashboard Header */
+  .dash-header-inner {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+
+  .dash-header-inner .dash-header-logo h1 {
+    font-size: 1rem !important;
+  }
+
+  .dash-header-buttons {
+    gap: 0.5rem !important;
+  }
+
+  .dash-header-buttons button {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Dashboard Title */
+  .dash-page-title {
+    font-size: 1.8rem !important;
+    letter-spacing: -1px !important;
+  }
+
+  /* Stats Grid */
+  .dash-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  .dash-stats-grid .stat-card {
+    padding: 1.25rem !important;
+  }
+
+  .dash-stat-value {
+    font-size: 2rem !important;
+  }
+
+  .dash-stats-grid .dash-stat-cta {
+    grid-column: 1 / -1 !important;
+  }
+
+  .dash-stat-cta .btn {
+    width: 100% !important;
+    padding: 1.1rem 2rem !important;
+    font-size: 12px !important;
+    border-radius: 1.25rem !important;
+  }
+
+  /* Filter Bar */
+  .dash-filter-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .dash-filter-controls {
+    display: flex !important;
+    gap: 0.5rem !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding-bottom: 4px !important;
+  }
+
+  .dash-filter-controls::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dash-filter-controls>div,
+  .dash-filter-controls>button {
+    flex-shrink: 0 !important;
+  }
+
+  .dash-search-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Client Cards — Mobile Layout */
+  .client-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.25rem 1.5rem;
+    gap: 1rem;
+    border-radius: 1.5rem;
+  }
+
+  .dash-card-info {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  .dash-card-phone {
+    display: none !important;
+  }
+
+  .dash-card-actions {
+    width: 100% !important;
+    margin-left: 0 !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+
+  .dash-card-icon-btn {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+  }
+
+  .dash-card-profile-btn {
+    display: none !important;
+  }
+
+  .dash-card-delete-btn {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  /* Hoy Activity Cards */
+  .dash-hoy-card {
+    padding: 1.25rem 1.5rem !important;
+    gap: 1.25rem !important;
+    border-radius: 1.5rem !important;
+  }
+
+  .dash-hoy-card .avatar-initial {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  /* Dashboard Dropdowns — Mobile Safe */
+  .dash-dropdown-menu {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-height: 60vh !important;
+    border-radius: 1.5rem 1.5rem 0 0 !important;
+    padding: 1rem !important;
+    z-index: 1001 !important;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .dash-dropdown-menu .dropdown-item {
+    padding: 1rem 1.25rem !important;
+    font-size: 0.9rem !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Modal mobile fullscreen */
+  .modal-overlay-responsive {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .modal-content-responsive {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 92vh !important;
+    border-radius: 1.5rem 1.5rem 0 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-padded-responsive {
+    padding: 1.5rem 1.25rem !important;
+  }
+
+  /* Patient Profile Mobile Fixes */
+  .profile-header-responsive {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .profile-header-responsive>div:nth-child(2) h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .profile-grid-responsive {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    padding-right: 0 !important;
+  }
+
+  .profile-avatar-responsive {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1rem !important;
+    border-radius: 14px !important;
+    border-width: 2px !important;
+  }
+
+  .profile-edit-btn-responsive {
+    position: static !important;
+    padding: 0.5rem !important;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+    justify-content: center !important;
+  }
+
+  .profile-edit-btn-responsive span {
+    display: none !important;
+  }
+
+  .profile-card-responsive {
+    padding: 1.25rem !important;
+    min-height: auto !important;
+    border-radius: 1.5rem !important;
+  }
+
+  .profile-contact-btn-responsive {
+    padding: 1rem 1.25rem !important;
+    border-radius: 1.25rem !important;
+  }
+
+  /* Preview Modal Mobile Fixes */
+  .preview-header-responsive {
+    padding: 1.25rem 1rem !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+  }
+
+  .preview-title-container-responsive {
+    max-width: 65% !important;
+  }
+
+  .preview-title-responsive {
+    font-size: 1rem !important;
+    word-wrap: break-word;
+    line-height: 1.2 !important;
+  }
+
+  .preview-footer-responsive {
+    padding: 1rem !important;
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+    align-items: center !important;
+  }
+
+  .preview-footer-responsive .btn {
+    width: auto !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+    padding: 1rem 0 !important;
+  }
+
+  .ios-pdf-alert {
+    display: block !important;
+  }
+
+  .preview-download-btn span {
+    font-size: 11px !important;
+  }
+
+  /* =============================================
+     AUTH PAGES — MOBILE
+     ============================================= */
+  .auth-card {
+    border-radius: 2rem !important;
+    box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .auth-title {
+    font-size: 2rem !important;
+    letter-spacing: -1px !important;
+  }
+
+  /* =============================================
+     PRICING CARD COMPONENT — MOBILE
+     ============================================= */
+  .pricing-card {
+    padding: 2rem !important;
+    border-radius: 2rem !important;
+  }
+
+  .pricing-card-price {
+    font-size: 2.5rem !important;
+  }
+}
+
+/* --- SMALL PHONES (≤480px) --- */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .card-premium {
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .avatar-initial {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    border-radius: 12px;
+  }
+
+  .client-card {
+    padding: 1rem;
+    gap: 0.75rem;
+    border-radius: 1.25rem;
+  }
+
+  .nav-tab-btn {
+    padding: 0.6rem 1.25rem;
+    font-size: 10px;
+  }
+
+  .notification-bubble {
+    padding: 0.875rem;
+  }
+
+  /* Landing — Small phones */
+  .landing-hero-title {
+    font-size: 2rem !important;
+    line-height: 1.05 !important;
+  }
+
+  .landing-hero-subtitle {
+    font-size: 0.9rem !important;
+  }
+
+  .landing-section-title {
+    font-size: 1.6rem !important;
+  }
+
+  .landing-quote-text {
+    font-size: 1.1rem !important;
+  }
+
+  .landing-garantia-card {
+    padding: 2rem 1.25rem !important;
+  }
+
+  /* Dashboard — Small phones */
+  .dash-page-title {
+    font-size: 1.5rem !important;
+  }
+
+  .dash-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dash-stat-value {
+    font-size: 1.8rem !important;
+  }
+
+  .dash-card-actions {
+    gap: 0.4rem !important;
+  }
+
+  .dash-card-icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* Auth — Small phones */
+  .auth-card {
+    border-radius: 1.5rem !important;
+  }
+
+  .auth-title {
+    font-size: 1.75rem !important;
+  }
+}
+
+/* --- LANDSCAPE PHONES --- */
+@media (max-width: 768px) and (orientation: landscape) {
+  .modal-content-responsive {
+    max-height: 80vh !important;
+  }
+
+  .dash-dropdown-menu {
+    max-height: 50vh !important;
+  }
+
+  main {
+    padding: 1rem 0;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .bg-atmosphere-fixed,
+  .bg-atmosphere-fixed::before,
+  .bg-atmosphere-fixed::after {
+    animation: none !important;
+  }
+
+  .bento-blob-animate {
+    animation: none !important;
   }
 }

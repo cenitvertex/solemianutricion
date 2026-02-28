@@ -477,7 +477,7 @@ export default function Dashboard({ session }) {
             `}</style>
 
                 {/* Toasts Container */}
-                <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 9999, display: 'flex', flexDirection: 'column', gap: '0.75rem', pointerEvents: 'none' }}>
+                <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', left: 'auto', zIndex: 9999, display: 'flex', flexDirection: 'column', gap: '0.75rem', pointerEvents: 'none', maxWidth: 'min(380px, calc(100vw - 2rem))' }}>
                     {toasts.map(toast => (
                         <div key={toast.id} className="glass" style={{
                             padding: '1rem 1.5rem',
@@ -520,8 +520,8 @@ export default function Dashboard({ session }) {
                     marginBottom: '-2.25rem', // Compensación para que el fade no aleje el contenido
                     pointerEvents: 'none'
                 }}>
-                    <div className="container" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'center', pointerEvents: 'auto' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div className="container dash-header-inner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', flexWrap: 'wrap', pointerEvents: 'auto' }}>
+                        <div className="dash-header-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                             <img src={logo} alt="Solemia" style={{ height: '36px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                             <div style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.3)', margin: '0 0.25rem' }}></div>
                             <h1 style={{
@@ -539,14 +539,14 @@ export default function Dashboard({ session }) {
 
                         <div style={{ flex: 1 }} className="hide-mobile"></div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', justifyContent: 'flex-end' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.5rem, 2vw, 1.25rem)', justifyContent: 'flex-end' }}>
                             <div className="hide-mobile" style={{ textAlign: 'right', borderRight: '1px solid rgba(255,255,255,0.2)', paddingRight: '1.25rem' }}>
                                 <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'white', fontFamily: 'var(--font-inter)', whiteSpace: 'nowrap' }}>
                                     {tenantName || session.user.email.split('@')[0]}
                                 </div>
                             </div>
 
-                            <div style={{ display: 'flex', gap: '0.75rem' }}>
+                            <div className="dash-header-buttons" style={{ display: 'flex', gap: 'clamp(0.4rem, 1vw, 0.75rem)' }}>
                                 <button
                                     onClick={() => setIsSettingsOpen(true)}
                                     title="Configuración"
@@ -611,9 +611,9 @@ export default function Dashboard({ session }) {
                 </header>
 
                 <main className="container" style={{ marginTop: '1.25rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                         <div>
-                            <h2 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: '800', letterSpacing: '-2px' }}>
+                            <h2 className="dash-page-title" style={{ fontSize: '2.8rem', marginBottom: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: '800', letterSpacing: '-2px' }}>
                                 {activeView === 'directory' ? 'Expedientes' : 'Actividad de hoy'}
                             </h2>
                             <div className="text-detail" style={{ color: 'var(--solemia-plum)', opacity: 0.8 }}>
@@ -644,9 +644,9 @@ export default function Dashboard({ session }) {
 
                     {activeView === 'directory' ? (
                         <div className="animate-premium">
-                            <div className="tour-metrics" style={{ display: 'flex', gap: '1.5rem', marginBottom: '3.5rem', flexWrap: 'wrap' }}>
+                            <div className="tour-metrics dash-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '1rem', marginBottom: '3.5rem' }}>
                                 {stats.map((stat, i) => (
-                                    <div key={i} className="stat-card" style={{ padding: '1.5rem', height: '100%', minWidth: '220px' }}>
+                                    <div key={i} className="stat-card" style={{ padding: '1.5rem', height: '100%' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
                                             <div style={{ backgroundColor: `${stat.color}10`, color: stat.color, padding: '0.6rem', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                 {stat.icon}
@@ -654,12 +654,12 @@ export default function Dashboard({ session }) {
                                         </div>
                                         <div>
                                             <div className="text-detail" style={{ fontSize: '11px', marginBottom: '8px', opacity: 0.7 }}>{stat.label}</div>
-                                            <div style={{ fontSize: '2.8rem', fontWeight: '900', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-inter)', lineHeight: 0.9, marginBottom: '8px' }}>{stat.value}</div>
+                                            <div className="dash-stat-value" style={{ fontSize: '2.8rem', fontWeight: '900', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-inter)', lineHeight: 0.9, marginBottom: '8px' }}>{stat.value}</div>
                                             <div className="text-detail" style={{ fontSize: '12px', textTransform: 'none', letterSpacing: '0', opacity: 0.5 }}>{stat.sub}</div>
                                         </div>
                                     </div>
                                 ))}
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+                                <div className="dash-stat-cta" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
                                     <button
                                         onClick={() => { setEditingPatient(null); setIsModalOpen(true); }}
                                         className="btn btn-primary tour-add-patient"
@@ -670,8 +670,8 @@ export default function Dashboard({ session }) {
                                 </div>
                             </div>
 
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem', flexWrap: 'wrap', gap: '2rem' }}>
-                                <div style={{ display: 'flex', gap: '1rem' }}>
+                            <div className="dash-filter-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+                                <div className="dash-filter-controls" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                                     <div style={{ position: 'relative' }}>
                                         <div
                                             onClick={() => setOpenDropdown(openDropdown === 'sort' ? null : 'sort')}
@@ -703,7 +703,7 @@ export default function Dashboard({ session }) {
                                         {openDropdown === 'sort' && (
                                             <>
                                                 <div style={{ position: 'fixed', inset: 0, zIndex: 100 }} onClick={() => setOpenDropdown(null)} />
-                                                <div className="glass" style={{
+                                                <div className="glass dash-dropdown-menu" style={{
                                                     position: 'absolute',
                                                     top: 'calc(100% + 8px)',
                                                     left: 0,
@@ -777,7 +777,7 @@ export default function Dashboard({ session }) {
                                         {openDropdown === 'time' && (
                                             <>
                                                 <div style={{ position: 'fixed', inset: 0, zIndex: 100 }} onClick={() => setOpenDropdown(null)} />
-                                                <div className="glass" style={{
+                                                <div className="glass dash-dropdown-menu" style={{
                                                     position: 'absolute',
                                                     top: 'calc(100% + 8px)',
                                                     left: 0,
@@ -849,11 +849,11 @@ export default function Dashboard({ session }) {
                                     </button>
                                 </div>
 
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem', minWidth: '350px' }}>
+                                <div className="dash-search-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '0.75rem', width: '100%', maxWidth: '380px' }}>
                                     <div className="text-detail" style={{ fontSize: '0.65rem' }}>
                                         {filteredPatients.length} coincidencias
                                     </div>
-                                    <div style={{ position: 'relative', width: '100%', maxWidth: '380px' }} className="tour-search">
+                                    <div style={{ position: 'relative', width: '100%' }} className="tour-search">
                                         <Search size={18} style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', color: 'var(--solemia-plum)', opacity: 0.5 }} />
                                         <input
                                             type="text"
@@ -926,11 +926,11 @@ export default function Dashboard({ session }) {
                                                 className="client-card group"
                                                 style={{
                                                     position: 'relative',
-                                                    padding: '1.5rem 2.5rem',
+                                                    padding: 'clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 3vw, 2.5rem)',
                                                     display: 'flex',
                                                     alignItems: 'center',
-                                                    gap: '2.5rem',
-                                                    borderRadius: '2.5rem',
+                                                    gap: 'clamp(1rem, 2vw, 2.5rem)',
+                                                    borderRadius: 'clamp(1.25rem, 3vw, 2.5rem)',
                                                     overflow: 'hidden',
                                                     cursor: 'pointer'
                                                 }}
@@ -938,7 +938,7 @@ export default function Dashboard({ session }) {
                                             >
                                                 <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '6px', background: 'var(--solemia-plum)' }}></div>
 
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: 1.2 }}>
+                                                <div className="dash-card-info" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: 1.2 }}>
                                                     <div className="avatar-initial" style={{ width: '56px', height: '56px', borderRadius: '20px', backgroundColor: '#f8f0f4', color: 'var(--solemia-plum)', border: '2px solid white', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', fontSize: '1.2rem' }}>
                                                         {getInitials(patient.name)}
                                                     </div>
@@ -959,12 +959,12 @@ export default function Dashboard({ session }) {
                                                     </div>
                                                 </div>
 
-                                                <div className="hide-mobile" style={{ flex: 1, minWidth: '150px' }}>
+                                                <div className="hide-mobile dash-card-phone" style={{ flex: 1, minWidth: '150px' }}>
                                                     <div className="text-detail" style={{ fontSize: '7px', marginBottom: '4px', opacity: 0.5 }}>Teléfono</div>
                                                     <div style={{ fontWeight: '800', fontSize: '0.95rem', color: 'var(--solemia-charcoal)', fontFamily: 'var(--font-inter)', opacity: 0.8 }}>{formatPhoneNumber(patient.phone)}</div>
                                                 </div>
 
-                                                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginLeft: 'auto' }}>
+                                                <div className="dash-card-actions" style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginLeft: 'auto' }}>
                                                     {/* AI Status Switch */}
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginRight: '0.5rem' }}>
                                                         <label className="switch-ia" title={patient.is_active ? "IA Activa para este paciente" : "IA Desactivada"} onClick={(e) => e.stopPropagation()}>
@@ -986,7 +986,7 @@ export default function Dashboard({ session }) {
                                                                     setIsPreviewOpen(true);
                                                                 }
                                                             }}
-                                                            className="btn"
+                                                            className="btn dash-card-icon-btn"
                                                             title="Expediente Clínico"
                                                             style={{ width: '40px', height: '40px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f0f4', color: patient.expediente_url ? 'var(--solemia-plum)' : '#cbd5e1', borderRadius: '12px', border: 'none' }}
                                                             disabled={!patient.expediente_url}
@@ -1001,7 +1001,7 @@ export default function Dashboard({ session }) {
                                                                     setIsPreviewOpen(true);
                                                                 }
                                                             }}
-                                                            className="btn"
+                                                            className="btn dash-card-icon-btn"
                                                             title="Plan Nutricional"
                                                             style={{ width: '40px', height: '40px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f0f4', color: patient.plan_url ? 'var(--solemia-pink)' : '#cbd5e1', borderRadius: '12px', border: 'none' }}
                                                             disabled={!patient.plan_url}
@@ -1014,7 +1014,7 @@ export default function Dashboard({ session }) {
                                                                 setSelectedPatient(patient);
                                                                 setIsLogsOpen(true);
                                                             }}
-                                                            className="btn"
+                                                            className="btn dash-card-icon-btn"
                                                             title="Brain Logs"
                                                             style={{ width: '40px', height: '40px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f4f4f5', color: 'var(--solemia-plum)', borderRadius: '12px', border: 'none' }}
                                                         >
@@ -1023,7 +1023,7 @@ export default function Dashboard({ session }) {
                                                     </div>
 
                                                     <button
-                                                        className="btn btn-outline"
+                                                        className="btn btn-outline dash-card-profile-btn"
                                                         style={{ padding: '0.6rem 1rem', fontSize: '8px', borderRadius: '10px', height: '40px' }}
                                                         onClick={(e) => { e.stopPropagation(); setEditingPatient(patient); setIsProfileOpen(true); }}
                                                     >
@@ -1036,7 +1036,7 @@ export default function Dashboard({ session }) {
                                                             setPatientToDelete(patient);
                                                             setIsDeleteModalOpen(true);
                                                         }}
-                                                        className="btn"
+                                                        className="btn dash-card-delete-btn"
                                                         style={{ width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffafaf', border: 'none', backgroundColor: 'transparent' }}
                                                     >
                                                         <Trash2 size={18} />
@@ -1064,7 +1064,7 @@ export default function Dashboard({ session }) {
                                         return (
                                             <div
                                                 key={patient.id}
-                                                className="client-card group"
+                                                className="client-card group dash-hoy-card"
                                                 style={{
                                                     position: 'relative',
                                                     padding: '1.5rem 2.5rem',

@@ -33,10 +33,10 @@ export default function Login() {
             justifyContent: 'center',
             padding: '2rem'
         }}>
-            <div className="card glass animate-scale-in" style={{
+            <div className="card glass animate-scale-in auth-card" style={{
                 maxWidth: '450px',
                 width: '100%',
-                padding: '3.5rem',
+                padding: 'clamp(2rem, 5vw, 3.5rem)',
                 borderRadius: '3.5rem',
                 border: 'none',
                 background: 'white',
@@ -44,7 +44,7 @@ export default function Login() {
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                     <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
-                    <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Bienvenido</h2>
+                    <h2 className="auth-title" style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Bienvenido</h2>
                     <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>Ecosistema Solemia Nutrición</p>
                 </div>
 

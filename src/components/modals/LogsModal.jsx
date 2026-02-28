@@ -31,8 +31,8 @@ export default function LogsModal({ isOpen, onClose, patient }) {
     return (
         <>
             <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'var(--solemia-charcoal)', opacity: 0.2, backdropFilter: 'blur(20px)', zIndex: 9998 }}></div>
-            <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1.5rem' }}>
-                <div className="modal-content glass animate-premium" style={{
+            <div className="modal-overlay-responsive" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1.5rem' }}>
+                <div className="modal-content glass animate-premium modal-content-responsive modal-padded-responsive" style={{
                     maxWidth: '800px',
                     width: '100%',
                     position: 'relative',

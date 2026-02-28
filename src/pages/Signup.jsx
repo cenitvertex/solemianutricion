@@ -110,10 +110,10 @@ export default function Signup() {
             justifyContent: 'center',
             padding: '2rem'
         }}>
-            <div className="card glass animate-scale-in" style={{
+            <div className="card glass animate-scale-in auth-card" style={{
                 maxWidth: '650px',
                 width: '100%',
-                padding: '3.5rem 4.5rem',
+                padding: 'clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4.5rem)',
                 borderRadius: '3.5rem',
                 border: 'none',
                 background: 'white',
@@ -121,12 +121,12 @@ export default function Signup() {
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                     <img src={logo} alt="Solemia" style={{ height: '45px', marginBottom: '1.5rem', objectFit: 'contain' }} />
-                    <h2 style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Nueva Cuenta</h2>
+                    <h2 className="auth-title" style={{ fontSize: '2.5rem', color: 'var(--solemia-plum)', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '-2px', marginBottom: '0.5rem', lineHeight: 1 }}>Nueva Cuenta</h2>
                     <p className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', color: '#94a3b8' }}>Configura tu consultorio inteligente</p>
                 </div>
 
                 <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(250px, 100%), 1fr))', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Email profesional</label>
                             <div style={{ position: 'relative' }}>
@@ -161,7 +161,7 @@ export default function Signup() {
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(250px, 100%), 1fr))', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Nombre del especialista</label>
                             <div style={{ position: 'relative' }}>

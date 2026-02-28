@@ -12,7 +12,7 @@ export default function PricingCard({
     onAction
 }) {
     return (
-        <div className={`card-premium ${isPopular ? 'animate-premium' : ''}`} style={{
+        <div className={`card-premium pricing-card ${isPopular ? 'animate-premium' : ''}`} style={{
             position: 'relative',
             border: isPopular ? '2px solid var(--solemia-pink)' : '1px solid rgba(0,0,0,0.05)',
             display: 'flex',

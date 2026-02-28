@@ -8,6 +8,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
     const [analysisText, setAnalysisText] = useState('');
     const [isEditingAllergies, setIsEditingAllergies] = useState(false);
     const [allergiesText, setAllergiesText] = useState('');
+    const [isAnalysisExpanded, setIsAnalysisExpanded] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [localPatient, setLocalPatient] = useState(patient);
     const [documentUrls, setDocumentUrls] = useState({ expediente: null, plan: null });
@@ -123,8 +124,8 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
     return (
         <>
             <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'var(--solemia-charcoal)', opacity: 0.2, backdropFilter: 'blur(20px)', zIndex: 9998 }}></div>
-            <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem' }}>
-                <div className="modal-content glass animate-premium" style={{
+            <div className="modal-overlay-responsive" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem' }}>
+                <div className="modal-content glass animate-premium modal-content-responsive modal-padded-responsive" style={{
                     maxWidth: '850px',
                     width: '100%',
                     position: 'relative',
@@ -146,8 +147,8 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                     </button>
 
                     {/* Header Section */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginBottom: '2.5rem' }}>
-                        <div style={{
+                    <div className="profile-header-responsive" style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginBottom: '2.5rem' }}>
+                        <div className="profile-avatar-responsive" style={{
                             width: '80px',
                             height: '80px',
                             borderRadius: '28px',
@@ -185,6 +186,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                         </div>
                         <button
                             onClick={onEdit}
+                            className="profile-edit-btn-responsive"
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -203,11 +205,11 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f8f0f4'; e.currentTarget.style.borderColor = 'var(--solemia-plum)'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.borderColor = '#f0f0f0'; }}
                         >
-                            <Edit size={14} /> Editar perfil
+                            <Edit size={14} /> <span>Editar perfil</span>
                         </button>
                     </div>
 
-                    <div style={{ flex: 1, overflowY: 'auto', paddingRight: '0.5rem', display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: '2.5rem', minHeight: 0 }} className="custom-scrollbar">
+                    <div className="custom-scrollbar profile-grid-responsive" style={{ flex: 1, overflowY: 'auto', paddingRight: '0.5rem', display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: '2.5rem', minHeight: 0 }}>
                         {/* Left Column: Analysis & Health */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                             <section>
@@ -237,7 +239,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                         </div>
                                     )}
                                 </div>
-                                <div style={{
+                                <div className="profile-card-responsive" style={{
                                     backgroundColor: 'white',
                                     padding: '1.75rem',
                                     borderRadius: '2rem',
@@ -266,16 +268,41 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                             autoFocus
                                         />
                                     ) : (
-                                        <p style={{
-                                            fontSize: '0.95rem',
-                                            lineHeight: '1.6',
-                                            color: 'var(--solemia-charcoal)',
-                                            opacity: 0.85,
-                                            margin: 0,
-                                            whiteSpace: 'pre-wrap'
-                                        }}>
-                                            {localPatient.objective_and_params || 'No hay un análisis detallado disponible.'}
-                                        </p>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
+                                            <p style={{
+                                                fontSize: '0.95rem',
+                                                lineHeight: '1.6',
+                                                color: 'var(--solemia-charcoal)',
+                                                opacity: 0.85,
+                                                margin: 0,
+                                                whiteSpace: 'pre-wrap',
+                                                display: isAnalysisExpanded ? 'block' : '-webkit-box',
+                                                WebkitLineClamp: isAnalysisExpanded ? 'unset' : 4,
+                                                WebkitBoxOrient: 'vertical',
+                                                overflow: 'hidden',
+                                                width: '100%'
+                                            }}>
+                                                {localPatient.objective_and_params || 'No hay un análisis detallado disponible.'}
+                                            </p>
+                                            {localPatient.objective_and_params && localPatient.objective_and_params.length > 120 && (
+                                                <button
+                                                    onClick={() => setIsAnalysisExpanded(!isAnalysisExpanded)}
+                                                    style={{
+                                                        background: 'none',
+                                                        border: 'none',
+                                                        color: 'var(--solemia-plum)',
+                                                        fontWeight: '900',
+                                                        fontSize: '0.85rem',
+                                                        cursor: 'pointer',
+                                                        padding: '0.25rem 0 0 0',
+                                                        display: 'inline-block',
+                                                        marginTop: '0.5rem'
+                                                    }}
+                                                >
+                                                    {isAnalysisExpanded ? 'Ver menos' : 'Ver más'}
+                                                </button>
+                                            )}
+                                        </div>
                                     )}
                                 </div>
                                 <LegalDisclaimer />
@@ -368,6 +395,7 @@ export default function PatientProfileModal({ isOpen, onClose, patient, onEdit }
                                 </div>
                                 <button
                                     onClick={handleWhatsAppClick}
+                                    className="profile-contact-btn-responsive"
                                     style={{
                                         width: '100%',
                                         display: 'flex',

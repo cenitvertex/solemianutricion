@@ -17,7 +17,7 @@ export default function LegalModal({ isOpen, onClose, title, content }) {
                     zIndex: 999
                 }}
             ></div>
-            <div style={{
+            <div className="modal-overlay-responsive" style={{
                 position: 'fixed',
                 inset: 0,
                 display: 'flex',
@@ -26,7 +26,7 @@ export default function LegalModal({ isOpen, onClose, title, content }) {
                 zIndex: 1000,
                 padding: '1rem'
             }}>
-                <div className="modal-content glass animate-premium" style={{
+                <div className="modal-content glass animate-premium modal-content-responsive modal-padded-responsive" style={{
                     maxWidth: '800px',
                     width: '100%',
                     position: 'relative',
