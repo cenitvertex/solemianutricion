@@ -91,6 +91,15 @@ const WelcomeTour = ({ isOpen, onComplete }) => {
             if (currentStep.element && tooltipEl) {
                 const el = document.querySelector(currentStep.element);
                 if (el) {
+                    // Scroll to element to ensure it is visible (especially on mobile)
+                    if (window.innerWidth <= 768) {
+                        try {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        } catch (e) {
+                            // Fallback if smooth scrolling isn't supported in old iOS
+                        }
+                    }
+
                     const rect = el.getBoundingClientRect();
                     const tooltipRect = tooltipEl.getBoundingClientRect();
                     const style = window.getComputedStyle(el);

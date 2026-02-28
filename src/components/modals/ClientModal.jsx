@@ -19,6 +19,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
     const [planUrl, setPlanUrl] = useState('');
     const [expedientePath, setExpedientePath] = useState('');
     const [planPath, setPlanPath] = useState('');
+    const [showErrorDetail, setShowErrorDetail] = useState(false);
 
     useEffect(() => {
         if (client) {
@@ -217,6 +218,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
             }
 
             setError(errorSolution ? { main: userFriendlyMessage, detail: errorSolution } : userFriendlyMessage);
+            setShowErrorDetail(false);
         } finally {
             setLoading(false);
         }
@@ -417,14 +419,21 @@ export default function ClientModal({ isOpen, onClose, onSuccess, client, onBack
                         )}
 
                         {error && (
-                            <div className="text-detail animate-premium" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', color: '#e11d48', backgroundColor: '#fff1f2', padding: '1rem', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.2)', fontSize: '0.75rem', lineHeight: '1.4' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '700' }}>
-                                    <AlertCircle size={16} style={{ flexShrink: 0 }} />
+                            <div className="text-detail animate-premium" style={{ display: 'flex', flexDirection: 'column', color: '#e11d48', backgroundColor: '#fff1f2', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.2)', fontSize: '0.7rem', lineHeight: '1.4', overflow: 'hidden' }}>
+                                <div
+                                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '700', padding: '0.8rem 1rem', cursor: typeof error === 'object' && error.detail ? 'pointer' : 'default' }}
+                                    onClick={() => typeof error === 'object' && error.detail && setShowErrorDetail(!showErrorDetail)}
+                                >
+                                    <AlertCircle size={15} style={{ flexShrink: 0 }} />
                                     <span>{typeof error === 'string' ? error : error.main}</span>
+                                    {typeof error === 'object' && error.detail && (
+                                        <div style={{ marginLeft: 'auto', padding: '0.2rem', backgroundColor: 'rgba(225, 29, 72, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Info size={14} style={{ color: '#e11d48', opacity: 0.8 }} />
+                                        </div>
+                                    )}
                                 </div>
-                                {typeof error === 'object' && error.detail && (
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', borderTop: '1px solid rgba(225, 29, 72, 0.2)', paddingTop: '0.75rem' }}>
-                                        <Info size={14} style={{ color: '#e11d48', flexShrink: 0, marginTop: '2px' }} />
+                                {typeof error === 'object' && error.detail && showErrorDetail && (
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', padding: '0 1rem 0.8rem 1rem', borderTop: '1px solid rgba(225, 29, 72, 0.1)', paddingTop: '0.8rem' }}>
                                         <span style={{ fontWeight: '500', opacity: 0.9 }}>{error.detail}</span>
                                     </div>
                                 )}
