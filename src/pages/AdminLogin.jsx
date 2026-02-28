@@ -73,18 +73,11 @@ export default function AdminLogin() {
                 </div>
 
                 {error && (
-                    <div style={{
-                        background: '#fff1f2',
-                        padding: '1rem 1.5rem',
-                        borderRadius: '1.5rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem',
-                        marginBottom: '2rem',
-                        border: '1px solid #fee2e2'
-                    }}>
-                        <ShieldAlert size={20} color="#f43f5e" />
-                        <span style={{ fontSize: '0.85rem', color: '#e11d48', fontWeight: '600', lineHeight: '1.2' }}>{error}</span>
+                    <div className="animate-premium" style={{ display: 'flex', flexDirection: 'column', backgroundColor: '#fff1f2', borderRadius: '1rem', border: '1px solid rgba(225, 29, 72, 0.15)', overflow: 'hidden', marginBottom: '1.5rem', flexShrink: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.6rem 0.8rem' }}>
+                            <ShieldAlert size={14} style={{ color: '#e11d48', flexShrink: 0 }} />
+                            <span style={{ color: '#e11d48', fontSize: '11px', fontWeight: '800', lineHeight: '1.2' }}>{error}</span>
+                        </div>
                     </div>
                 )}
 
