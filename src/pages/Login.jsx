@@ -75,7 +75,12 @@ export default function Login() {
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px', marginLeft: '1rem' }}>Contraseña</label>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginLeft: '1rem', marginRight: '0.5rem' }}>
+                            <label className="text-detail" style={{ fontSize: '9px', fontWeight: '900', letterSpacing: '2px' }}>Contraseña</label>
+                            <Link to="/forgot-password" style={{ fontSize: '9px', fontWeight: '800', letterSpacing: '1px', color: 'var(--solemia-plum)', textDecoration: 'none', opacity: 0.7 }}>
+                                ¿Olvidaste tu contraseña?
+                            </Link>
+                        </div>
                         <div style={{ position: 'relative' }}>
                             <Lock size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                             <input

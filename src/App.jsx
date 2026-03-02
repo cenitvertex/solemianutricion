@@ -6,6 +6,8 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import SuspendedScreen from './pages/SuspendedScreen';
 import LandingPage from './pages/LandingPage';
+import ForgotPassword from './pages/ForgotPassword';
+import UpdatePassword from './pages/UpdatePassword';
 
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
@@ -109,6 +111,10 @@ function App() {
               path="/signup"
               element={!session ? <Signup /> : <Navigate to="/app" />}
             />
+
+            {/* Password Recovery Routes */}
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
 
             {/* App Privada */}
             <Route
