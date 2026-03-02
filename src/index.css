@@ -1255,22 +1255,37 @@ body.solemia-system-lock {
 
   /* Dashboard Title */
   .dash-page-title {
-    font-size: 1.8rem !important;
-    letter-spacing: -1px !important;
+    font-size: 2.4rem !important;
+    letter-spacing: -1.5px !important;
+    margin-bottom: 0.25rem !important;
   }
 
   /* Stats Grid */
   .dash-stats-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 0.75rem !important;
+    margin-top: -1.5rem !important;
+    /* Recover dead space below tabs */
+    margin-bottom: 2rem !important;
   }
 
   .dash-stats-grid .stat-card {
-    padding: 1.25rem !important;
+    padding: 0.9rem 1rem !important;
+  }
+
+  /* Shrink the icon container inside each stat card */
+  .dash-stats-grid .stat-card>div:first-child {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .dash-stats-grid .stat-card>div:first-child>div>div:first-child {
+    padding: 0.4rem !important;
+    border-radius: 10px !important;
   }
 
   .dash-stat-value {
-    font-size: 2rem !important;
+    font-size: 1.85rem !important;
+    line-height: 1 !important;
   }
 
   .dash-stats-grid .dash-stat-cta {
