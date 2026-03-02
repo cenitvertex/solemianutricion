@@ -644,7 +644,7 @@ export default function Dashboard({ session }) {
 
                     {activeView === 'directory' ? (
                         <div className="animate-premium">
-                            <div className="tour-metrics dash-stats-grid" style={{ display: 'grid', gap: '1rem', marginBottom: '3.5rem' }}>
+                            <div className="tour-metrics dash-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '1rem', marginBottom: '3.5rem' }}>
                                 {stats.map((stat, i) => (
                                     <div key={i} className="stat-card" style={{ padding: '1.5rem', height: '100%' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
